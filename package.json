@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "eslint": "eslint src/**/*.ts --fix",
     "prettier": "prettier 'src/**/*.{ts,scss,html}' -w",
-    "stylelint": "stylelint 'src/**/*.scss' --fix" 
+    "stylelint": "stylelint 'src/**/*.scss' --fix"
   },
   "private": true,
   "dependencies": {
@@ -44,6 +44,7 @@
     "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.28.1",
     "eslint-plugin-prettier": "^5.0.1",
+    "husky": "^8.0.3",
     "jasmine-core": "~4.5.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.1.0",
