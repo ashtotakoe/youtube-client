@@ -1,11 +1,11 @@
 import type { Routes } from '@angular/router'
 
-import { SearchPageComponent } from './pages/search-page/search-page.component'
+import { SearchResultsComponent } from './components/search-results/search-results.component'
 
 export const searchRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: SearchPageComponent,
+    component: SearchResultsComponent,
   },
 ]
