@@ -8,7 +8,7 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "lint": "ng lint",
-    "eslint": "eslint src/**/*.ts --fix",
+    "eslint": "eslint 'src/**/*.ts' --fix",
     "prettier": "prettier 'src/**/*.{ts,scss,html}' -w",
     "stylelint": "stylelint 'src/**/*.scss' --fix"
   },
