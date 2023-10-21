@@ -5,6 +5,11 @@ export interface SearchResponse {
   TODO: string
   kind: string
   etag: string
-  pageInfo: Record<'totalResults' | 'resultsPerPage', number>
+  pageInfo: PageInfo
   items: SearchItem[]
+}
+
+interface PageInfo {
+  totalResults: number
+  resultsPerPage: number
 }
