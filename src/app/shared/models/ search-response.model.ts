@@ -1,3 +1,4 @@
+import type { PageInfo } from './page-Info.model'
 import type { SearchItem } from './search-item.model'
 
 export interface SearchResponse {
@@ -7,9 +8,4 @@ export interface SearchResponse {
   etag: string
   pageInfo: PageInfo
   items: SearchItem[]
-}
-
-interface PageInfo {
-  totalResults: number
-  resultsPerPage: number
 }
