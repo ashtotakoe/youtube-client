@@ -1,11 +1,13 @@
 <header class="header">
   <div class="container">
-    <span class="logo">
+    <div class="logo">
       <img ngSrc="/assets/icons/youtube-logo.webp" height="50" width="70" priority alt="logo" />
-    </span>
+    </div>
 
     <div class="header__search">
-      <input [formControl]="search" type="text" />
+      <mat-form-field class="header__search--input">
+        <input matInput [formControl]="search" type="text" />
+      </mat-form-field>
 
       <button class="header__search--button" mat-button color="primary">search</button>
 
