@@ -1,1 +1,23 @@
-<p>header works!</p>
+<header class="header">
+  <div class="container">
+    <span class="logo">
+      <img ngSrc="/assets/icons/youtube-logo.webp" height="50" width="70" priority alt="logo" />
+    </span>
+
+    <div class="header__search">
+      <input [formControl]="search" type="text" />
+
+      <button class="header__search--button" mat-button color="primary">search</button>
+
+      <button class="header__search--button" mat-icon-button color="basic">
+        <mat-icon>settings</mat-icon>
+      </button>
+    </div>
+
+    <div class="header__profile">
+      <span>User name</span>
+
+      <mat-icon aria-hidden="false" fontIcon="account_box"></mat-icon>
+    </div>
+  </div>
+</header>

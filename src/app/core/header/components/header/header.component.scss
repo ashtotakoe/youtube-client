@@ -1,0 +1,26 @@
+.header {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 95vw;
+    min-height: 5rem;
+    margin: auto;
+  }
+
+  &__search {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+    align-items: center;
+  }
+
+  &__profile {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
