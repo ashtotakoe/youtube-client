@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, type OnDestroy, type OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, type OnDestroy, type OnInit, Output } from '@angular/core'
 import { type AbstractControl, UntypedFormBuilder, type UntypedFormControl, Validators } from '@angular/forms'
-import { distinctUntilChanged, startWith, Subscription, tap } from 'rxjs'
+import { distinctUntilChanged, startWith, Subscription } from 'rxjs'
 
 @Component({
   selector: 'yt-search',
@@ -9,8 +9,9 @@ import { distinctUntilChanged, startWith, Subscription, tap } from 'rxjs'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchComponent implements OnInit, OnDestroy {
+  @Output() public searchFormSubmitted = new EventEmitter<string>()
   public form: UntypedFormControl = this.fb.control(null, [
-    Validators.minLength(3),
+    Validators.minLength(1),
     (control: AbstractControl) => Validators.required(control),
   ])
 
@@ -19,12 +20,12 @@ export class SearchComponent implements OnInit, OnDestroy {
   constructor(private fb: UntypedFormBuilder) {}
 
   public ngOnInit(): void {
-    this.subs.add(this.form.valueChanges.pipe(startWith(''), distinctUntilChanged(), tap(console.log)).subscribe())
+    this.subs.add(this.form.valueChanges.pipe(startWith(''), distinctUntilChanged()).subscribe())
   }
 
   public onSubmit(): void {
     if (this.form.valid) {
-      console.log('form submitted')
+      this.searchFormSubmitted.emit(this.form.value as string)
     }
   }
 

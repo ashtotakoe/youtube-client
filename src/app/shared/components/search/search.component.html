@@ -3,5 +3,5 @@
     <mat-label>Search</mat-label>
     <input matInput [formControl]="form" type="search" />
   </mat-form-field>
-  <button mat-button color="primary" (click)="onSubmit()">search</button>
+  <yt-default-button (buttonClicked)="onSubmit()"> search </yt-default-button>
 </div>

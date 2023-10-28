@@ -1,5 +1,4 @@
-import { ChangeDetectionStrategy, Component, type OnDestroy } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 
 @Component({
   selector: 'yt-header',
@@ -7,4 +6,8 @@ import { FormControl } from '@angular/forms'
   styleUrls: ['./header.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HeaderComponent {}
+export class HeaderComponent {
+  public initSearch(request: string): void {
+    console.log(request)
+  }
+}
