@@ -11,7 +11,7 @@ import { distinctUntilChanged, startWith, Subscription } from 'rxjs'
 export class SearchComponent implements OnInit, OnDestroy {
   @Output() public searchFormSubmitted = new EventEmitter<string>()
   public form: UntypedFormControl = this.fb.control(null, [
-    Validators.minLength(1),
+    Validators.minLength(3),
     (control: AbstractControl) => Validators.required(control),
   ])
 
