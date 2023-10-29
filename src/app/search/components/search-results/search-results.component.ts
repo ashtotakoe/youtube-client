@@ -9,7 +9,7 @@ import { SearchItemsService } from '../../services/search-items.service'
   providers: [SearchItemsService],
 })
 export class SearchResultsComponent {
-  public relevantItems$ = this.searchItems.relevantItems$.subscribe(console.log)
+  public searchItems$ = this.searchItems.relevantItems$
 
   constructor(private searchItems: SearchItemsService) {}
 }

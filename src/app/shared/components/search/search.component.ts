@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, type OnDestroy, type OnInit, Output } from '@angular/core'
 import { type AbstractControl, UntypedFormBuilder, type UntypedFormControl, Validators } from '@angular/forms'
-import { distinctUntilChanged, startWith, Subscription } from 'rxjs'
+import { distinctUntilChanged, startWith, Subscription, tap } from 'rxjs'
 
 @Component({
   selector: 'yt-search',
@@ -21,6 +21,8 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.subs.add(this.form.valueChanges.pipe(startWith(''), distinctUntilChanged()).subscribe())
+    this.form.setValue('angular')
+    this.onSubmit()
   }
 
   public onSubmit(): void {

@@ -1,1 +1,5 @@
-<p>search-results works!</p>
+<div class="container">
+  <ng-container *ngFor="let searchItem of searchItems$ | async">
+    <yt-search-item [displayData]="searchItem"></yt-search-item>
+  </ng-container>
+</div>
