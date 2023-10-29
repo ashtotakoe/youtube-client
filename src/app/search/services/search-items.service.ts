@@ -6,11 +6,11 @@ import type { SearchItem } from '../../shared/models/search-item.model'
 
 @Injectable()
 export class SearchItemsService {
-  public relevantItems$: Observable<SearchItem[] | null> = this.youtubeState.responseData$$.pipe(
-    withLatestFrom(this.youtubeState.getSearchPrompt()),
+  public relevantItems$: Observable<SearchItem[] | null> = this.youtubeState.responseData$.pipe(
+    withLatestFrom(this.youtubeState.searchPrompt$),
     map(([response, searchPrompt]) => {
       if (response) {
-        return response.items.filter(item => item.snippet.title.includes(searchPrompt))
+        return response.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
       }
 
       return null

@@ -2,28 +2,34 @@ import { Injectable } from '@angular/core'
 import { BehaviorSubject, type Observable } from 'rxjs'
 
 import type { SearchResponse } from '../../shared/models/ search-response.model'
+import { YoutubeHttpService } from './youtube-http.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class YoutubeStateService {
-  private response$ = new BehaviorSubject<SearchResponse | null>(null)
+  constructor(private http: YoutubeHttpService) {}
 
-  public responseData$$ = this.response$.asObservable()
+  private response$$ = new BehaviorSubject<SearchResponse | null>(null)
 
-  private searchPrompt$$ = new BehaviorSubject<string>('')
+  public responseData$ = this.response$$.asObservable()
 
-  public getSearchPrompt(): Observable<string> {
-    return this.searchPrompt$$.asObservable()
+  private search$$ = new BehaviorSubject<string>('')
+
+  public searchPrompt$ = this.search$$.asObservable()
+
+  private setCurrentSearchPrompt(value: string): void {
+    this.search$$.next(value)
   }
 
-  public setCurrentSearchPrompt(value: string): void {
-    this.searchPrompt$$.next(value)
-  }
-
-  public addResponseData(data: Observable<SearchResponse>): void {
+  private addResponseData(data: Observable<SearchResponse>): void {
     data.subscribe(response => {
-      this.response$.next(response)
+      this.response$$.next(response)
     })
+  }
+
+  public sendRequest(searchingPrompt: string): void {
+    this.setCurrentSearchPrompt(searchingPrompt)
+    this.addResponseData(this.http.fetchData())
   }
 }
