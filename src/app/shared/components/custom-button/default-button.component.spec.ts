@@ -1,17 +1,17 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { DefaultButtonComponent } from './default-button.component'
+import { CustomButtonComponent } from './custom-button.component'
 
 describe('DefaultButtonComponent', () => {
-  let component: DefaultButtonComponent
-  let fixture: ComponentFixture<DefaultButtonComponent>
+  let component: CustomButtonComponent
+  let fixture: ComponentFixture<CustomButtonComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DefaultButtonComponent],
+      imports: [CustomButtonComponent],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(DefaultButtonComponent)
+    fixture = TestBed.createComponent(CustomButtonComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

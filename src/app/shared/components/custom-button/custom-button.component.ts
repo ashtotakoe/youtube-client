@@ -3,13 +3,13 @@ import { Component, EventEmitter, Input, Output } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 
 @Component({
-  selector: 'yt-default-button',
+  selector: 'yt-custom-button',
   standalone: true,
   imports: [CommonModule, MatButtonModule],
-  templateUrl: './default-button.component.html',
-  styleUrls: ['./default-button.component.scss'],
+  templateUrl: './custom-button.component.html',
+  styleUrls: ['./custom-button.component.scss'],
 })
-export class DefaultButtonComponent {
+export class CustomButtonComponent {
   @Output() public buttonClicked = new EventEmitter()
   @Input() public color: 'primary' | 'basic' = 'primary'
 

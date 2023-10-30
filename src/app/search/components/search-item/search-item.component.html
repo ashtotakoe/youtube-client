@@ -1,10 +1,13 @@
 <ng-container *ngIf="displayData?.snippet as snippet">
   <mat-card class="card">
-    <div class="card__thumbnail-wrapper">
-      <img class="card__thumbnail" [src]="snippet.thumbnails.medium.url" alt="thumbnail" />
-    </div>
+    <img class="card__thumbnail" [src]="snippet.thumbnails.medium.url" alt="thumbnail" />
+
     <h4 class="card__title" mat-card-title>{{ snippet.title }}</h4>
+
     <yt-video-statistics [statistics]="displayData?.statistics" />
-    <yt-color-bar />
+
+    <yt-custom-button [color]="'basic'">More...</yt-custom-button>
+
+    <yt-color-bar [ytCustomColor]="snippet.publishedAt" />
   </mat-card>
 </ng-container>

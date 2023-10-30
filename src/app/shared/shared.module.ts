@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 
-import { DefaultButtonComponent } from './components/default-button/default-button.component'
+import { CustomButtonComponent } from './components/custom-button/custom-button.component'
 import { SearchComponent } from './components/search/search.component'
 
 @NgModule({
@@ -16,8 +16,8 @@ import { SearchComponent } from './components/search/search.component'
     MatFormFieldModule,
     ReactiveFormsModule,
     FormsModule,
-    DefaultButtonComponent,
+    CustomButtonComponent,
   ],
-  exports: [SearchComponent],
+  exports: [SearchComponent, CustomButtonComponent],
 })
 export class SharedModule {}

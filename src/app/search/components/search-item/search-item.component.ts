@@ -1,4 +1,4 @@
-import { Component, Input, type OnChanges, type SimpleChanges } from '@angular/core'
+import { Component, Input } from '@angular/core'
 
 import { SearchItem } from '../../../shared/models/search-item.model'
 
@@ -7,10 +7,6 @@ import { SearchItem } from '../../../shared/models/search-item.model'
   templateUrl: './search-item.component.html',
   styleUrls: ['./search-item.component.scss'],
 })
-export class SearchItemComponent implements OnChanges {
+export class SearchItemComponent {
   @Input() public displayData?: SearchItem
-
-  public ngOnChanges(changes: SimpleChanges): void {
-    console.log(changes['displayData'].currentValue)
-  }
 }
