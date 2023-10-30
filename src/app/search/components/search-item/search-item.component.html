@@ -1,5 +1,5 @@
 <ng-container *ngIf="displayData?.snippet as snippet">
-  <mat-card class="card">
+  <mat-card class="card" [ytCustomColorBar]="snippet.publishedAt">
     <img class="card__thumbnail" [src]="snippet.thumbnails.medium.url" alt="thumbnail" />
 
     <h4 class="card__title" mat-card-title>{{ snippet.title }}</h4>
@@ -7,7 +7,5 @@
     <yt-video-statistics [statistics]="displayData?.statistics" />
 
     <yt-custom-button [color]="'basic'">More...</yt-custom-button>
-
-    <yt-color-bar [ytCustomColor]="snippet.publishedAt" />
   </mat-card>
 </ng-container>

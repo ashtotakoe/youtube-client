@@ -4,11 +4,11 @@ import { millisecondsInDay } from '../consts/milliseconds-in-day'
 import { calculateClassForColorBar } from '../utils/calculate-class-for-color-bar'
 
 @Directive({
-  selector: '[ytCustomColor]',
+  selector: '[ytCustomColorBar]',
 })
-export class CustomColorDirective {
+export class CustomColorBarDirective {
   @Input()
-  public set ytCustomColor(date: string | undefined) {
+  public set ytCustomColorBar(date: string | undefined) {
     if (date) {
       const releaseTime = new Date(date).getTime()
       const currentTime = new Date().getTime()
@@ -24,6 +24,6 @@ export class CustomColorDirective {
 
   public setAppropriateClass(daysPassed: number): void {
     const calculatedClass = calculateClassForColorBar(daysPassed)
-    this.renderer.setStyle(this.element.nativeElement, 'background', calculatedClass)
+    this.renderer.addClass(this.element.nativeElement, calculatedClass)
   }
 }

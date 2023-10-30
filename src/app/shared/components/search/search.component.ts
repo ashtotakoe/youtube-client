@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, type OnDestroy, type OnInit, Output } from '@angular/core'
 import { type AbstractControl, UntypedFormBuilder, type UntypedFormControl, Validators } from '@angular/forms'
-import { distinctUntilChanged, startWith, Subscription, tap } from 'rxjs'
+import { distinctUntilChanged, startWith, Subscription } from 'rxjs'
 
 @Component({
   selector: 'yt-search',

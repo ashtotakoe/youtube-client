@@ -6,7 +6,7 @@
 
     <div class="header__search">
       <yt-search (searchFormSubmitted)="initSearch($event)"></yt-search>
-      <button class="header__search--button" mat-icon-button color="basic">
+      <button (click)="changeSortingOptionsStatus()" class="header__search--button" mat-icon-button color="basic">
         <mat-icon>settings</mat-icon>
       </button>
     </div>
@@ -17,4 +17,8 @@
       <mat-icon aria-hidden="false" fontIcon="account_box"></mat-icon>
     </div>
   </div>
+
+  <ng-container *ngIf="isSortingOptionsOpen">
+    <yt-sorting-options />
+  </ng-container>
 </header>

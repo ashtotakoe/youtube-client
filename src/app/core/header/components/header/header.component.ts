@@ -11,6 +11,12 @@ import { SearchRequestService } from '../../services/send-search-request.service
 export class HeaderComponent {
   constructor(private sendRequestService: SearchRequestService) {}
 
+  public isSortingOptionsOpen = false
+
+  public changeSortingOptionsStatus(): void {
+    this.isSortingOptionsOpen = !this.isSortingOptionsOpen
+  }
+
   public initSearch(request: string): void {
     this.sendRequestService.sendRequest(request)
   }

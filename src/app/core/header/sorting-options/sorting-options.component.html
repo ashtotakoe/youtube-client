@@ -1,1 +1,13 @@
-<p>sorting-options works!</p>
+<div class="constainer">
+  <form [formGroup]="sortForm">
+    <mat-form-field appearance="outline">
+      <mat-select [value]="'title'">
+        <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
+          {{ sortOption }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="isTitleInputOpen"> </ng-container>
+  </form>
+</div>
