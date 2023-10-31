@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 
@@ -12,6 +13,6 @@ import { SearchRoutingModule } from './search-routing.module'
 
 @NgModule({
   declarations: [SearchResultsComponent, SearchItemComponent, VideoStatisticsComponent, CustomColorBarDirective],
-  imports: [CommonModule, SearchRoutingModule, MatIconModule, MatCardModule, SharedModule],
+  imports: [CommonModule, SearchRoutingModule, MatIconModule, MatButtonModule, MatCardModule, SharedModule],
 })
 export class SearchModule {}
