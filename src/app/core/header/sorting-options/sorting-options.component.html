@@ -1,5 +1,5 @@
 <div class="constainer">
-  <form class="sort-form" (ngSubmit)="onSubmit()" [formGroup]="sortForm">
+  <form class="sort-form" [formGroup]="sortForm">
     <span>Sort by:</span>
     <mat-form-field appearance="outline">
       <mat-select formControlName="sortType">
@@ -28,8 +28,7 @@
 
     <span>order</span>
 
-    <button type="submit" mat-stroked-button color="basic">submit</button>
+    <button type="submit" mat-stroked-button color="basic" (click)="onSubmit()">submit</button>
+    <button mat-stroked-button color="basic" (click)="onReset()">reset</button>
   </form>
-
-  <button mat-stroked-button color="basic" (click)="onReset()">reset</button>
 </div>
