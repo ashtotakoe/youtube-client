@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { combineLatest, filter } from 'rxjs'
 
+import { YoutubeSortStateService } from '../../../core/services/youtube-sort-state.service'
 import { SearchItemsService } from '../../services/search-items.service'
 
 @Component({
@@ -10,7 +12,13 @@ import { SearchItemsService } from '../../services/search-items.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultsComponent {
-  public searchItems$ = this.searchItems.relevantItems$
+  public searchItemsAndSortOptions$ = combineLatest([
+    this.searchItems.relevantItems$.pipe(filter(elem => elem !== null)),
+    this.sortState.getSortFormState(),
+  ])
 
-  constructor(private searchItems: SearchItemsService) {}
+  constructor(
+    private searchItems: SearchItemsService,
+    private sortState: YoutubeSortStateService,
+  ) {}
 }

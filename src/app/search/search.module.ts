@@ -9,10 +9,17 @@ import { SearchItemComponent } from './components/search-item/search-item.compon
 import { SearchResultsComponent } from './components/search-results/search-results.component'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { CustomColorBarDirective } from './directives/custom-color-bar.directive'
+import { CustomSortPipe } from './pipes/custom-sort.pipe'
 import { SearchRoutingModule } from './search-routing.module'
 
 @NgModule({
-  declarations: [SearchResultsComponent, SearchItemComponent, VideoStatisticsComponent, CustomColorBarDirective],
+  declarations: [
+    SearchResultsComponent,
+    SearchItemComponent,
+    VideoStatisticsComponent,
+    CustomColorBarDirective,
+    CustomSortPipe,
+  ],
   imports: [CommonModule, SearchRoutingModule, MatIconModule, MatButtonModule, MatCardModule, SharedModule],
 })
 export class SearchModule {}

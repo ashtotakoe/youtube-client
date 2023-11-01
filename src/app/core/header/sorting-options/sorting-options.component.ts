@@ -2,7 +2,9 @@ import { Component } from '@angular/core'
 import { UntypedFormBuilder, Validators } from '@angular/forms'
 import { map } from 'rxjs'
 
-import type { SortFormChanges } from '../../model/sort-form-changes.model'
+import { DefaultSortFormData } from '../../../shared/enums/default-sort-form-data.enum'
+import type { SortFormData } from '../../../shared/models/sort-form-data.model'
+import { YoutubeSortStateService } from '../../services/youtube-sort-state.service'
 
 @Component({
   selector: 'yt-sorting-options',
@@ -11,21 +13,22 @@ import type { SortFormChanges } from '../../model/sort-form-changes.model'
 })
 export class SortingOptionsComponent {
   public sortForm = this.fb.group({
-    sortType: ['views count'],
-    sortingPrompt: ['', [Validators.minLength(3)]],
-    sortOrder: ['ascending'],
+    sortType: [DefaultSortFormData.SortType],
+    sortingPrompt: [DefaultSortFormData.SortingPrompt, [Validators.minLength(3)]],
+    sortOrder: [DefaultSortFormData.SortOrder],
   })
 
   public sortOptions = ['views count', 'title', 'date']
   public sortOrderOptions = ['ascending', 'descending']
 
-  public isTitleInputOpen$ = this.sortForm.valueChanges.pipe(
-    map((value: SortFormChanges) => value.sortType === 'title'),
-  )
+  public isTitleInputOpen$ = this.sortForm.valueChanges.pipe(map((value: SortFormData) => value.sortType === 'title'))
 
   public onSubmit(): void {
-    console.log(this.sortForm.value)
+    this.sortState.setNewSortFormState(this.sortForm.value as SortFormData)
   }
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(
+    private fb: UntypedFormBuilder,
+    private sortState: YoutubeSortStateService,
+  ) {}
 }
