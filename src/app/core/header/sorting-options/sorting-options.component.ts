@@ -27,6 +27,9 @@ export class SortingOptionsComponent {
     this.sortState.setNewSortFormState(this.sortForm.value as SortFormData)
   }
 
+  public onReset(): void {
+    this.sortState.setNewSortFormState(null)
+  }
   constructor(
     private fb: UntypedFormBuilder,
     private sortState: YoutubeSortStateService,

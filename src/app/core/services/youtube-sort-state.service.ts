@@ -13,7 +13,7 @@ export class YoutubeSortStateService {
     return this.sortFormState$$.asObservable()
   }
 
-  public setNewSortFormState(sortFormData: SortFormData): void {
+  public setNewSortFormState(sortFormData: SortFormData | null): void {
     this.sortFormState$$.next(sortFormData)
   }
 }

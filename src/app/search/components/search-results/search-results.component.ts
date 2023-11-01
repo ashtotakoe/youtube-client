@@ -13,7 +13,7 @@ import { SearchItemsService } from '../../services/search-items.service'
 })
 export class SearchResultsComponent {
   public searchItemsAndSortOptions$ = combineLatest([
-    this.searchItems.relevantItems$.pipe(filter(elem => elem !== null)),
+    this.searchItems.relevantItems$,
     this.sortState.getSortFormState(),
   ])
 
