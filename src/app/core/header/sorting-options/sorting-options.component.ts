@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { UntypedFormBuilder, Validators } from '@angular/forms'
 import { map } from 'rxjs'
 
@@ -10,6 +10,7 @@ import { YoutubeSortStateService } from '../../services/youtube-sort-state.servi
   selector: 'yt-sorting-options',
   templateUrl: './sorting-options.component.html',
   styleUrls: ['./sorting-options.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SortingOptionsComponent {
   public sortForm = this.fb.group({

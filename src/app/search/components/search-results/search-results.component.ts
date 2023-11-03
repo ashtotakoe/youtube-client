@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { combineLatest, filter } from 'rxjs'
+import { combineLatest } from 'rxjs'
 
 import { YoutubeSortStateService } from '../../../core/services/youtube-sort-state.service'
 import { SearchItemsService } from '../../services/search-items.service'

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import { Statistics } from '../../../shared/models/statistics.model'
 
@@ -6,6 +6,7 @@ import { Statistics } from '../../../shared/models/statistics.model'
   selector: 'yt-video-statistics',
   templateUrl: './video-statistics.component.html',
   styleUrls: ['./video-statistics.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoStatisticsComponent {
   @Input() public statistics?: Statistics

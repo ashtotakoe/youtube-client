@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { RouterModule } from '@angular/router'
 
@@ -9,5 +9,6 @@ import { RouterModule } from '@angular/router'
   imports: [CommonModule, MatButtonModule, RouterModule],
   templateUrl: './not-found.component.html',
   styleUrls: ['./not-found.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NotFoundComponent {}
