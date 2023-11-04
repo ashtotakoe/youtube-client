@@ -6,6 +6,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatSelectModule } from '@angular/material/select'
+import { RouterModule } from '@angular/router'
 
 import { SharedModule } from '../../shared/shared.module'
 import { HeaderComponent } from './components/header/header.component'
@@ -25,6 +26,7 @@ import { SortingOptionsComponent } from './sorting-options/sorting-options.compo
     MatFormFieldModule,
     FormsModule,
     ReactiveFormsModule,
+    RouterModule,
   ],
   providers: [SearchRequestService],
   exports: [HeaderComponent, CommonModule],

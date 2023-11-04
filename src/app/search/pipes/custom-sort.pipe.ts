@@ -8,19 +8,19 @@ import { sortStrategies } from '../consts/sort-strategies'
   name: 'customSort',
 })
 export class CustomSortPipe implements PipeTransform {
-  public transform(value: [SearchItem[] | null, SortFormData | null] | null): SearchItem[] {
+  public transform(value: [SearchItem[] | null, SortFormData | null] | null): SearchItem[] | null {
     if (!value) {
-      return []
+      return null
     }
 
     const [searchItems, sortFormData] = value
 
     if (!searchItems) {
-      return []
+      return null
     }
 
     if (!sortFormData) {
-      return searchItems
+      return searchItems.length === 0 ? null : searchItems
     }
 
     const sortedSearchItems = sortStrategies[sortFormData.sortType as string](

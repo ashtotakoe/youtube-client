@@ -1,0 +1,11 @@
+<ng-container *ngIf="searchItemsAndSortOptions$ | async | customSort as searchItems; else noRelevantItems">
+  <div class="container">
+    <ng-container *ngFor="let searchItem of searchItems">
+      <yt-search-item [displayData]="searchItem"></yt-search-item>
+    </ng-container>
+  </div>
+</ng-container>
+
+<ng-template #noRelevantItems>
+  <h4 class="mat-h2">Sorry, nothing was found</h4>
+</ng-template>

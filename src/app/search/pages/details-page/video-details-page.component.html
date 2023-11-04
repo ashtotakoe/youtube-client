@@ -1,0 +1,7 @@
+<ng-container *ngIf="videoDetails$ | async as details; else detailsNotFound">
+  {{ details.snippet.title }}
+</ng-container>
+
+<ng-template #detailsNotFound>
+  <h4 class="mat-h2">Sorry, video details were not found</h4>
+</ng-template>

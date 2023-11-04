@@ -6,19 +6,21 @@ import { MatIconModule } from '@angular/material/icon'
 
 import { SharedModule } from '../shared/shared.module'
 import { SearchItemComponent } from './components/search-item/search-item.component'
-import { SearchResultsComponent } from './components/search-results/search-results.component'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { CustomColorBarDirective } from './directives/custom-color-bar.directive'
+import { VideoDetailsPageComponent } from './pages/details-page/video-details-page.component'
+import { SearchResultsPageComponent } from './pages/search-results-page/search-results-page.component'
 import { CustomSortPipe } from './pipes/custom-sort.pipe'
 import { SearchRoutingModule } from './search-routing.module'
 
 @NgModule({
   declarations: [
-    SearchResultsComponent,
+    SearchResultsPageComponent,
     SearchItemComponent,
     VideoStatisticsComponent,
     CustomColorBarDirective,
     CustomSortPipe,
+    VideoDetailsPageComponent,
   ],
   imports: [CommonModule, SearchRoutingModule, MatIconModule, MatButtonModule, MatCardModule, SharedModule],
 })

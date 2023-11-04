@@ -3,10 +3,12 @@
   <mat-card class="card" [ytCustomColorBar]="snippet.publishedAt">
     <img class="card__thumbnail" [src]="snippet.thumbnails.medium.url" alt="thumbnail" />
 
-    <h4 class="card__title" mat-card-title>{{ snippet.title }}</h4>
+    <mat-card-header class="card__title" mat-card-title>{{ snippet.title }}</mat-card-header>
 
     <yt-video-statistics [statistics]="displayData?.statistics" />
 
-    <yt-custom-button [color]="'basic'">More...</yt-custom-button>
+    <yt-custom-button [routerLink]="['/', 'search', 'details', displayData?.id]" [color]="'basic'"
+      >More...</yt-custom-button
+    >
   </mat-card>
 </ng-container>
