@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common'
+import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -22,6 +22,14 @@ import { SearchRoutingModule } from './search-routing.module'
     CustomSortPipe,
     VideoDetailsPageComponent,
   ],
-  imports: [CommonModule, SearchRoutingModule, MatIconModule, MatButtonModule, MatCardModule, SharedModule],
+  imports: [
+    CommonModule,
+    NgOptimizedImage,
+    SearchRoutingModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    SharedModule,
+  ],
 })
 export class SearchModule {}
