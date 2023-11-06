@@ -22,17 +22,17 @@ export class CustomSortPipe implements PipeTransform {
       return null
     }
 
-    const [searchItems, sortData] = data
+    const [videos, sortData] = data
 
-    if (!searchItems) {
+    if (!videos) {
       return null
     }
 
     if (!sortData) {
-      return searchItems.length === 0 ? null : searchItems
+      return videos.length === 0 ? null : videos
     }
 
-    return Array.from(searchItems).sort(
+    return Array.from(videos).sort(
       (a, b) => sortStrategies[sortData.type](a, b) * sortDirectionOptions[sortData.direction],
     )
   }

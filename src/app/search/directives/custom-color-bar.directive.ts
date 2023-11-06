@@ -10,8 +10,8 @@ export class CustomColorBarDirective {
   @Input()
   public set ytCustomColorBar(date: string | undefined) {
     if (date) {
-      const releaseTime = new Date(date).getTime()
-      const currentTime = new Date().getTime()
+      const releaseTime = Date.parse(date)
+      const currentTime = Date.now()
       const daysPassed = Math.round((currentTime - releaseTime) / millisecondsInDay)
       this.setClass(daysPassed)
     }

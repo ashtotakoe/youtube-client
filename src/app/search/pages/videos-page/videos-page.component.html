@@ -1,7 +1,5 @@
-<div class="container" *ngIf="searchItemsAndSortOptions$ | async | sort as searchItems; else noRelevantItems">
-  <ng-container *ngFor="let searchItem of searchItems">
-    <yt-video [videoCardData]="searchItem"></yt-video>
-  </ng-container>
+<div class="container" *ngIf="searchItemsAndSortOptions$ | async | sort as videos; else noRelevantItems">
+  <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
 </div>
 
 <ng-template #noRelevantItems>

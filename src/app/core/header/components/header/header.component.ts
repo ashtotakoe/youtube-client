@@ -13,7 +13,7 @@ export class HeaderComponent {
 
   public isSortingOptionsOpen = false
 
-  public changeSortingOptionsStatus(): void {
+  public toggleSortingOptions(): void {
     this.isSortingOptionsOpen = !this.isSortingOptionsOpen
   }
 

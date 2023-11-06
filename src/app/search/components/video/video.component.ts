@@ -9,5 +9,5 @@ import { SearchItem } from '../../../shared/models/search-item.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoComponent {
-  @Input() public videoCardData?: SearchItem
+  @Input() public video?: SearchItem
 }
