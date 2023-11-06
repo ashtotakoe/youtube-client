@@ -1,0 +1,27 @@
+<div class="constainer">
+  <form class="sort-form" (ngSubmit)="onSubmit()" [formGroup]="sortForm">
+    <span>Sort by:</span>
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="type">
+        <mat-option *ngFor="let option of sortOptions" [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span>in</span>
+
+    <mat-form-field appearance="outline">
+      <mat-select [value]="'title'" formControlName="direction">
+        <mat-option *ngFor="let direction of sortDirections" [value]="direction">
+          {{ direction }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span>order</span>
+
+    <button mat-stroked-button color="basic">submit</button>
+    <button type="button" mat-stroked-button color="basic" (click)="resetForm()">reset</button>
+  </form>
+</div>

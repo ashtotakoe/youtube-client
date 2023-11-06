@@ -12,12 +12,13 @@ import { SearchItemsService } from '../../services/search-items.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SearchResultsPageComponent {
-  public relevantItems$ = this.searchItems.relevantItems$
+  public relevantItems$ = this.searchItemsService.relevantItems$
+  private sortState$ = this.sortStateService.sortState$
 
-  public searchItemsAndSortOptions$ = combineLatest([this.relevantItems$, this.sortState.getSortFormState()])
+  public searchItemsAndSortOptions$ = combineLatest([this.relevantItems$, this.sortState$])
 
   constructor(
-    private searchItems: SearchItemsService,
-    private sortState: YoutubeSortStateService,
+    private searchItemsService: SearchItemsService,
+    private sortStateService: YoutubeSortStateService,
   ) {}
 }

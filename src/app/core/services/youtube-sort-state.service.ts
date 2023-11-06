@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, type Observable } from 'rxjs'
+import { BehaviorSubject } from 'rxjs'
 
-import { type SortFormData } from '../../shared/models/sort-form-data.model'
+import { type SortData } from '../../shared/models/sort-data.model'
 
 @Injectable({
   providedIn: 'root',
 })
 export class YoutubeSortStateService {
-  private sortFormState$$ = new BehaviorSubject<SortFormData | null>(null)
+  private sortState$$ = new BehaviorSubject<SortData | null>(null)
+  public sortState$ = this.sortState$$.asObservable()
 
-  public getSortFormState(): Observable<SortFormData | null> {
-    return this.sortFormState$$.asObservable()
-  }
-
-  public setNewSortFormState(sortFormData: SortFormData | null): void {
-    this.sortFormState$$.next(sortFormData)
+  public setNewSortFormState(sortFormData: SortData | null): void {
+    this.sortState$$.next(sortFormData)
   }
 }

@@ -1,17 +1,17 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { SearchItemComponent } from './search-item.component'
+import { VideoCardComponent } from './video-card.component'
 
 describe('SearchItemComponent', () => {
-  let component: SearchItemComponent
-  let fixture: ComponentFixture<SearchItemComponent>
+  let component: VideoCardComponent
+  let fixture: ComponentFixture<VideoCardComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SearchItemComponent],
+      declarations: [VideoCardComponent],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(SearchItemComponent)
+    fixture = TestBed.createComponent(VideoCardComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
   })

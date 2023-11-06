@@ -10,8 +10,8 @@ import { RouterModule } from '@angular/router'
 
 import { SharedModule } from '../../shared/shared.module'
 import { HeaderComponent } from './components/header/header.component'
+import { SortingOptionsComponent } from './components/sorting-options/sorting-options.component'
 import { SearchRequestService } from './services/send-search-request.service'
-import { SortingOptionsComponent } from './sorting-options/sorting-options.component'
 
 @NgModule({
   declarations: [HeaderComponent, SortingOptionsComponent],

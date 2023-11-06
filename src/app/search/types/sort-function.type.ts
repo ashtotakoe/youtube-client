@@ -1,3 +1,3 @@
 import type { SearchItem } from '../../shared/models/search-item.model'
 
-export type SortFunc = (searchItems: SearchItem[], prompt?: string) => SearchItem[]
+export type SortFunction = (a: SearchItem, b: SearchItem) => number

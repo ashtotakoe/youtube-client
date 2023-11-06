@@ -5,7 +5,7 @@ import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 
 import { SharedModule } from '../shared/shared.module'
-import { SearchItemComponent } from './components/search-item/search-item.component'
+import { VideoCardComponent } from './components/search-item/video-card.component'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { CustomColorBarDirective } from './directives/custom-color-bar.directive'
 import { VideoDetailsPageComponent } from './pages/details-page/video-details-page.component'
@@ -16,7 +16,7 @@ import { SearchRoutingModule } from './search-routing.module'
 @NgModule({
   declarations: [
     SearchResultsPageComponent,
-    SearchItemComponent,
+    VideoCardComponent,
     VideoStatisticsComponent,
     CustomColorBarDirective,
     CustomSortPipe,

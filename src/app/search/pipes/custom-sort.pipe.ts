@@ -1,37 +1,39 @@
 import { Pipe, type PipeTransform } from '@angular/core'
 
 import type { SearchItem } from '../../shared/models/search-item.model'
-import type { SortFormData } from '../../shared/models/sort-form-data.model'
-import { sortStrategies } from '../consts/sort-strategies'
+import type { SortData } from '../../shared/models/sort-data.model'
+import { sortDirectionOptions } from '../consts/sort-direction-options.const'
+import type { SortFunction } from '../types/sort-function.type'
+
+const sortStrategies: Record<SortData['type'], SortFunction> = {
+  views: (a, b) => Number(a.statistics.viewCount) - Number(b.statistics.viewCount),
+
+  date: (a, b) => Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt),
+
+  title: (a, b) => a.snippet.title.localeCompare(b.snippet.title, undefined, { sensitivity: 'base' }),
+}
 
 @Pipe({
-  name: 'customSort',
+  name: 'sort',
 })
 export class CustomSortPipe implements PipeTransform {
-  public transform(value: [SearchItem[] | null, SortFormData | null] | null): SearchItem[] | null {
-    if (!value) {
+  public transform(data: [SearchItem[] | null, SortData | null] | null): SearchItem[] | null {
+    if (!data) {
       return null
     }
 
-    const [searchItems, sortFormData] = value
+    const [searchItems, sortData] = data
 
     if (!searchItems) {
       return null
     }
 
-    if (!sortFormData) {
+    if (!sortData) {
       return searchItems.length === 0 ? null : searchItems
     }
 
-    const sortedSearchItems = sortStrategies[sortFormData.sortType as string](
-      Array.from(searchItems),
-      sortFormData.sortType === 'title' ? sortFormData.sortingPrompt : undefined,
+    return Array.from(searchItems).sort(
+      (a, b) => sortStrategies[sortData.type](a, b) * sortDirectionOptions[sortData.direction],
     )
-
-    if (sortFormData.sortOrder === 'descending') {
-      return sortedSearchItems.reverse()
-    }
-
-    return sortedSearchItems
   }
 }
