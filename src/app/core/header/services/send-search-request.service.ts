@@ -6,7 +6,7 @@ import { YoutubeStateService } from '../../services/youtube-state.service'
 export class SearchRequestService {
   constructor(private youtubeState: YoutubeStateService) {}
 
-  public sendRequest(searchingPrompt: string): void {
-    this.youtubeState.sendRequest(searchingPrompt)
+  public sendSearchRequest(searchingPrompt: string): void {
+    this.youtubeState.sendSearchRequest(searchingPrompt)
   }
 }

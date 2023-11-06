@@ -1,6 +1,6 @@
-import type { ColorBarClasses } from '../types/color-bar-classes.type'
+import type { ColorBarClass } from '../types/color-bar-classes.type'
 
-export function calculateClassForColorBar(dayCount: number): ColorBarClasses {
+export function calculateClassForColorBar(dayCount: number): ColorBarClass {
   if (dayCount < 7) {
     return 'blue'
   }

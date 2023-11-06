@@ -13,29 +13,29 @@ export class YoutubeStateService {
 
   private response$$ = new BehaviorSubject<SearchResponse | null>(null)
 
-  public responseData$ = this.response$$.asObservable()
+  public response$ = this.response$$.asObservable()
 
-  private search$$ = new BehaviorSubject<string>('')
+  private searchPrompt$$ = new BehaviorSubject<string>('')
 
-  public searchPrompt$ = this.search$$.asObservable()
+  public searchPrompt$ = this.searchPrompt$$.asObservable()
 
-  private setCurrentSearchPrompt(value: string): void {
-    this.search$$.next(value)
+  private setSearchPrompt(value: string): void {
+    this.searchPrompt$$.next(value)
   }
 
-  private addResponseData(data: Observable<SearchResponse | null>): void {
+  private addVideos(data: Observable<SearchResponse | null>): void {
     data.subscribe(response => {
       this.response$$.next(response)
     })
   }
 
-  public sendRequest(searchingPrompt: string): void {
-    this.setCurrentSearchPrompt(searchingPrompt)
-    this.addResponseData(this.http.fetchData())
+  public sendSearchRequest(searchPrompt: string): void {
+    this.setSearchPrompt(searchPrompt)
+    this.addVideos(this.http.getVideos())
   }
 
   public getVideoById(id: string): Observable<SearchItem | null> {
-    return this.http.fetchData().pipe(
+    return this.http.getVideos().pipe(
       map(response => response?.items.find(item => item.id === id)),
       map(item => (item === undefined ? null : item)),
       catchError(() => of(null)),

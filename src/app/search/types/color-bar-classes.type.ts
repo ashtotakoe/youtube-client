@@ -1,1 +1,1 @@
-export type ColorBarClasses = 'blue' | 'green' | 'yellow' | 'red'
+export type ColorBarClass = 'blue' | 'green' | 'yellow' | 'red'

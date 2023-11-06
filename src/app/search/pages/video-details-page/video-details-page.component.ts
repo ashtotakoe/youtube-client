@@ -6,7 +6,7 @@ import { YoutubeStateService } from '../../../core/services/youtube-state.servic
 import type { SearchItem } from '../../../shared/models/search-item.model'
 
 @Component({
-  selector: 'yt-details-page',
+  selector: 'yt-video-details-page',
   templateUrl: './video-details-page.component.html',
   styleUrls: ['./video-details-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,

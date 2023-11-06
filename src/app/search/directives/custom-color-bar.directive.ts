@@ -13,7 +13,7 @@ export class CustomColorBarDirective {
       const releaseTime = new Date(date).getTime()
       const currentTime = new Date().getTime()
       const daysPassed = Math.round((currentTime - releaseTime) / millisecondsInDay)
-      this.setAppropriateClass(daysPassed)
+      this.setClass(daysPassed)
     }
   }
 
@@ -22,7 +22,7 @@ export class CustomColorBarDirective {
     private renderer: Renderer2,
   ) {}
 
-  public setAppropriateClass(daysPassed: number): void {
+  public setClass(daysPassed: number): void {
     const calculatedClass = calculateClassForColorBar(daysPassed)
     this.renderer.addClass(this.element.nativeElement, calculatedClass)
   }

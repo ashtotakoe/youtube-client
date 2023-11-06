@@ -5,14 +5,14 @@ import { YoutubeStateService } from '../../core/services/youtube-state.service'
 
 @Injectable()
 export class SearchItemsService {
-  public relevantItems$ = this.youtubeState.responseData$.pipe(
+  public videos$ = this.youtubeState.response$.pipe(
     withLatestFrom(this.youtubeState.searchPrompt$),
-    map(([response, searchPrompt]) => {
-      if (response) {
-        return response.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
+    map(([videos, searchPrompt]) => {
+      if (!videos) {
+        return []
       }
 
-      return null
+      return videos.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
     }),
   )
 

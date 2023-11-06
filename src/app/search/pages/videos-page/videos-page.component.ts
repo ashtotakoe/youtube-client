@@ -6,16 +6,16 @@ import { SearchItemsService } from '../../services/search-items.service'
 
 @Component({
   selector: 'yt-search-results',
-  templateUrl: './search-results-page.component.html',
-  styleUrls: ['./search-results-page.component.scss'],
+  templateUrl: './videos-page.component.html',
+  styleUrls: ['./videos-page.component.scss'],
   providers: [SearchItemsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchResultsPageComponent {
-  public relevantItems$ = this.searchItemsService.relevantItems$
+export class VideosPageComponent {
+  public videos$ = this.searchItemsService.videos$
   private sortState$ = this.sortStateService.sortState$
 
-  public searchItemsAndSortOptions$ = combineLatest([this.relevantItems$, this.sortState$])
+  public searchItemsAndSortOptions$ = combineLatest([this.videos$, this.sortState$])
 
   constructor(
     private searchItemsService: SearchItemsService,

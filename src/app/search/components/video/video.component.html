@@ -1,0 +1,11 @@
+<mat-card class="video-card" [ytCustomColorBar]="snippet.publishedAt" *ngIf="videoCardData?.snippet as snippet">
+  <img class="video-card__thumbnail" [src]="snippet.thumbnails.medium.url" alt="thumbnail" />
+
+  <mat-card-header class="video-card__title" mat-card-title>{{ snippet.title }}</mat-card-header>
+
+  <yt-video-statistics [statistics]="videoCardData?.statistics" />
+
+  <yt-custom-button [routerLink]="['/', 'search', 'details', videoCardData?.id]" [color]="'basic'"
+    >More...</yt-custom-button
+  >
+</mat-card>
