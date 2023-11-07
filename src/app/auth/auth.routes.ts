@@ -1,11 +1,11 @@
 import type { Routes } from '@angular/router'
 
-import { LogInPageComponent } from './pages/log-in-page/log-in-page.component'
+import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component'
 
 export const routes: Routes = [
   {
-    path: 'log-in',
-    component: LogInPageComponent,
-    title: 'login',
+    path: '',
+    title: 'Sign up',
+    component: SignUpPageComponent,
   },
 ]

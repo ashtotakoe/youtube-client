@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing'
 
-import { YoutubeHttpService } from './youtube-http.service'
+import { LocalStorageService } from './local-storage.service'
 
-describe('YoutubeHttpService', () => {
-  let service: YoutubeHttpService
+describe('StorageService', () => {
+  let service: LocalStorageService
 
   beforeEach(() => {
     TestBed.configureTestingModule({})
-    service = TestBed.inject(YoutubeHttpService)
+    service = TestBed.inject(LocalStorageService)
   })
 
   it('should be created', () => {

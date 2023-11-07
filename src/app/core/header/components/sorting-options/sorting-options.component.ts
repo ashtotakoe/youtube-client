@@ -7,7 +7,7 @@ import { SortDirections } from '../../../../search/enums/sort-directions.enum'
 import { SortTypes } from '../../../../search/enums/sort-types.enum'
 import { transformRawValueToFormData } from '../../../../search/utils/transform-raw-value-to-form-data'
 import type { SortData } from '../../../../shared/models/sort-data.model'
-import { YoutubeSortStateService } from '../../../services/youtube-sort-state.service'
+import { SortStateService } from '../../../services/sort-state.service'
 
 @Component({
   selector: 'yt-sorting-options',
@@ -35,6 +35,6 @@ export class SortingOptionsComponent {
   }
   constructor(
     private fb: FormBuilder,
-    private sortState: YoutubeSortStateService,
+    private sortState: SortStateService,
   ) {}
 }

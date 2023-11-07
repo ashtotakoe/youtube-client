@@ -9,7 +9,8 @@
       [height]="details.snippet.thumbnails.maxres.height"
     />
   </div>
-  <mat-card-content>{{ details.snippet.description }}</mat-card-content>
+  <div class="mat-body-1">{{ details.snippet.publishedAt }}</div>
+  <mat-card-content class="mat-body-1">{{ details.snippet.description }}</mat-card-content>
   <yt-video-statistics [statistics]="details.statistics" />
 </mat-card>
 

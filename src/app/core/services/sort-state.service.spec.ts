@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing'
 
-import { YoutubeSortStateService } from './youtube-sort-state.service'
+import { SortStateService } from './sort-state.service'
 
 describe('YoutubeSortStateService', () => {
-  let service: YoutubeSortStateService
+  let service: SortStateService
 
   beforeEach(() => {
     TestBed.configureTestingModule({})
-    service = TestBed.inject(YoutubeSortStateService)
+    service = TestBed.inject(SortStateService)
   })
 
   it('should be created', () => {

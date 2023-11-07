@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { combineLatest } from 'rxjs'
 
-import { YoutubeSortStateService } from '../../../core/services/youtube-sort-state.service'
+import { SortStateService } from '../../../core/services/sort-state.service'
 import { SearchItemsService } from '../../services/search-items.service'
 
 @Component({
@@ -19,6 +19,6 @@ export class VideosPageComponent {
 
   constructor(
     private searchItemsService: SearchItemsService,
-    private sortStateService: YoutubeSortStateService,
+    private sortStateService: SortStateService,
   ) {}
 }

@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { ReactiveFormsModule } from '@angular/forms'
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatInputModule } from '@angular/material/input'
 
 import { AuthRoutingModule } from './auth-routing.module'
-import { LogInFormComponent } from './components/log-in-form/log-in-form.component'
-import { LogInPageComponent } from './pages/log-in-page/log-in-page.component'
+import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
+import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component'
 
 @NgModule({
-  declarations: [LogInFormComponent, LogInPageComponent],
-  imports: [CommonModule, AuthRoutingModule],
+  declarations: [SignUpFormComponent, SignUpPageComponent],
+  imports: [CommonModule, AuthRoutingModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, MatButtonModule],
 })
 export class AuthModule {}

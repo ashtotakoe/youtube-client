@@ -1,15 +1,15 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, catchError, map, type Observable, of } from 'rxjs'
+import { BehaviorSubject, map, type Observable } from 'rxjs'
 
 import type { SearchResponse } from '../../shared/models/ search-response.model'
 import type { SearchItem } from '../../shared/models/search-item.model'
-import { YoutubeHttpService } from './youtube-http.service'
+import { HttpService } from './http.service'
 
 @Injectable({
   providedIn: 'root',
 })
 export class YoutubeStateService {
-  constructor(private http: YoutubeHttpService) {}
+  constructor(private http: HttpService) {}
 
   private response$$ = new BehaviorSubject<SearchResponse | null>(null)
 
@@ -38,7 +38,6 @@ export class YoutubeStateService {
     return this.http.getVideos().pipe(
       map(response => response?.items.find(item => item.id === id)),
       map(item => (item === undefined ? null : item)),
-      catchError(() => of(null)),
     )
   }
 }

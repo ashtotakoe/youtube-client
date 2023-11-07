@@ -1,5 +1,13 @@
 <div class="container">
-  <span>User name</span>
+  <button mat-icon-button>
+    <mat-icon *ngIf="isUserLogin; else logInIcon">logout</mat-icon>
+  </button>
+
+  <span class="profile mat-body-2">User name</span>
 
   <mat-icon aria-hidden="false" fontIcon="account_box"></mat-icon>
 </div>
+
+<ng-template #logInIcon>
+  <mat-icon>login</mat-icon>
+</ng-template>

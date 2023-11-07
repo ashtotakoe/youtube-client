@@ -6,7 +6,7 @@ import { type SortData } from '../../shared/models/sort-data.model'
 @Injectable({
   providedIn: 'root',
 })
-export class YoutubeSortStateService {
+export class SortStateService {
   private sortState$$ = new BehaviorSubject<SortData | null>(null)
   public sortState$ = this.sortState$$.asObservable()
 
