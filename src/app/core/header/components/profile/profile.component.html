@@ -1,13 +1,15 @@
 <div class="container">
-  <button mat-icon-button>
-    <mat-icon *ngIf="isUserLogin; else logInIcon">logout</mat-icon>
+  <button mat-icon-button [routerLink]="['/']" *ngIf="isUserSignedIn$ | async; else logInButton" (click)="logOut()">
+    <mat-icon>logout</mat-icon>
   </button>
 
-  <span class="profile mat-body-2">User name</span>
+  <span class="profile mat-body-2">{{ userEmail$ | async }}</span>
 
   <mat-icon aria-hidden="false" fontIcon="account_box"></mat-icon>
 </div>
 
-<ng-template #logInIcon>
-  <mat-icon>login</mat-icon>
+<ng-template #logInButton>
+  <button mat-icon-button>
+    <mat-icon>login</mat-icon>
+  </button>
 </ng-template>

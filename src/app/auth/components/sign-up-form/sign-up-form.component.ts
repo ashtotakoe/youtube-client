@@ -1,5 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { type AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { Router } from '@angular/router'
+
+import { AuthService } from '../../services/auth.service'
 
 @Component({
   selector: 'yt-sign-up-form',
@@ -19,7 +22,11 @@ export class SignUpFormComponent {
     ]),
   })
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   public get email(): FormControl {
     return this.authForm.controls.email
@@ -30,6 +37,11 @@ export class SignUpFormComponent {
   }
 
   public onSubmit(): void {
-    console.log('form submitted')
+    const { email } = this.authForm.value
+
+    if (email) {
+      this.authService.signIn(email)
+      this.router.navigate(['search'], { replaceUrl: true }).catch(() => null)
+    }
   }
 }
