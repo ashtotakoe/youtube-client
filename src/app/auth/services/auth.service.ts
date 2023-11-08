@@ -7,10 +7,10 @@ import { LocalStorageService } from '../../core/storage/services/local-storage.s
   providedIn: 'root',
 })
 export class AuthService {
-  private isUserSignedIn$$ = new BehaviorSubject<boolean>(this.isUserSignedIn())
+  private isUserSignedIn$$ = new BehaviorSubject<boolean>(Boolean(this.getUserEmail()))
   public isUserSignedIn$ = this.isUserSignedIn$$.asObservable()
 
-  private userEmail$$ = new BehaviorSubject<string | null>(null)
+  private userEmail$$ = new BehaviorSubject<string | null>(this.getUserEmail())
   public userEmail$ = this.userEmail$$.asObservable()
 
   constructor(private localStorageService: LocalStorageService) {}
@@ -27,7 +27,7 @@ export class AuthService {
     this.userEmail$$.next(null)
   }
 
-  private isUserSignedIn(): boolean {
-    return Boolean(this.localStorageService.getItem())
+  private getUserEmail(): string | null {
+    return this.localStorageService.getItem()
   }
 }
