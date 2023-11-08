@@ -8,11 +8,11 @@ export class SearchItemsService {
   public videos$ = this.youtubeState.response$.pipe(
     withLatestFrom(this.youtubeState.searchPrompt$),
     map(([videos, searchPrompt]) => {
-      if (!videos) {
-        return []
+      if (videos) {
+        return videos.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
       }
 
-      return videos.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
+      return []
     }),
   )
 
