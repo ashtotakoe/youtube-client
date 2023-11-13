@@ -9,19 +9,19 @@ import { sortStrategies } from '../consts/sort-strategies'
   name: 'sort',
 })
 export class CustomSortPipe implements PipeTransform {
-  public transform(data: [SearchItem[] | null, SortData | null] | null): SearchItem[] | null {
+  public transform(data: VideosAndSortData): SearchItem[] {
     if (!data) {
-      return null
+      return []
     }
 
-    const [videos, sortData] = data
+    const { videos, sortData } = data
 
     if (!videos) {
-      return null
+      return []
     }
 
     if (!sortData) {
-      return videos.length === 0 ? null : videos
+      return videos.length === 0 ? [] : videos
     }
 
     return Array.from(videos).sort(

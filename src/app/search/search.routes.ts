@@ -12,7 +12,7 @@ export const searchRoutes: Routes = [
   },
 
   {
-    path: 'details/:id',
+    path: ':id',
     component: VideoDetailsPageComponent,
     title: 'Details',
     resolve: {

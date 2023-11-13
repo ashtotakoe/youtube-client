@@ -18,6 +18,6 @@ export class HeaderComponent {
   }
 
   public initSearch(request: string): void {
-    this.sendRequestService.sendSearchRequest(request)
+    this.sendRequestService.sendRequestByQuery(request)
   }
 }

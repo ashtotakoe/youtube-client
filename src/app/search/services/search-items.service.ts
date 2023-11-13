@@ -1,20 +1,18 @@
 import { Injectable } from '@angular/core'
-import { map, withLatestFrom } from 'rxjs'
+import { map, type Observable } from 'rxjs'
 
 import { YoutubeResponseService } from '../../core/services/youtube-response.service'
+import type { SearchItem } from '../../shared/models/search-item.model'
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class SearchItemsService {
-  public videos$ = this.youtubeState.response$.pipe(
-    withLatestFrom(this.youtubeState.searchPrompt$),
-    map(([videos, searchPrompt]) => {
-      if (videos) {
-        return videos.items.filter(item => item.snippet.title.toLowerCase().includes(searchPrompt))
-      }
+  public videos$ = this.youtubeResponseService.searchResponse$.pipe(map(response => response?.items ?? []))
 
-      return []
-    }),
-  )
+  constructor(private youtubeResponseService: YoutubeResponseService) {}
 
-  constructor(private youtubeState: YoutubeResponseService) {}
+  public getVideoById(id: string): Observable<SearchItem | null> {
+    return this.youtubeResponseService.getVideoById(id).pipe(map(response => response?.items[0] ?? null))
+  }
 }

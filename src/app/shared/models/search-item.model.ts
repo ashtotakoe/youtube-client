@@ -4,7 +4,12 @@ import type { VideoStatistics } from './statistics.model'
 export interface SearchItem {
   king?: string
   etag: string
-  id: string
+  id: string | Id
   snippet: SearchItemSnippet
   statistics: VideoStatistics
+}
+
+interface Id {
+  kind: string
+  videoId: string
 }

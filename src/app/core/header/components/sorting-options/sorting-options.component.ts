@@ -25,11 +25,11 @@ export class SortingOptionsComponent {
   public sortDirections = [SortDirections.Ascending, SortDirections.Descending]
 
   public onSubmit(): void {
-    this.sortState.setNewSortFormState(transformRawValueToSortData(this.sortForm.getRawValue()))
+    this.sortState.changeSortState(transformRawValueToFormData(this.sortForm.getRawValue()))
   }
 
   public resetForm(): void {
-    this.sortState.setNewSortFormState(null)
+    this.sortState.changeSortState(null)
   }
   constructor(
     private fb: FormBuilder,

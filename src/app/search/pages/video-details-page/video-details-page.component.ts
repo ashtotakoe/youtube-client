@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { ActivatedRoute, type Data } from '@angular/router'
 import { map, type Observable } from 'rxjs'
 
+import { YoutubeResponseService } from '../../../core/services/youtube-response.service'
 import type { SearchItem } from '../../../shared/models/search-item.model'
 
 @Component({
