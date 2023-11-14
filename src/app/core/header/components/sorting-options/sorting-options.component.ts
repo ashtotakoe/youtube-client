@@ -1,13 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
-import { map } from 'rxjs'
 
 import { DefaultSortFormData } from '../../../../search/enums/default-sort-form-data.enum'
 import { SortDirections } from '../../../../search/enums/sort-directions.enum'
 import { SortTypes } from '../../../../search/enums/sort-types.enum'
 import { transformRawValueToSortData } from '../../../../search/utils/transform-raw-value-to-form-data'
 import type { SortData } from '../../../../shared/models/sort-data.model'
-import { SortStateService } from '../../../services/sort-state.service'
+import { YoutubeFacade } from '../../../services/youtube.facade'
 
 @Component({
   selector: 'yt-sorting-options',
@@ -25,14 +24,14 @@ export class SortingOptionsComponent {
   public sortDirections = [SortDirections.Ascending, SortDirections.Descending]
 
   public onSubmit(): void {
-    this.sortState.changeSortState(transformRawValueToFormData(this.sortForm.getRawValue()))
+    this.youtubeFacade.changeSortState(transformRawValueToFormData(this.sortForm.getRawValue()))
   }
 
   public resetForm(): void {
-    this.sortState.changeSortState(null)
+    this.youtubeFacade.changeSortState(null)
   }
   constructor(
     private fb: FormBuilder,
-    private sortState: SortStateService,
+    private youtubeFacade: YoutubeFacade,
   ) {}
 }

@@ -1,33 +1,28 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { combineLatest, map, type Observable } from 'rxjs'
 
-import { SortStateService } from '../../../core/services/sort-state.service'
+import { YoutubeFacade } from '../../../core/services/youtube.facade'
 import type { SearchItem } from '../../../shared/models/search-item.model'
 import type { VideosAndSortData } from '../../models/videos-and-sort-data.model'
-import { SearchItemsService } from '../../services/search-items.service'
 
 @Component({
   selector: 'yt-search-results',
   templateUrl: './videos-page.component.html',
   styleUrls: ['./videos-page.component.scss'],
-  providers: [SearchItemsService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideosPageComponent {
-  public videos$ = this.searchItemsService.videos$
-  private sortState$ = this.sortStateService.sortState$
+  public videos$ = this.youtubeFacade.videos$
+  private sortState$ = this.youtubeFacade.sortState$
+
+  public videosAndSortData$: Observable<VideosAndSortData> = combineLatest([this.videos$, this.sortState$]).pipe(
+    map(([videos, sortData]) => ({ videos, sortData })),
+  )
 
   public defaultSearchItemsAndSortOptions: { videos: SearchItem[]; sortData: null } = {
     videos: [],
     sortData: null,
   }
 
-  public videosAndSortData$: Observable<VideosAndSortData> = combineLatest([this.videos$, this.sortState$]).pipe(
-    map(([videos, sortData]) => ({ videos, sortData })),
-  )
-
-  constructor(
-    private searchItemsService: SearchItemsService,
-    private sortStateService: SortStateService,
-  ) {}
+  constructor(private youtubeFacade: YoutubeFacade) {}
 }

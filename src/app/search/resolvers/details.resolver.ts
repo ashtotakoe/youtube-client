@@ -2,14 +2,13 @@ import { inject } from '@angular/core'
 import { type ActivatedRouteSnapshot, type ResolveFn, Router } from '@angular/router'
 import { type Observable, of, tap } from 'rxjs'
 
-import { YoutubeStateService } from '../../core/services/youtube-state.service'
+import { YoutubeFacade } from '../../core/services/youtube.facade'
 import type { SearchItem } from '../../shared/models/search-item.model'
-import { SearchItemsService } from '../services/search-items.service'
 
 export const detailsResolver: ResolveFn<SearchItem | null> = (
   route: ActivatedRouteSnapshot,
 ): Observable<SearchItem | null> => {
-  const searchItemsService = inject(SearchItemsService)
+  const searchItemsService = inject(YoutubeFacade)
   const router = inject(Router)
 
   const id = route.paramMap.get('id')

@@ -12,7 +12,6 @@ import { SharedModule } from '../../shared/shared.module'
 import { HeaderComponent } from './components/header/header.component'
 import { ProfileComponent } from './components/profile/profile.component'
 import { SortingOptionsComponent } from './components/sorting-options/sorting-options.component'
-import { SearchRequestService } from './services/send-search-request.service'
 
 @NgModule({
   declarations: [HeaderComponent, SortingOptionsComponent, ProfileComponent],
@@ -29,7 +28,6 @@ import { SearchRequestService } from './services/send-search-request.service'
     ReactiveFormsModule,
     RouterModule,
   ],
-  providers: [SearchRequestService],
   exports: [HeaderComponent, CommonModule],
 })
 export class HeaderModule {}
