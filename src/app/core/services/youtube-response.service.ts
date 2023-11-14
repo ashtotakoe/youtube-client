@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, catchError, type Observable, of, switchMap } from 'rxjs'
 
-import { YoutubeHttpService } from '../../../apis/youtube-api/services/youtube-http.service'
 import type { YoutubeResponse } from '../../shared/models/youtube-response.model'
+import { YoutubeHttpService } from '../youtube/services/youtube-http.service'
 
 @Injectable({
   providedIn: 'root',
