@@ -5,7 +5,7 @@ import { catchError, type Observable, of } from 'rxjs'
 import type { SearchResponse } from '../../shared/models/ search-response.model'
 
 @Injectable({ providedIn: 'root' })
-export class HttpService {
+export class YoutubeHttpService {
   constructor(private http: HttpClient) {}
 
   public getVideos(): Observable<SearchResponse | null> {

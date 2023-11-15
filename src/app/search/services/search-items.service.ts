@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { map, withLatestFrom } from 'rxjs'
 
-import { YoutubeStateService } from '../../core/services/youtube-state.service'
+import { YoutubeResponseService } from '../../core/services/youtube-response.service'
 
 @Injectable()
 export class SearchItemsService {
@@ -16,5 +16,5 @@ export class SearchItemsService {
     }),
   )
 
-  constructor(private youtubeState: YoutubeStateService) {}
+  constructor(private youtubeState: YoutubeResponseService) {}
 }

@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core'
 
-import { YoutubeStateService } from '../../services/youtube-state.service'
+import { YoutubeResponseService } from '../../services/youtube-response.service'
 
 @Injectable()
 export class SearchRequestService {
-  constructor(private youtubeState: YoutubeStateService) {}
+  constructor(private youtubeState: YoutubeResponseService) {}
 
   public sendSearchRequest(searchingPrompt: string): void {
-    this.youtubeState.sendSearchRequest(searchingPrompt)
+    this.youtubeState.sendSearchRequestByQuery(searchingPrompt)
   }
 }

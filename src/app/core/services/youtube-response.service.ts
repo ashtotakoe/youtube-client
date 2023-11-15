@@ -3,13 +3,13 @@ import { BehaviorSubject, map, type Observable } from 'rxjs'
 
 import type { SearchResponse } from '../../shared/models/ search-response.model'
 import type { SearchItem } from '../../shared/models/search-item.model'
-import { HttpService } from './http.service'
+import { YoutubeHttpService } from './youtube-http.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class YoutubeStateService {
-  constructor(private http: HttpService) {}
+export class YoutubeResponseService {
+  constructor(private youtubeHttpService: YoutubeHttpService) {}
 
   private response$$ = new BehaviorSubject<SearchResponse | null>(null)
 
@@ -19,25 +19,28 @@ export class YoutubeStateService {
 
   public searchPrompt$ = this.searchPrompt$$.asObservable()
 
-  private setSearchPrompt(value: string): void {
+  private changeSearchPrompt(value: string): void {
     this.searchPrompt$$.next(value)
   }
 
-  private addVideos(data: Observable<SearchResponse | null>): void {
+  private changeResponse(data: Observable<SearchResponse | null>): void {
     data.subscribe(response => {
       this.response$$.next(response)
     })
   }
 
-  public sendSearchRequest(searchPrompt: string): void {
-    this.setSearchPrompt(searchPrompt)
-    this.addVideos(this.http.getVideos())
+  public sendSearchRequestByQuery(searchPrompt: string): void {
+    this.changeSearchPrompt(searchPrompt)
+    this.changeResponse(this.youtubeHttpService.getVideos())
   }
 
   public getVideoById(id: string): Observable<SearchItem | null> {
-    return this.http.getVideos().pipe(
-      map(response => response?.items.find(item => item.id === id)),
-      map(item => (item === undefined ? null : item)),
+    return this.youtubeHttpService.getVideos().pipe(
+      map(response => {
+        const foundItem = response?.items.find(item => item.id === id)
+
+        return foundItem ?? null
+      }),
     )
   }
 }

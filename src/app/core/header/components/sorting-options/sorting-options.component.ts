@@ -5,7 +5,7 @@ import { map } from 'rxjs'
 import { DefaultSortFormData } from '../../../../search/enums/default-sort-form-data.enum'
 import { SortDirections } from '../../../../search/enums/sort-directions.enum'
 import { SortTypes } from '../../../../search/enums/sort-types.enum'
-import { transformRawValueToFormData } from '../../../../search/utils/transform-raw-value-to-form-data'
+import { transformRawValueToSortData } from '../../../../search/utils/transform-raw-value-to-form-data'
 import type { SortData } from '../../../../shared/models/sort-data.model'
 import { SortStateService } from '../../../services/sort-state.service'
 
@@ -27,7 +27,7 @@ export class SortingOptionsComponent {
   public isTitleInputOpen$ = this.sortForm.valueChanges.pipe(map(value => value.type === SortTypes.Title))
 
   public onSubmit(): void {
-    this.sortState.setNewSortFormState(transformRawValueToFormData(this.sortForm.getRawValue()))
+    this.sortState.setNewSortFormState(transformRawValueToSortData(this.sortForm.getRawValue()))
   }
 
   public resetForm(): void {
