@@ -1,4 +1,4 @@
-export const enum ColorBarClassesEnum {
+export const enum ColorBarClasses {
   Blue = 'btm-border-blue',
   Green = 'btm-border-green',
   Yellow = 'btm-border-yellow',

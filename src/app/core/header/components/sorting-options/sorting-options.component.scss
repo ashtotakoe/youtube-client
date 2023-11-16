@@ -1,16 +1,13 @@
-/* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 :host {
   display: block;
   padding: 2rem 0;
-
-  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 }
 
 .sort-form {
   width: fit-content;
   margin: auto;
 
-  * {
+  &__element {
     margin: 0 0.3rem;
   }
 }

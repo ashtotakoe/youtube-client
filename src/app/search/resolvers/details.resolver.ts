@@ -8,7 +8,7 @@ import type { SearchItem } from '../../shared/models/search-item.model'
 export const detailsResolver: ResolveFn<SearchItem | null> = (
   route: ActivatedRouteSnapshot,
 ): Observable<SearchItem | null> => {
-  const state = inject(YoutubeResponseService)
+  const youtubeResponseService = inject(YoutubeResponseService)
   const router = inject(Router)
 
   const id = route.paramMap.get('id')
@@ -17,7 +17,7 @@ export const detailsResolver: ResolveFn<SearchItem | null> = (
     return of(null)
   }
 
-  return state.getVideoById(id).pipe(
+  return youtubeResponseService.getVideoById(id).pipe(
     tap(value => {
       if (!value) {
         router.navigate(['/', 'not-found']).catch(({ message }: Error) => message ?? null)

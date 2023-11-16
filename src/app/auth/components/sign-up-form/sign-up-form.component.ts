@@ -22,19 +22,14 @@ export class SignUpFormComponent {
     ]),
   })
 
+  public email = this.authForm.controls.email
+  public password = this.authForm.controls.password
+
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
     private router: Router,
   ) {}
-
-  public get email(): FormControl {
-    return this.authForm.controls.email
-  }
-
-  public get password(): FormControl {
-    return this.authForm.controls.password
-  }
 
   public onSubmit(): void {
     const { email } = this.authForm.value

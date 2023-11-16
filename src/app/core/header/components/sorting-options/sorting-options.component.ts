@@ -24,8 +24,6 @@ export class SortingOptionsComponent {
   public sortOptions = [SortTypes.Views, SortTypes.Title, SortTypes.Date]
   public sortDirections = [SortDirections.Ascending, SortDirections.Descending]
 
-  public isTitleInputOpen$ = this.sortForm.valueChanges.pipe(map(value => value.type === SortTypes.Title))
-
   public onSubmit(): void {
     this.sortState.setNewSortFormState(transformRawValueToSortData(this.sortForm.getRawValue()))
   }
