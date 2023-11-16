@@ -1,0 +1,31 @@
+.header {
+  background-color: #ede7f6;
+
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+
+    width: 95vw;
+    min-height: 5rem;
+    margin: auto;
+  }
+
+  &__search {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+
+    &--input {
+      width: 50vw;
+    }
+  }
+
+  &__profile {
+    display: flex;
+    gap: 0.3rem;
+    align-items: center;
+    justify-content: space-between;
+  }
+}

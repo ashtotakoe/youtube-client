@@ -6,7 +6,7 @@ export interface SearchItemSnippet {
   title: string
   description: string
   thumbnails: Thumbnails
-  channelTittle: string
+  channelTittle?: string
   tags: string[]
   categoryId: string
   liveBroadcastContent: string

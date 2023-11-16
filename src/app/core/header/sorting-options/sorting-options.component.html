@@ -1,1 +1,34 @@
-<p>sorting-options works!</p>
+<div class="constainer">
+  <form class="sort-form" [formGroup]="sortForm">
+    <span>Sort by:</span>
+    <mat-form-field appearance="outline">
+      <mat-select formControlName="sortType">
+        <mat-option *ngFor="let sortOption of sortOptions" [value]="sortOption">
+          {{ sortOption }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="isTitleInputOpen$ | async">
+      <mat-form-field appearance="outline">
+        <mat-label>type in your prompt</mat-label>
+        <input matInput type="text" formControlName="sortingPrompt" />
+      </mat-form-field>
+    </ng-container>
+
+    <span>in</span>
+
+    <mat-form-field appearance="outline">
+      <mat-select [value]="'title'" formControlName="sortOrder">
+        <mat-option *ngFor="let sortOrder of sortOrderOptions" [value]="sortOrder">
+          {{ sortOrder }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <span>order</span>
+
+    <button type="submit" mat-stroked-button color="basic" (click)="onSubmit()">submit</button>
+    <button mat-stroked-button color="basic" (click)="onReset()">reset</button>
+  </form>
+</div>
