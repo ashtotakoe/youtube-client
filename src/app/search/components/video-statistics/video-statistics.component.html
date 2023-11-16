@@ -1,5 +1,5 @@
 <ng-container *ngIf="statisticsViews.length">
-  <span class="statistics-slot" *ngFor="let statisticsView of statisticsViews"
+  <span class="statistics-view" *ngFor="let statisticsView of statisticsViews"
     ><mat-icon>{{ statisticsView.iconName }}</mat-icon> {{ statisticsView.count }}</span
   >
 </ng-container>

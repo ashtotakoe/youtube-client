@@ -24,7 +24,8 @@ export class SortingOptionsComponent {
   public sortDirections = [SortDirections.Ascending, SortDirections.Descending]
 
   public onSubmit(): void {
-    this.youtubeFacade.changeSortState(transformRawValueToSortData(this.sortForm.getRawValue()))
+    const sortData: SortData = transformRawValueToSortData(this.sortForm.getRawValue())
+    this.youtubeFacade.changeSortState(sortData)
   }
 
   public resetForm(): void {
