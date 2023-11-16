@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing'
 
-import { YoutubeHttpService } from './youtube-http.service'
+import { YoutubeHttpService } from '../youtube/services/youtube-http.service'
 
 describe('YoutubeHttpService', () => {
   let service: YoutubeHttpService
