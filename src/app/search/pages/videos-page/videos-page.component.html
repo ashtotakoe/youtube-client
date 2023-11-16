@@ -1,0 +1,7 @@
+<ng-container *ngIf="searchItemsAndSortOptions$ | async | sort as videos; else noRelevantItems">
+  <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
+</ng-container>
+
+<ng-template #noRelevantItems>
+  <h4 class="mat-h2">Sorry, nothing was found</h4>
+</ng-template>

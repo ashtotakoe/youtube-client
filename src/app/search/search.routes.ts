@@ -1,11 +1,22 @@
 import type { Routes } from '@angular/router'
 
-import { SearchResultsComponent } from './components/search-results/search-results.component'
+import { VideoDetailsPageComponent } from './pages/video-details-page/video-details-page.component'
+import { VideosPageComponent } from './pages/videos-page/videos-page.component'
+import { detailsResolver } from './resolvers/details.resolver'
 
 export const searchRoutes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    component: SearchResultsComponent,
+    component: VideosPageComponent,
+  },
+
+  {
+    path: 'details/:id',
+    component: VideoDetailsPageComponent,
+    title: 'Details',
+    resolve: {
+      details: detailsResolver,
+    },
   },
 ]

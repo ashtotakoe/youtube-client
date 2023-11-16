@@ -1,0 +1,19 @@
+<mat-card *ngIf="videoDetails$ | async as details; else detailsNotFound">
+  <mat-card-header class="mat-h2">{{ details.snippet.title }}</mat-card-header>
+  <div class="thumbnail-wrapper">
+    <img
+      mat-card-image
+      class="thumbnail"
+      [ngSrc]="details.snippet.thumbnails.maxres.url"
+      [width]="details.snippet.thumbnails.maxres.width"
+      [height]="details.snippet.thumbnails.maxres.height"
+    />
+  </div>
+  <div class="mat-body-1">{{ details.snippet.publishedAt }}</div>
+  <mat-card-content class="mat-body-1">{{ details.snippet.description }}</mat-card-content>
+  <yt-video-statistics [statistics]="details.statistics" />
+</mat-card>
+
+<ng-template #detailsNotFound>
+  <h4 class="mat-h2">Sorry, video details were not found</h4>
+</ng-template>

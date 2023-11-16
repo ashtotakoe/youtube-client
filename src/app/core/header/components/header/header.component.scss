@@ -12,6 +12,10 @@
     margin: auto;
   }
 
+  &__logo {
+    cursor: pointer;
+  }
+
   &__search {
     display: flex;
     gap: 0.3rem;
@@ -20,12 +24,5 @@
     &--input {
       width: 50vw;
     }
-  }
-
-  &__profile {
-    display: flex;
-    gap: 0.3rem;
-    align-items: center;
-    justify-content: space-between;
   }
 }

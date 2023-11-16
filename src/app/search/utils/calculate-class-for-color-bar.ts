@@ -1,17 +1,21 @@
-import type { ColorBarClasses } from '../types/color-bar-classes.type'
+import { ColorBarClasses } from '../enums/color-bar-classes.enum'
+import type { ColorBarClass } from '../types/color-bar-classes.type'
+import { calculatePassedDays } from './calculate-passed-days'
 
-export function calculateClassForColorBar(dayCount: number): ColorBarClasses {
+export function calculateClassForColorBar(date: string): ColorBarClass {
+  const dayCount = calculatePassedDays(date)
+
   if (dayCount < 7) {
-    return 'blue'
+    return ColorBarClasses.Blue
   }
 
   if (dayCount < 30) {
-    return 'green'
+    return ColorBarClasses.Green
   }
 
   if (dayCount < 90) {
-    return 'yellow'
+    return ColorBarClasses.Yellow
   }
 
-  return 'red'
+  return ColorBarClasses.Red
 }

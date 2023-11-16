@@ -1,28 +1,10 @@
-import type { SearchItem } from '../../shared/models/search-item.model'
-import type { SortFunc } from '../types/sort-function.type'
-import { calculateStringsSimilarityRate } from '../utils/calculate-similarity-rate'
+import type { SortData } from '../../shared/models/sort-data.model'
+import type { SortFunction } from '../types/sort-function.type'
 
-export const sortStrategies: Record<string, SortFunc> = {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  'views count': (searchItems: SearchItem[]): SearchItem[] => {
-    return searchItems.sort((item1, item2) => Number(item1.statistics.viewCount) - Number(item2.statistics.viewCount))
-  },
+export const sortStrategies: Record<SortData['type'], SortFunction> = {
+  views: (a, b) => Number(a.statistics.viewCount) - Number(b.statistics.viewCount),
 
-  date: (searchItems: SearchItem[]): SearchItem[] => {
-    return searchItems.sort(
-      (item1, item2) => new Date(item1.snippet.publishedAt).getTime() - new Date(item2.snippet.publishedAt).getTime(),
-    )
-  },
+  date: (a, b) => Date.parse(a.snippet.publishedAt) - Date.parse(b.snippet.publishedAt),
 
-  title: (searchItems: SearchItem[], prompt?: string): SearchItem[] => {
-    if (!prompt) {
-      return searchItems
-    }
-
-    return searchItems.sort(
-      (item1, item2) =>
-        calculateStringsSimilarityRate(item1.snippet.title, prompt) -
-        calculateStringsSimilarityRate(item2.snippet.title, prompt),
-    )
-  },
+  title: (a, b) => a.snippet.title.localeCompare(b.snippet.title, undefined, { sensitivity: 'base' }),
 }

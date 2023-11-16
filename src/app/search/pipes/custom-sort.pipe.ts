@@ -1,37 +1,31 @@
 import { Pipe, type PipeTransform } from '@angular/core'
 
 import type { SearchItem } from '../../shared/models/search-item.model'
-import type { SortFormData } from '../../shared/models/sort-form-data.model'
+import type { SortData } from '../../shared/models/sort-data.model'
+import { sortDirectionOptions } from '../consts/sort-direction-options.const'
 import { sortStrategies } from '../consts/sort-strategies'
 
 @Pipe({
-  name: 'customSort',
+  name: 'sort',
 })
 export class CustomSortPipe implements PipeTransform {
-  public transform(value: [SearchItem[] | null, SortFormData | null] | null): SearchItem[] {
-    if (!value) {
-      return []
+  public transform(data: [SearchItem[] | null, SortData | null] | null): SearchItem[] | null {
+    if (!data) {
+      return null
     }
 
-    const [searchItems, sortFormData] = value
+    const [videos, sortData] = data
 
-    if (!searchItems) {
-      return []
+    if (!videos) {
+      return null
     }
 
-    if (!sortFormData) {
-      return searchItems
+    if (!sortData) {
+      return videos.length === 0 ? null : videos
     }
 
-    const sortedSearchItems = sortStrategies[sortFormData.sortType as string](
-      Array.from(searchItems),
-      sortFormData.sortType === 'title' ? sortFormData.sortingPrompt : undefined,
+    return Array.from(videos).sort(
+      (a, b) => sortStrategies[sortData.type](a, b) * sortDirectionOptions[sortData.direction],
     )
-
-    if (sortFormData.sortOrder === 'descending') {
-      return sortedSearchItems.reverse()
-    }
-
-    return sortedSearchItems
   }
 }

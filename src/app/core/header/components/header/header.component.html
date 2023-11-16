@@ -1,24 +1,18 @@
 <header class="header">
   <div class="container">
-    <div class="logo">
+    <div class="header__logo" [routerLink]="['/']">
       <img ngSrc="assets/icons/youtube-logo.svg" height="45" width="70" priority alt="logo" />
     </div>
 
     <div class="header__search">
-      <yt-search (searchFormSubmitted)="initSearch($event)"></yt-search>
-      <button (click)="changeSortingOptionsStatus()" class="header__search--button" mat-icon-button color="basic">
+      <yt-search (searchFormSubmitted)="initSearch($event)" />
+      <button (click)="toggleSortingOptions()" class="header__search--button" mat-icon-button color="basic">
         <mat-icon>settings</mat-icon>
       </button>
     </div>
 
-    <div class="header__profile">
-      <span>User name</span>
-
-      <mat-icon aria-hidden="false" fontIcon="account_box"></mat-icon>
-    </div>
+    <yt-profile />
   </div>
 
-  <ng-container *ngIf="isSortingOptionsOpen">
-    <yt-sorting-options />
-  </ng-container>
+  <yt-sorting-options *ngIf="isSortingOptionsOpen" />
 </header>
