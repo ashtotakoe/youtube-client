@@ -21,7 +21,7 @@ export class YoutubeResponseService {
         switchMap(response => {
           const videIds = response.items.map(({ id }) => (typeof id === 'string' ? id : id.videoId))
 
-          return this.youtubeHttpService.getVideosById(videIds)
+          return this.youtubeHttpService.getVideosById(videIds.join(','))
         }),
         catchError(({ message }: Error) => {
           console.warn(message)

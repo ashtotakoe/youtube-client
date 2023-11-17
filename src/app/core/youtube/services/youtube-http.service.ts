@@ -26,12 +26,12 @@ export class YoutubeHttpService {
       .pipe(catchError(({ message }: Error) => throwError(() => new Error(message))))
   }
 
-  public getVideosById(id: string | string[]): Observable<YoutubeResponse> {
+  public getVideosById(id: string): Observable<YoutubeResponse> {
     return this.http
       .get<YoutubeResponse>(`${this.api}${YoutubeApiTypes.Videos}`, {
         params: {
           ...videoHttpParams,
-          id: Array.isArray(id) ? id.join(',') : id,
+          id,
         },
       })
       .pipe(catchError(({ message }: Error) => throwError(() => new Error(message))))
