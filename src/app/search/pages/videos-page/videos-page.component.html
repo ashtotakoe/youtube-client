@@ -1,4 +1,6 @@
-<ng-container *ngIf="searchItemsAndSortOptions$ | async | sort as videos; else noRelevantItems">
+<ng-container
+  *ngIf="(videosAndSortData$ | async) || defaultSearchItemsAndSortOptions | sort as videos; else noRelevantItems"
+>
   <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
 </ng-container>
 

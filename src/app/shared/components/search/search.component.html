@@ -1,7 +1,4 @@
 <mat-form-field appearance="outline">
   <mat-label>Search</mat-label>
-  <input matInput [formControl]="searchForm" (keydown.enter)="onSubmit()" type="search" />
+  <input matInput [formControl]="searchForm" type="search" />
 </mat-form-field>
-<yt-custom-button (click)="onSubmit()" [routerLink]="['/']" routerLinkActive="router-link-active">
-  search
-</yt-custom-button>

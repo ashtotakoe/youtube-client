@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core'
-import { BehaviorSubject, map, type Observable } from 'rxjs'
+import { BehaviorSubject, catchError, type Observable, of, switchMap } from 'rxjs'
 
-import type { SearchResponse } from '../../shared/models/ search-response.model'
-import type { SearchItem } from '../../shared/models/search-item.model'
-import { YoutubeHttpService } from './youtube-http.service'
+import type { YoutubeResponse } from '../../shared/models/youtube-response.model'
+import { YoutubeHttpService } from '../youtube/services/youtube-http.service'
 
 @Injectable({
   providedIn: 'root',
@@ -11,35 +10,36 @@ import { YoutubeHttpService } from './youtube-http.service'
 export class YoutubeResponseService {
   constructor(private youtubeHttpService: YoutubeHttpService) {}
 
-  private response$$ = new BehaviorSubject<SearchResponse | null>(null)
+  private searchResponse$$ = new BehaviorSubject<YoutubeResponse | null>(null)
 
-  public response$ = this.response$$.asObservable()
+  public searchResponse$ = this.searchResponse$$.asObservable()
 
-  private searchPrompt$$ = new BehaviorSubject<string>('')
+  public getVideosByQuery(query: string): void {
+    this.youtubeHttpService
+      .getSearchResponseByQuery(query)
+      .pipe(
+        switchMap(response => {
+          const videIds = response.items.map(({ id }) => (typeof id === 'string' ? id : id.videoId))
 
-  public searchPrompt$ = this.searchPrompt$$.asObservable()
+          return this.youtubeHttpService.getVideosById(videIds.join(','))
+        }),
+        catchError(({ message }: Error) => {
+          console.warn(message)
 
-  private changeSearchPrompt(value: string): void {
-    this.searchPrompt$$.next(value)
+          return of(null)
+        }),
+      )
+      .subscribe(response => {
+        this.searchResponse$$.next(response)
+      })
   }
 
-  private changeResponse(data: Observable<SearchResponse | null>): void {
-    data.subscribe(response => {
-      this.response$$.next(response)
-    })
-  }
+  public getVideoById(id: string): Observable<YoutubeResponse | null> {
+    return this.youtubeHttpService.getVideosById(id).pipe(
+      catchError(({ message }: Error) => {
+        console.warn(message)
 
-  public sendSearchRequestByQuery(searchPrompt: string): void {
-    this.changeSearchPrompt(searchPrompt)
-    this.changeResponse(this.youtubeHttpService.getVideos())
-  }
-
-  public getVideoById(id: string): Observable<SearchItem | null> {
-    return this.youtubeHttpService.getVideos().pipe(
-      map(response => {
-        const foundItem = response?.items.find(item => item.id === id)
-
-        return foundItem ?? null
+        return of(null)
       }),
     )
   }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input, type OnInit } from '@angular/core'
 
 import { SearchItem } from '../../../shared/models/search-item.model'
 
@@ -8,6 +8,11 @@ import { SearchItem } from '../../../shared/models/search-item.model'
   styleUrls: ['./video.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent {
-  @Input() public video?: SearchItem
+export class VideoComponent implements OnInit {
+  @Input() public video!: SearchItem
+  public videoId!: string
+
+  public ngOnInit(): void {
+    this.videoId = typeof this.video.id === 'string' ? this.video.id : this.video.id.videoId
+  }
 }

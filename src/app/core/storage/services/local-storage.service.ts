@@ -1,20 +1,21 @@
-import { Injectable } from '@angular/core'
+import { Inject, Injectable } from '@angular/core'
 
-const LOCAL_STORAGE_KEY = 'youtube-user'
+import { LOCAL_STORAGE_KEY } from '../tokens/local-storage-key.token'
 
 @Injectable({
   providedIn: 'root',
 })
 export class LocalStorageService {
+  constructor(@Inject(LOCAL_STORAGE_KEY) private localStorageKey: string) {}
   public addItem(item: string): void {
-    localStorage.setItem(LOCAL_STORAGE_KEY, item)
+    localStorage.setItem(this.localStorageKey, item)
   }
 
   public getItem(): string | null {
-    return localStorage.getItem(LOCAL_STORAGE_KEY)
+    return localStorage.getItem(this.localStorageKey)
   }
 
-  public clear(): void {
-    localStorage.clear()
+  public removeItem(key: string): void {
+    localStorage.removeItem(key)
   }
 }

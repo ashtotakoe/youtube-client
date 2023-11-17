@@ -1,3 +1,9 @@
-.statistics-slot {
+:host {
+  display: block;
+  width: fit-content;
+  margin: auto;
+}
+
+.statistics-view {
   margin: 0 0.3rem;
 }

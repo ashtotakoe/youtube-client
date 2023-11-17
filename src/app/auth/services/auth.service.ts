@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core'
+import { Inject, Injectable } from '@angular/core'
 import { BehaviorSubject } from 'rxjs'
 
 import { LocalStorageService } from '../../core/storage/services/local-storage.service'
+import { LOCAL_STORAGE_KEY } from '../../core/storage/tokens/local-storage-key.token'
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,10 @@ export class AuthService {
   private userEmail$$ = new BehaviorSubject<string | null>(this.getUserEmail())
   public userEmail$ = this.userEmail$$.asObservable()
 
-  constructor(private localStorageService: LocalStorageService) {}
+  constructor(
+    private localStorageService: LocalStorageService,
+    @Inject(LOCAL_STORAGE_KEY) private localStorageKey: string,
+  ) {}
 
   public signIn(email: string): void {
     this.localStorageService.addItem(email)
@@ -22,7 +26,7 @@ export class AuthService {
   }
 
   public logOut(): void {
-    this.localStorageService.clear()
+    this.localStorageService.removeItem(this.localStorageKey)
     this.isUserSignedIn$$.next(false)
     this.userEmail$$.next(null)
   }

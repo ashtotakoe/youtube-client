@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 
-import { SearchRequestService } from '../../services/send-search-request.service'
+import { YoutubeFacade } from '../../../services/youtube.facade'
 
 @Component({
   selector: 'yt-header',
@@ -9,7 +9,7 @@ import { SearchRequestService } from '../../services/send-search-request.service
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  constructor(private sendRequestService: SearchRequestService) {}
+  constructor(private youtubeFacade: YoutubeFacade) {}
 
   public isSortingOptionsOpen = false
 
@@ -18,6 +18,6 @@ export class HeaderComponent {
   }
 
   public initSearch(request: string): void {
-    this.sendRequestService.sendSearchRequest(request)
+    this.youtubeFacade.sendRequestByQuery(request)
   }
 }
