@@ -12,8 +12,18 @@
       <mat-label>Password</mat-label>
       <input formControlName="password" placeholder="password" matInput type="text" />
       <mat-error *ngIf="password.hasError('required')"> Password is required </mat-error>
-      <mat-error *ngIf="password.hasError('minlength')"> Password must be 6 chars long!</mat-error>
+      <mat-error
+        *ngIf="
+          (password.hasError('passwordStrength') || password.hasError('minlength')) && !password.hasError('required')
+        "
+      >
+        {{ password.getError('passwordStrength') ?? 'password must be at least 8 characters' }}
+      </mat-error>
     </mat-form-field>
+
+    <mat-list *ngIf="password.hasError('hints')">
+      <mat-list-item class="caption" *ngFor="let hint of password.getError('hints')">{{ hint }}</mat-list-item>
+    </mat-list>
 
     <button mat-flat-button class="sign-up__submit" color="primary" [disabled]="authForm.invalid">Submit</button>
   </form>
