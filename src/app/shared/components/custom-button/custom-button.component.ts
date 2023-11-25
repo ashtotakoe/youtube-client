@@ -11,5 +11,6 @@ import { MatButtonModule } from '@angular/material/button'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CustomButtonComponent {
-  @Input() public color: 'primary' | 'basic' = 'primary'
+  @Input() public color: 'primary' | 'basic' | 'warn' = 'primary'
+  @Input() public type: 'button' | 'submit' = 'button'
 }

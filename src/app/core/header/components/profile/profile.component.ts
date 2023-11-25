@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 
 import { AuthService } from '../../../../auth/services/auth.service'
 
@@ -6,6 +6,7 @@ import { AuthService } from '../../../../auth/services/auth.service'
   selector: 'yt-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfileComponent {
   public isUserSignedIn$ = this.authService.isUserSignedIn$

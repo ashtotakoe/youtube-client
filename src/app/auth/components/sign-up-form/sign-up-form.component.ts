@@ -2,6 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { type AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms'
 import { Router } from '@angular/router'
 
+import { differentCasesValidator } from '../../../shared/validators/different-cases.validator'
+import { lettersAndNumberPresenceValidator } from '../../../shared/validators/letters-and-number-presence.validator'
+import { specialCharactersValidator } from '../../../shared/validators/special-characters.validator'
 import { AuthService } from '../../services/auth.service'
 
 @Component({
@@ -18,7 +21,10 @@ export class SignUpFormComponent {
     ]),
     password: new FormControl<string>('', [
       (control: AbstractControl) => Validators.required(control),
-      Validators.minLength(6),
+      (control: AbstractControl) => Validators.minLength(8)(control),
+      (control: AbstractControl) => differentCasesValidator(control),
+      (control: AbstractControl) => specialCharactersValidator(control),
+      (control: AbstractControl) => lettersAndNumberPresenceValidator(control),
     ]),
   })
 

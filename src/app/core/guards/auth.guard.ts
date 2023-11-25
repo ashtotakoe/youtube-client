@@ -3,6 +3,7 @@ import { type CanMatchFn, Router, type UrlTree } from '@angular/router'
 import { map, type Observable } from 'rxjs'
 
 import { AuthService } from '../../auth/services/auth.service'
+import { AuthTypes } from '../enums/auth-types.enum'
 import type { UserOrGuest } from '../types/user-or-guest.type'
 
 export const authGuard =
@@ -13,7 +14,7 @@ export const authGuard =
 
     return authService.isUserSignedIn$.pipe(
       map((isUserSignIn: boolean) => {
-        if (type === 'guest') {
+        if (type === AuthTypes.Guest) {
           return isUserSignIn ? router.createUrlTree(['search']) : true
         }
 

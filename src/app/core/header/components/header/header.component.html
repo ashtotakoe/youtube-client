@@ -11,7 +11,11 @@
       </button>
     </div>
 
-    <yt-profile />
+    <div>
+      <yt-custom-button [routerLink]="['admin']"> Add video... </yt-custom-button>
+
+      <yt-profile />
+    </div>
   </div>
 
   <yt-sorting-options *ngIf="isSortingOptionsOpen" />
