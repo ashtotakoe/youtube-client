@@ -65,8 +65,4 @@ export class CreateVideoFormComponent {
     this.createVideoForm.reset()
     this.tags.controls = [this.createTagFormControl()]
   }
-
-  public onSubmit(): void {
-    console.log(this.createVideoForm.value)
-  }
 }
