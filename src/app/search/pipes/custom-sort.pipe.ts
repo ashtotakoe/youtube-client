@@ -1,6 +1,6 @@
 import { Pipe, type PipeTransform } from '@angular/core'
 
-import type { SearchItem } from '../../shared/models/search-item.model'
+import type { VideoData } from '../../shared/models/video-data.model'
 import { sortDirectionOptions } from '../consts/sort-direction-options.const'
 import { sortStrategies } from '../consts/sort-strategies'
 import type { VideosAndSortData } from '../models/videos-and-sort-data.model'
@@ -9,7 +9,7 @@ import type { VideosAndSortData } from '../models/videos-and-sort-data.model'
   name: 'sort',
 })
 export class CustomSortPipe implements PipeTransform {
-  public transform(data: VideosAndSortData): SearchItem[] {
+  public transform(data: VideosAndSortData): VideoData[] {
     if (!data) {
       return []
     }

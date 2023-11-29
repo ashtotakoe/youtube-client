@@ -1,3 +1,3 @@
-import type { SearchItem } from '../../shared/models/search-item.model'
+import type { VideoData } from '../../shared/models/video-data.model'
 
-export type SortFunction = (a: SearchItem, b: SearchItem) => number
+export type SortFunction = (a: VideoData, b: VideoData) => number

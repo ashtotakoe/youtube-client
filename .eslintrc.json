@@ -244,7 +244,12 @@
         ],
         "@typescript-eslint/prefer-includes": 2,
         "@typescript-eslint/no-non-null-assertion": 2,
-        "@typescript-eslint/dot-notation": [2, { "allowIndexSignaturePropertyAccess": true }],
+        "@typescript-eslint/dot-notation": [
+          2,
+          {
+            "allowIndexSignaturePropertyAccess": true
+          }
+        ],
         "@typescript-eslint/no-throw-literal": 2,
         "@typescript-eslint/no-base-to-string": 2,
         "@typescript-eslint/no-dynamic-delete": 2,

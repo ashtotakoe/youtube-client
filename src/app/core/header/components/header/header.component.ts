@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 
+import { SearchFacade } from '../../../../search/search-store/services/search.facade'
 import { YoutubeFacade } from '../../../services/youtube.facade'
 
 @Component({
@@ -9,15 +10,18 @@ import { YoutubeFacade } from '../../../services/youtube.facade'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HeaderComponent {
-  constructor(private youtubeFacade: YoutubeFacade) {}
-
   public isSortingOptionsOpen = false
+
+  constructor(
+    private youtubeFacade: YoutubeFacade,
+    private searchFacade: SearchFacade,
+  ) {}
 
   public toggleSortingOptions(): void {
     this.isSortingOptionsOpen = !this.isSortingOptionsOpen
   }
 
-  public initSearch(request: string): void {
-    this.youtubeFacade.sendRequestByQuery(request)
+  public initSearch(query: string): void {
+    this.searchFacade.loadVideosByQuery(query)
   }
 }

@@ -2,14 +2,12 @@ import { inject } from '@angular/core'
 import { type ActivatedRouteSnapshot, type ResolveFn, Router } from '@angular/router'
 import { type Observable, of, tap } from 'rxjs'
 
-import { YoutubeFacade } from '../../core/services/youtube.facade'
-import type { SearchItem } from '../../shared/models/search-item.model'
+import { SearchFacade } from '../search-store/services/search.facade'
 
-export const detailsResolver: ResolveFn<SearchItem | null> = (
-  route: ActivatedRouteSnapshot,
-): Observable<SearchItem | null> => {
-  const searchItemsService = inject(YoutubeFacade)
+export const detailsResolver: ResolveFn<string | null> = (route: ActivatedRouteSnapshot): Observable<string | null> => {
+  const searchFacade = inject(SearchFacade)
   const router = inject(Router)
+  const { errorMessage$ } = searchFacade
 
   const id = route.paramMap.get('id')
 
@@ -17,10 +15,12 @@ export const detailsResolver: ResolveFn<SearchItem | null> = (
     return of(null)
   }
 
-  return searchItemsService.getVideoById(id).pipe(
-    tap(searchItem => {
-      if (!searchItem) {
-        router.navigate(['/', 'not-found']).catch(({ message }: Error) => message ?? null)
+  searchFacade.loadVideoById(id)
+
+  return errorMessage$.pipe(
+    tap(errorMessage => {
+      if (errorMessage) {
+        router.navigate(['/', 'not-found']).catch(({ message }: Error) => message)
       }
     }),
   )

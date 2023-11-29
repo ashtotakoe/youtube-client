@@ -1,6 +1,6 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
@@ -24,7 +24,6 @@ import { SortingOptionsComponent } from './components/sorting-options/sorting-op
     MatSelectModule,
     MatInputModule,
     MatFormFieldModule,
-    FormsModule,
     ReactiveFormsModule,
     RouterModule,
   ],

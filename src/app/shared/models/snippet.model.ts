@@ -1,6 +1,6 @@
 import type { Thumbnails } from './thumbnails.model'
 
-export interface SearchItemSnippet {
+export interface Snippet {
   publishedAt: string
   channelId: string
   title: string

@@ -1,8 +1,13 @@
-<ng-container
+<ng-container>
+  <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
+</ng-container>
+
+<div
+  class="wrapper"
   *ngIf="(videosAndSortData$ | async) || defaultSearchItemsAndSortOptions | sort as videos; else noRelevantItems"
 >
   <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
-</ng-container>
+</div>
 
 <ng-template #noRelevantItems>
   <h2 class="mat-h2">Sorry, nothing was found</h2>

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { map, type Observable } from 'rxjs'
 
-import type { SearchItem } from '../../shared/models/search-item.model'
 import type { SortData } from '../../shared/models/sort-data.model'
+import type { VideoData } from '../../shared/models/video-data.model'
 import { SortStateService } from './sort-state.service'
 import { YoutubeResponseService } from './youtube-response.service'
 
@@ -22,7 +22,7 @@ export class YoutubeFacade {
     this.youtubeResponseService.getVideosByQuery(query)
   }
 
-  public getVideoById(id: string): Observable<SearchItem | null> {
+  public getVideoById(id: string): Observable<VideoData | null> {
     return this.youtubeResponseService.getVideoById(id).pipe(map(response => response?.items.pop() ?? null))
   }
 

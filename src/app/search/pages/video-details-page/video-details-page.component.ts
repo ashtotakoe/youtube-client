@@ -1,8 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
-import { ActivatedRoute, type Data } from '@angular/router'
-import { map, type Observable } from 'rxjs'
 
-import type { SearchItem } from '../../../shared/models/search-item.model'
+import { SearchFacade } from '../../search-store/services/search.facade'
 
 @Component({
   selector: 'yt-video-details-page',
@@ -11,9 +9,8 @@ import type { SearchItem } from '../../../shared/models/search-item.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsPageComponent {
-  public videoDetails$: Observable<SearchItem | null> = this.route.data.pipe(
-    map((data: Data) => data['details'] as SearchItem | null),
-  )
+  public videoDetails$ = this.searchFacade.videoDetails$
+  public isLoading$ = this.searchFacade.isLoading$
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private searchFacade: SearchFacade) {}
 }

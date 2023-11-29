@@ -1,7 +1,22 @@
-<mat-card *ngIf="videoDetails$ | async as details; else detailsNotFound">
-  {{ details | json }}
-  <mat-card-header class="mat-h2">{{ details.snippet.title }}</mat-card-header>
+<ng-container *ngIf="isLoading$ | async">
+  <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+</ng-container>
+
+<mat-card *ngIf="videoDetails$ | async as details">
+  <mat-card-header class="mat-h1">{{ details.snippet.title }}</mat-card-header>
   <div class="thumbnail-wrapper">
+    <ng-container *ngIf="details.snippet.thumbnails.maxres as thumbnails; else imgLowResolution">
+      <img
+        mat-card-image
+        class="thumbnail"
+        [ngSrc]="thumbnails.url"
+        [width]="thumbnails.width"
+        [height]="thumbnails.height"
+      />
+    </ng-container>
+  </div>
+
+  <ng-template #imgLowResolution>
     <img
       mat-card-image
       class="thumbnail"
@@ -9,12 +24,9 @@
       [width]="details.snippet.thumbnails.high.width"
       [height]="details.snippet.thumbnails.high.height"
     />
-  </div>
+  </ng-template>
+
   <div class="mat-body-1">{{ details.snippet.publishedAt }}</div>
   <mat-card-content class="mat-body-1">{{ details.snippet.description }}</mat-card-content>
   <yt-video-statistics [statistics]="details.statistics" />
 </mat-card>
-
-<ng-template #detailsNotFound>
-  <h2 class="mat-h2">Sorry, video details were not found</h2>
-</ng-template>

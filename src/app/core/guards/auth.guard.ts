@@ -13,12 +13,12 @@ export const authGuard =
     const router = inject(Router)
 
     return authService.isUserSignedIn$.pipe(
-      map((isUserSignIn: boolean) => {
+      map((isUserSignedIn: boolean) => {
         if (type === AuthTypes.Guest) {
-          return isUserSignIn ? router.createUrlTree(['search']) : true
+          return isUserSignedIn ? router.createUrlTree(['search']) : true
         }
 
-        return isUserSignIn ? true : router.createUrlTree(['auth'])
+        return isUserSignedIn ? true : router.createUrlTree(['auth'])
       }),
     )
   }

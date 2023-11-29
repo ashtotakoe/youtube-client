@@ -1,5 +1,5 @@
 import type { PageInfo } from './page-Info.model'
-import type { SearchItem } from './search-item.model'
+import type { VideoData } from './video-data.model'
 
 export interface YoutubeResponse {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -7,5 +7,5 @@ export interface YoutubeResponse {
   kind: string
   etag: string
   pageInfo?: PageInfo
-  items: SearchItem[]
+  items: VideoData[]
 }
