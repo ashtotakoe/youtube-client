@@ -6,7 +6,7 @@ import { SortDirections } from '../../../../search/enums/sort-directions.enum'
 import { SortTypes } from '../../../../search/enums/sort-types.enum'
 import { transformRawValueToSortData } from '../../../../search/utils/transform-raw-value-to-form-data'
 import type { SortData } from '../../../../shared/models/sort-data.model'
-import { YoutubeFacade } from '../../../services/youtube.facade'
+import { SortStateService } from '../../../services/sort-state.service'
 
 @Component({
   selector: 'yt-sorting-options',
@@ -25,14 +25,14 @@ export class SortingOptionsComponent {
 
   public onSubmit(): void {
     const sortData: SortData = transformRawValueToSortData(this.sortForm.getRawValue())
-    this.youtubeFacade.changeSortState(sortData)
+    this.sortState.changeSortState(sortData)
   }
 
   public resetForm(): void {
-    this.youtubeFacade.changeSortState(null)
+    this.sortState.changeSortState(null)
   }
   constructor(
     private fb: FormBuilder,
-    private youtubeFacade: YoutubeFacade,
+    private sortState: SortStateService,
   ) {}
 }

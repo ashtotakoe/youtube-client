@@ -1,11 +1,11 @@
 import type { PageInfo } from './page-Info.model'
-import type { VideoData } from './video-data.model'
+import type { Data } from './video-data.model'
 
-export interface YoutubeResponse {
+export interface YoutubeResponse<T extends Data> {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   TODO: string
   kind: string
   etag: string
   pageInfo?: PageInfo
-  items: VideoData[]
+  items: T[]
 }

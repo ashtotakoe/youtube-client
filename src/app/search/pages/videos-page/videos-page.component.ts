@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { combineLatest, map, type Observable } from 'rxjs'
 
-import { YoutubeFacade } from '../../../core/services/youtube.facade'
+import { SortStateService } from '../../../core/services/sort-state.service'
 import type { VideoData } from '../../../shared/models/video-data.model'
 import type { VideosAndSortData } from '../../models/videos-and-sort-data.model'
 import { SearchFacade } from '../../search-store/services/search.facade'
@@ -16,7 +16,7 @@ export class VideosPageComponent {
   public videos$ = this.searchFacade.searchVideos$
   public isLoading$ = this.searchFacade.isLoading$
 
-  private sortState$ = this.youtubeFacade.sortState$
+  private sortState$ = this.sortState.sortState$
 
   public videosAndSortData$: Observable<VideosAndSortData> = combineLatest([this.videos$, this.sortState$]).pipe(
     map(([videos, sortData]) => ({ videos, sortData })),
@@ -28,7 +28,7 @@ export class VideosPageComponent {
   }
 
   constructor(
-    private youtubeFacade: YoutubeFacade,
+    private sortState: SortStateService,
     private searchFacade: SearchFacade,
   ) {}
 }

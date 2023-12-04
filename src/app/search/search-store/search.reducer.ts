@@ -11,7 +11,7 @@ const cardsInitialState: SearchState = {
   favoriteVideos: [],
   videoDetails: null,
   isLoading: false,
-  errorMessage: 'default value',
+  errorMessage: null,
 }
 
 export const videosReducer = createReducer(

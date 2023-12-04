@@ -1,7 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 
 import { SearchFacade } from '../../../../search/search-store/services/search.facade'
-import { YoutubeFacade } from '../../../services/youtube.facade'
 
 @Component({
   selector: 'yt-header',
@@ -12,10 +11,7 @@ import { YoutubeFacade } from '../../../services/youtube.facade'
 export class HeaderComponent {
   public isSortingOptionsOpen = false
 
-  constructor(
-    private youtubeFacade: YoutubeFacade,
-    private searchFacade: SearchFacade,
-  ) {}
+  constructor(private searchFacade: SearchFacade) {}
 
   public toggleSortingOptions(): void {
     this.isSortingOptionsOpen = !this.isSortingOptionsOpen

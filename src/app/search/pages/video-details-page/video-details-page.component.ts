@@ -11,6 +11,7 @@ import { SearchFacade } from '../../search-store/services/search.facade'
 export class VideoDetailsPageComponent {
   public videoDetails$ = this.searchFacade.videoDetails$
   public isLoading$ = this.searchFacade.isLoading$
+  public errorMessage$ = this.searchFacade.errorMessage$
 
   constructor(private searchFacade: SearchFacade) {}
 }

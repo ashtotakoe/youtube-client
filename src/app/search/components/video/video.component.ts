@@ -8,11 +8,6 @@ import { VideoData } from '../../../shared/models/video-data.model'
   styleUrls: ['./video.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class VideoComponent implements OnInit {
+export class VideoComponent {
   @Input() public video!: VideoData
-  public videoId!: string
-
-  public ngOnInit(): void {
-    this.videoId = typeof this.video.id === 'string' ? this.video.id : this.video.id.videoId
-  }
 }

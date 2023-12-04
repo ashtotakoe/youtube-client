@@ -7,6 +7,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 
+import { NotFoundComponent } from '../core/components/not-found/not-found.component'
 import { StoreFeatureNames } from '../core/enums/store-feature-names.enum'
 import { SharedModule } from '../shared/shared.module'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
@@ -29,6 +30,7 @@ import { videosReducer } from './search-store/search.reducer'
     VideoDetailsPageComponent,
   ],
   imports: [
+    NotFoundComponent,
     CommonModule,
     NgOptimizedImage,
     SearchRoutingModule,
