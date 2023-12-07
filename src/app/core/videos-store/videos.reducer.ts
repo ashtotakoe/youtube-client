@@ -1,11 +1,13 @@
 import { createReducer, on } from '@ngrx/store'
 
-import type { SearchState } from '../models/initial-state.model'
+import type { VideosState } from '../../search/models/videos-state.model'
+import { createVideoAction } from './actions/create-video-form.actions'
+import { favoriteVideosActions } from './actions/favorite-videos.actions'
 import { videoDetailsActions } from './actions/videos-details.actions'
 import { videosPageActions } from './actions/videos-page.actions'
 import { youtubeApiActions } from './actions/youtube-api.actions'
 
-const cardsInitialState: SearchState = {
+const cardsInitialState: VideosState = {
   searchVideos: [],
   createdVideos: [],
   favoriteVideos: [],
@@ -16,6 +18,11 @@ const cardsInitialState: SearchState = {
 
 export const videosReducer = createReducer(
   cardsInitialState,
+  on(createVideoAction, (state, { createdVideo }) => ({
+    ...state,
+    createdVideos: [...state.createdVideos, createdVideo],
+  })),
+
   on(videosPageActions.loadVideosByQuery, state => ({ ...state, isLoading: true })),
 
   on(youtubeApiActions.loadVideoByIdSuccess, (state, { video }) => ({
@@ -51,4 +58,18 @@ export const videosReducer = createReducer(
     isLoading: true,
     videoDetails: null,
   })),
+
+  on(favoriteVideosActions.addToFavoriteVideos, (state, { videoData }) => {
+    return {
+      ...state,
+      favoriteVideos: [...state.favoriteVideos, videoData],
+    }
+  }),
+
+  on(favoriteVideosActions.removeFromFavoriteVideos, (state, { videoData }) => {
+    return {
+      ...state,
+      favoriteVideos: state.favoriteVideos.filter(video => video.id !== videoData.id),
+    }
+  }),
 )

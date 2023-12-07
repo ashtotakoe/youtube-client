@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, type OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import { VideoData } from '../../../shared/models/video-data.model'
 

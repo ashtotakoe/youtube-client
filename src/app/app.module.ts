@@ -1,7 +1,10 @@
 import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { isDevMode, NgModule } from '@angular/core'
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field'
-import { BrowserModule } from '@angular/platform-browser'
+import { MatIconRegistry } from '@angular/material/icon'
+import { MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS } from '@angular/material/progress-spinner'
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
+import { BrowserModule, DomSanitizer } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
@@ -10,10 +13,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { CoreModule } from './core/core.module'
-import { StoreFeatureNames } from './core/enums/store-feature-names.enum'
 import { authInterceptor } from './core/youtube/interceptors/auth.interceptor'
-import { SearchEffects } from './search/search-store/search.effects'
-import { videosReducer } from './search/search-store/search.reducer'
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,13 +25,32 @@ import { videosReducer } from './search/search-store/search.reducer'
     StoreModule.forRoot({}, {}),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     EffectsModule.forRoot([]),
-    StoreModule.forFeature(StoreFeatureNames.Search, videosReducer),
-    EffectsModule.forFeature([SearchEffects]),
   ],
   bootstrap: [AppComponent],
   providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
     provideHttpClient(withInterceptors([authInterceptor])),
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } },
+    { provide: MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS, useValue: { diameter: 150 } },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  constructor(
+    private matIconRegistry: MatIconRegistry,
+    private domSanitizer: DomSanitizer,
+  ) {
+    this.matIconRegistry.addSvgIcon(
+      'custom-favorite',
+      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/favorite.svg'),
+    )
+    this.matIconRegistry.addSvgIcon(
+      'custom-favorite-filled',
+      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/favorite-filled.svg'),
+    )
+
+    this.matIconRegistry.addSvgIcon(
+      'custom-logo',
+      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/youtube-logo.svg'),
+    )
+  }
+}

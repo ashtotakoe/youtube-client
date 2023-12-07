@@ -4,11 +4,10 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
-import { EffectsModule } from '@ngrx/effects'
-import { StoreModule } from '@ngrx/store'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatTabsModule } from '@angular/material/tabs'
 
 import { NotFoundComponent } from '../core/components/not-found/not-found.component'
-import { StoreFeatureNames } from '../core/enums/store-feature-names.enum'
 import { SharedModule } from '../shared/shared.module'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { VideoComponent } from './components/video/video.component'
@@ -17,8 +16,6 @@ import { VideoDetailsPageComponent } from './pages/video-details-page/video-deta
 import { VideosPageComponent } from './pages/videos-page/videos-page.component'
 import { CustomSortPipe } from './pipes/custom-sort.pipe'
 import { SearchRoutingModule } from './search-routing.module'
-import { SearchEffects } from './search-store/search.effects'
-import { videosReducer } from './search-store/search.reducer'
 
 @NgModule({
   declarations: [
@@ -35,12 +32,12 @@ import { videosReducer } from './search-store/search.reducer'
     NgOptimizedImage,
     SearchRoutingModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
+    MatTabsModule,
     MatCardModule,
     SharedModule,
-    StoreModule.forFeature(StoreFeatureNames.Search, videosReducer),
-    EffectsModule.forFeature(SearchEffects),
   ],
 })
 export class SearchModule {}

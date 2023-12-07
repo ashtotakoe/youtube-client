@@ -1,8 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { type AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
+import { VideosFacade } from '../../../core/videos-store/services/videos.facade'
+import type { VideoData } from '../../../shared/models/video-data.model'
 import { dateValidator } from '../../../shared/validators/date.validator'
 import { TagsNumberLimitations } from '../../enums/tags-number-limitations.enum'
+import { convertCreateVideoData } from '../../utils/convert-create-video-data'
 
 @Component({
   selector: 'yt-create-video-form',
@@ -11,7 +15,7 @@ import { TagsNumberLimitations } from '../../enums/tags-number-limitations.enum'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateVideoFormComponent {
-  public createVideoForm = this.fb.group({
+  public createVideoForm = this.fb.nonNullable.group({
     title: [
       '',
       [
@@ -39,7 +43,11 @@ export class CreateVideoFormComponent {
   public creationDate = this.createVideoForm.controls.creationDate
   public tags = this.createVideoForm.controls.tags
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private videosFacade: VideosFacade,
+    private snackBar: MatSnackBar,
+  ) {}
 
   private createTagFormControl(): FormControl<string> {
     const tagFormControl = this.fb.nonNullable.control('')
@@ -64,5 +72,13 @@ export class CreateVideoFormComponent {
   public resetForm(): void {
     this.createVideoForm.reset()
     this.tags.controls = [this.createTagFormControl()]
+  }
+
+  public onSubmit(): void {
+    const createdVideo: VideoData = convertCreateVideoData(this.createVideoForm.getRawValue())
+    this.videosFacade.createVideo(createdVideo)
+    this.resetForm()
+
+    this.snackBar.open('Video was created', 'close')
   }
 }

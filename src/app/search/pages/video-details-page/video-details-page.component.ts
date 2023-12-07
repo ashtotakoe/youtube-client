@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
 
-import { SearchFacade } from '../../search-store/services/search.facade'
+import { VideosFacade } from '../../../core/videos-store/services/videos.facade'
 
 @Component({
   selector: 'yt-video-details-page',
@@ -13,5 +13,5 @@ export class VideoDetailsPageComponent {
   public isLoading$ = this.searchFacade.isLoading$
   public errorMessage$ = this.searchFacade.errorMessage$
 
-  constructor(private searchFacade: SearchFacade) {}
+  constructor(private searchFacade: VideosFacade) {}
 }

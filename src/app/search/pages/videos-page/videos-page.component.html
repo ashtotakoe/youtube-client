@@ -1,14 +1,25 @@
-<ng-container>
-  <mat-progress-bar mode="indeterminate" *ngIf="isLoading$ | async"></mat-progress-bar>
-</ng-container>
+<mat-tab-group>
+  <mat-tab label="Search Results">
+    <ng-container *ngIf="!(isLoading$ | async); else spinner">
+      <div
+        class="wrapper"
+        *ngIf="(searchVideosAndSortData$ | async) || defaultVideosAndSortOptions | sort as searchVideos"
+      >
+        <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
+      </div>
+    </ng-container>
+  </mat-tab>
 
-<div
-  class="wrapper"
-  *ngIf="(videosAndSortData$ | async) || defaultSearchItemsAndSortOptions | sort as videos; else noRelevantItems"
->
-  <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
-</div>
+  <mat-tab label="Favorites">
+    <div
+      class="wrapper"
+      *ngIf="(favoriteVideosAndSortData$ | async) || defaultVideosAndSortOptions | sort as searchVideos"
+    >
+      <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
+    </div>
+  </mat-tab>
+</mat-tab-group>
 
-<ng-template #noRelevantItems>
-  <h2 class="mat-h2">Sorry, nothing was found</h2>
+<ng-template #spinner>
+  <mat-spinner class="spinner"></mat-spinner>
 </ng-template>

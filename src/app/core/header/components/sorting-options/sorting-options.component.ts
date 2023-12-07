@@ -4,7 +4,7 @@ import { FormBuilder, FormControl } from '@angular/forms'
 import { DefaultSortFormData } from '../../../../search/enums/default-sort-form-data.enum'
 import { SortDirections } from '../../../../search/enums/sort-directions.enum'
 import { SortTypes } from '../../../../search/enums/sort-types.enum'
-import { transformRawValueToSortData } from '../../../../search/utils/transform-raw-value-to-form-data'
+import { convertRawValueToSortData } from '../../../../search/utils/convert-raw-value-to-form-data'
 import type { SortData } from '../../../../shared/models/sort-data.model'
 import { SortStateService } from '../../../services/sort-state.service'
 
@@ -24,7 +24,7 @@ export class SortingOptionsComponent {
   public sortDirections = [SortDirections.Ascending, SortDirections.Descending]
 
   public onSubmit(): void {
-    const sortData: SortData = transformRawValueToSortData(this.sortForm.getRawValue())
+    const sortData: SortData = convertRawValueToSortData(this.sortForm.getRawValue())
     this.sortState.changeSortState(sortData)
   }
 

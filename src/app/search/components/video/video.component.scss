@@ -8,7 +8,7 @@ $border-width: 0.2rem;
   justify-content: space-between;
 
   width: 20rem;
-  height: 25rem;
+  min-height: 25rem;
 
   &__thumbnail {
     width: 98%;
@@ -36,4 +36,8 @@ $border-width: 0.2rem;
 
 .btm-border-red {
   border-bottom: red $border-width solid;
+}
+
+.message {
+  margin-top: 0.3rem;
 }

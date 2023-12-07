@@ -1,0 +1,11 @@
+<ng-container *ngIf="isVideoFavorite | async; else notFavorite">
+  <button mat-icon-button (click)="onClick(true)">
+    <mat-icon svgIcon="custom-favorite-filled"></mat-icon>
+  </button>
+</ng-container>
+
+<ng-template #notFavorite>
+  <button mat-icon-button (click)="onClick(false)">
+    <mat-icon svgIcon="custom-favorite"></mat-icon>
+  </button>
+</ng-template>

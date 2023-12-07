@@ -1,4 +1,8 @@
 <mat-card class="video-card" [ytCustomColorBar]="video.snippet.publishedAt">
+  <ng-container *ngIf="!video.isCustomCreated; else customCreated">
+    <yt-favorite-button [videoData]="video" />
+  </ng-container>
+
   <img class="video-card__thumbnail" [src]="video.snippet.thumbnails.medium.url" alt="thumbnail" />
 
   <mat-card-header class="video-card__title" mat-card-title>{{ video.snippet.title }}</mat-card-header>
@@ -7,3 +11,7 @@
 
   <yt-custom-button [routerLink]="[video.id]" [color]="'basic'">More...</yt-custom-button>
 </mat-card>
+
+<ng-template #customCreated>
+  <p class="mat-body-1 message">this video is custom created</p>
+</ng-template>

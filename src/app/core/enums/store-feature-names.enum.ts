@@ -1,3 +1,3 @@
 export const enum StoreFeatureNames {
-  Search = 'search',
+  Search = 'videos',
 }
