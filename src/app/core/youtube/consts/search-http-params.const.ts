@@ -1,5 +1,5 @@
 export const searchHttpParams = {
   part: 'snippet',
-  maxResults: 3,
+  maxResults: 5,
   type: 'video',
 }

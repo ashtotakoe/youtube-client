@@ -4,6 +4,7 @@ import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'r
 
 import { MatSnackBarService } from '../services/mat-snack-bar.service'
 import { YoutubeHttpService } from '../youtube/services/youtube-http.service'
+import { YoutubeResponseStateService } from '../youtube/services/youtube-response-state.service'
 import { videoDetailsActions } from './actions/videos-details.actions'
 import { videosPageActions } from './actions/videos-page.actions'
 import { youtubeApiActions } from './actions/youtube-api.actions'
@@ -14,6 +15,7 @@ export class SearchEffects {
   constructor(
     private videosFacade: VideosFacade,
     private youtubeHttpService: YoutubeHttpService,
+    private youtubeResponseStateService: YoutubeResponseStateService,
     private actions$: Actions,
     private snackBar: MatSnackBarService,
   ) {}
@@ -24,7 +26,7 @@ export class SearchEffects {
       switchMap(({ searchData }) => {
         return this.youtubeHttpService.getSearchResponseByQuery(searchData).pipe(
           switchMap(response => {
-            this.videosFacade.updateSearchResponse(response)
+            this.youtubeResponseStateService.setResponse(response)
             const videIds = response.items.map(({ id }) => id.videoId)
 
             return combineLatest([

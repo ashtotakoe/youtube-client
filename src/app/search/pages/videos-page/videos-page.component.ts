@@ -4,6 +4,8 @@ import { combineLatest, map, type Observable } from 'rxjs'
 
 import { SortStateService } from '../../../core/services/sort-state.service'
 import { VideosFacade } from '../../../core/videos-store/services/videos.facade'
+import { searchHttpParams } from '../../../core/youtube/consts/search-http-params.const'
+import { YoutubeResponseStateService } from '../../../core/youtube/services/youtube-response-state.service'
 import type { SearchData } from '../../../shared/models/search-data.model'
 import type { VideoData } from '../../../shared/models/video-data.model'
 import type { PageData } from '../../../shared/models/youtube-response.model'
@@ -20,26 +22,40 @@ export class VideosPageComponent {
   private favoriteVideos$ = this.videosFacade.favoriteVideos$
   private sortState$ = this.sortState.sortState$
 
-  public isLoading$ = this.videosFacade.isLoading$
-  public pageData$ = this.videosFacade.pageData$
-
-  public searchVideosAndSortData$: Observable<VideosAndSortData> = combineLatest([
+  private isLoading$ = this.videosFacade.isLoading$
+  private pageData$ = this.youtubeResponseStateService.pageData$
+  private searchVideosAndSortData$: Observable<VideosAndSortData> = combineLatest([
     this.searchVideos$,
     this.sortState$,
   ]).pipe(map(([videos, sortData]) => ({ videos, sortData })))
-
-  public favoriteVideosAndSortData$: Observable<VideosAndSortData> = combineLatest([
+  private favoriteVideosAndSortData$: Observable<VideosAndSortData> = combineLatest([
     this.favoriteVideos$,
     this.sortState$,
   ]).pipe(map(([videos, sortData]) => ({ videos, sortData })))
+
+  public combinedData$ = combineLatest([
+    this.isLoading$,
+    this.pageData$,
+    this.searchVideosAndSortData$,
+    this.favoriteVideosAndSortData$,
+  ]).pipe(
+    map(([isLoading, pageData, searchVideosAndSortData, favoriteVideosAndSortData]) => ({
+      isLoading,
+      pageData,
+      searchVideosAndSortData,
+      favoriteVideosAndSortData,
+    })),
+  )
 
   public defaultVideosAndSortOptions: { videos: VideoData[]; sortData: null } = {
     videos: [],
     sortData: null,
   }
 
+  public maxResults = searchHttpParams.maxResults
   constructor(
     private sortState: SortStateService,
+    private youtubeResponseStateService: YoutubeResponseStateService,
     private videosFacade: VideosFacade,
   ) {}
 

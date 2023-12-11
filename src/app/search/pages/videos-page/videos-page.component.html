@@ -1,20 +1,20 @@
-<mat-tab-group>
+<mat-tab-group *ngIf="combinedData$ | async as combinedData">
   <mat-tab label="Search Results">
-    <ng-container *ngIf="!(isLoading$ | async); else spinner">
+    <ng-container *ngIf="!combinedData.isLoading; else spinner">
       <div
         class="wrapper"
-        *ngIf="(searchVideosAndSortData$ | async) || defaultVideosAndSortOptions | sort as searchVideos"
+        *ngIf="combinedData.searchVideosAndSortData || defaultVideosAndSortOptions | sort as searchVideos"
       >
         <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
       </div>
     </ng-container>
 
-    <ng-container *ngIf="pageData$ | async as page">
+    <ng-container *ngIf="combinedData.pageData as page">
       <mat-paginator
         (page)="onPageChange($event, page)"
         [length]="page.pageInfo?.totalResults"
         hidePageSize="true"
-        pageSize="5"
+        [pageSize]="maxResults"
       ></mat-paginator>
     </ng-container>
   </mat-tab>
@@ -22,7 +22,7 @@
   <mat-tab label="Favorites">
     <div
       class="wrapper"
-      *ngIf="(favoriteVideosAndSortData$ | async) || defaultVideosAndSortOptions | sort as searchVideos"
+      *ngIf="combinedData.favoriteVideosAndSortData || defaultVideosAndSortOptions | sort as searchVideos"
     >
       <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
     </div>
