@@ -1,5 +1,6 @@
 import type { Snippet } from './snippet.model'
 import type { VideoStatistics } from './statistics.model'
+import type { VideoId } from './video-id.model'
 
 export interface Data {
   king?: string
@@ -15,9 +16,4 @@ export interface SearchItem extends Data {
 export interface VideoData extends Data {
   isCustomCreated?: boolean
   id: string
-}
-
-interface VideoId {
-  kind: string
-  videoId: string
 }

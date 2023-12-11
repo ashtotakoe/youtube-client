@@ -9,9 +9,9 @@ import { VideosFacade } from '../../../core/videos-store/services/videos.facade'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VideoDetailsPageComponent {
-  public videoDetails$ = this.searchFacade.videoDetails$
-  public isLoading$ = this.searchFacade.isLoading$
-  public errorMessage$ = this.searchFacade.errorMessage$
+  public videoDetails$ = this.videosFacade.videoDetails$
+  public isLoading$ = this.videosFacade.isLoading$
+  public errorMessage$ = this.videosFacade.errorMessage$
 
-  constructor(private searchFacade: VideosFacade) {}
+  constructor(private videosFacade: VideosFacade) {}
 }

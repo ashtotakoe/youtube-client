@@ -8,6 +8,15 @@
         <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
       </div>
     </ng-container>
+
+    <ng-container *ngIf="pageData$ | async as page">
+      <mat-paginator
+        (page)="onPageChange($event, page)"
+        [length]="page.pageInfo?.totalResults"
+        hidePageSize="true"
+        pageSize="5"
+      ></mat-paginator>
+    </ng-container>
   </mat-tab>
 
   <mat-tab label="Favorites">

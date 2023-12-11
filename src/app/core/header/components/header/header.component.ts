@@ -11,13 +11,13 @@ import { VideosFacade } from '../../../videos-store/services/videos.facade'
 export class HeaderComponent {
   public isSortingOptionsOpen = false
 
-  constructor(private searchFacade: VideosFacade) {}
+  constructor(private videosFacade: VideosFacade) {}
 
   public toggleSortingOptions(): void {
     this.isSortingOptionsOpen = !this.isSortingOptionsOpen
   }
 
   public initSearch(query: string): void {
-    this.searchFacade.loadVideosByQuery(query)
+    this.videosFacade.loadVideosByQuery({ query })
   }
 }

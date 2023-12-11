@@ -12,7 +12,7 @@ import { VideosFacade } from './services/videos.facade'
 @Injectable()
 export class SearchEffects {
   constructor(
-    private searchFacade: VideosFacade,
+    private videosFacade: VideosFacade,
     private youtubeHttpService: YoutubeHttpService,
     private actions$: Actions,
     private snackBar: MatSnackBarService,
@@ -20,42 +20,47 @@ export class SearchEffects {
 
   public loadVideosByQueryEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(videosPageActions.loadVideosByQuery),
-
-      switchMap(({ query }) =>
-        this.youtubeHttpService.getSearchResponseByQuery(query).pipe(
+      ofType(videosPageActions.loadVideosViaSearch),
+      switchMap(({ searchData }) => {
+        return this.youtubeHttpService.getSearchResponseByQuery(searchData).pipe(
           switchMap(response => {
+            this.videosFacade.updateSearchResponse(response)
             const videIds = response.items.map(({ id }) => id.videoId)
 
             return combineLatest([
               this.youtubeHttpService.getVideosById(videIds.join(',')).pipe(map(({ items }) => items)),
-              this.searchFacade.createdVideos$,
+              this.videosFacade.createdVideos$,
             ]).pipe(
               map(([searchVideos, createdVideos]) => {
-                // eslint-disable-next-line max-nested-callbacks
-                const relatableCustomVideos = createdVideos.filter(video => video.snippet.title.includes(query))
+                const { query, isFirstPage: isFistPage } = searchData
 
-                return youtubeApiActions.loadVideosByQuerySuccess({
-                  videos: [...relatableCustomVideos, ...searchVideos],
-                })
+                if (isFistPage) {
+                  // eslint-disable-next-line max-nested-callbacks
+                  const relatableCustomVideos = createdVideos.filter(video => video.snippet.title.includes(query))
+
+                  return youtubeApiActions.loadVideosByQuerySuccess({
+                    videos: [...relatableCustomVideos, ...searchVideos],
+                  })
+                }
+
+                return youtubeApiActions.loadVideosByQuerySuccess({ videos: searchVideos })
               }),
             )
           }),
-
           catchError(({ message }: Error) => {
             this.snackBar.showCustomMessage(message)
 
             return of(youtubeApiActions.loadVideosByQueryFailure({ errorMessage: message }))
           }),
-        ),
-      ),
+        )
+      }),
     ),
   )
 
   public loadVideoByIdEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(videoDetailsActions.loadVideoById),
-      withLatestFrom(this.searchFacade.searchVideos$),
+      withLatestFrom(this.videosFacade.searchVideos$),
       switchMap(([{ id }, searchVideos]) => {
         const cashedVideo = searchVideos.find(video => video.id === id)
 

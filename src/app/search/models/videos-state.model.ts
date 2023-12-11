@@ -1,4 +1,5 @@
-import type { VideoData } from '../../shared/models/video-data.model'
+import type { SearchItem, VideoData } from '../../shared/models/video-data.model'
+import type { YoutubeResponse } from '../../shared/models/youtube-response.model'
 
 export interface VideosState {
   searchVideos: VideoData[]
@@ -7,4 +8,5 @@ export interface VideosState {
   videoDetails: VideoData | null
   isLoading: boolean
   errorMessage: string | null
+  searchResponse: YoutubeResponse<SearchItem> | null
 }

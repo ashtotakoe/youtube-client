@@ -3,27 +3,29 @@ import { createReducer, on } from '@ngrx/store'
 import type { VideosState } from '../../search/models/videos-state.model'
 import { createVideoAction } from './actions/create-video-form.actions'
 import { favoriteVideosActions } from './actions/favorite-videos.actions'
+import { updateSearchResponse } from './actions/search-response.action'
 import { videoDetailsActions } from './actions/videos-details.actions'
 import { videosPageActions } from './actions/videos-page.actions'
 import { youtubeApiActions } from './actions/youtube-api.actions'
 
-const cardsInitialState: VideosState = {
+const videosInitialState: VideosState = {
   searchVideos: [],
   createdVideos: [],
   favoriteVideos: [],
   videoDetails: null,
   isLoading: false,
   errorMessage: null,
+  searchResponse: null,
 }
 
 export const videosReducer = createReducer(
-  cardsInitialState,
+  videosInitialState,
   on(createVideoAction, (state, { createdVideo }) => ({
     ...state,
     createdVideos: [...state.createdVideos, createdVideo],
   })),
 
-  on(videosPageActions.loadVideosByQuery, state => ({ ...state, isLoading: true })),
+  on(videosPageActions.loadVideosViaSearch, state => ({ ...state, isLoading: true })),
 
   on(youtubeApiActions.loadVideoByIdSuccess, (state, { video }) => ({
     ...state,
@@ -72,4 +74,9 @@ export const videosReducer = createReducer(
       favoriteVideos: state.favoriteVideos.filter(video => video.id !== videoData.id),
     }
   }),
+
+  on(updateSearchResponse, (state, { response }) => ({
+    ...state,
+    searchResponse: response,
+  })),
 )

@@ -16,3 +16,5 @@ export const selectVideoDetails = createSelector(videosFeatureSelector, state =>
 export const selectErrorMessage = createSelector(videosFeatureSelector, state => state.errorMessage)
 
 export const selectFavoriteVideos = createSelector(videosFeatureSelector, state => state.favoriteVideos)
+
+export const selectSearchResponse = createSelector(videosFeatureSelector, state => state.searchResponse)
