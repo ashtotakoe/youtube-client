@@ -35,7 +35,7 @@ export class SearchComponent implements OnInit, OnDestroy {
         }),
     )
 
-    // this.searchForm.setValue('angular')
+    this.searchForm.setValue('angular')
   }
   public ngOnDestroy(): void {
     this.subs.unsubscribe()
