@@ -370,6 +370,10 @@
         "@typescript-eslint/no-duplicate-imports": 2,
         "@typescript-eslint/no-extraneous-class": 0
       }
+    },
+    {
+      "files": ["*.ts"],
+      "extends": ["plugin:@ngrx/strict"]
     }
   ],
   "settings": {
