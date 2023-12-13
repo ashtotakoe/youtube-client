@@ -1,0 +1,36 @@
+<div class="sign-up">
+  <h2 class="sign-up__title mat-h-2">Sign up</h2>
+  <form (ngSubmit)="onSubmit()" [formGroup]="authForm">
+    <mat-form-field>
+      <mat-label>Name</mat-label>
+      <input formControlName="name" matInput type="text" />
+      <mat-error *ngIf="name.hasError('required')"> Name is required </mat-error>
+      <mat-error *ngIf="name.hasError('noSpecialCharsOrNumbers')">
+        Name cannot contain special characters or numbers
+      </mat-error>
+      <mat-error *ngIf="name.hasError('maxLength')"> Your name is too long</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input formControlName="email" placeholder="email@mail.com" matInput type="text" />
+      <mat-error *ngIf="email.hasError('required')"> Email is required </mat-error>
+      <mat-error *ngIf="email.hasError('email')"> Your email is not valid </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input formControlName="password" placeholder="password" matInput type="text" />
+      <mat-error *ngIf="password.hasError('required')"> Password is required </mat-error>
+      <mat-error
+        *ngIf="
+          (password.hasError('passwordStrength') || password.hasError('minlength')) && !password.hasError('required')
+        "
+      >
+        {{ password.getError('passwordStrength') ?? 'password must be at least 8 characters' }}
+      </mat-error>
+    </mat-form-field>
+
+    <button mat-flat-button class="sign-up__submit" color="primary" [disabled]="authForm.invalid">Submit</button>
+  </form>
+</div>
