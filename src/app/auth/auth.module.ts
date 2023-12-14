@@ -6,7 +6,12 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
 import { RouterModule } from '@angular/router'
+import { EffectsModule } from '@ngrx/effects'
+import { StoreModule } from '@ngrx/store'
 
+import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
+import { AuthEffects } from './auth-store/auth.effects'
+import { authReducer } from './auth-store/auth.reducer'
 import { authRoutes } from './auth.routes'
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component'
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
@@ -23,6 +28,8 @@ import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component
     MatInputModule,
     ReactiveFormsModule,
     MatButtonModule,
+    StoreModule.forFeature(StoreFeatureNames.Auth, authReducer),
+    EffectsModule.forFeature(AuthEffects),
   ],
 })
 export class AuthModule {}

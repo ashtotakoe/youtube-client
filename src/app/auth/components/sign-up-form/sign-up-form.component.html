@@ -1,6 +1,6 @@
 <div class="sign-up">
   <h2 class="sign-up__title mat-h-2">Sign up</h2>
-  <form (ngSubmit)="onSubmit()" [formGroup]="authForm">
+  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
     <mat-form-field>
       <mat-label>Name</mat-label>
       <input formControlName="name" matInput type="text" />
@@ -31,6 +31,6 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-flat-button class="sign-up__submit" color="primary" [disabled]="authForm.invalid">Submit</button>
+    <button mat-flat-button class="sign-up__submit" color="primary" [disabled]="signUpForm.invalid">Submit</button>
   </form>
 </div>

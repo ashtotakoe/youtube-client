@@ -1,7 +1,9 @@
 import { Component } from '@angular/core'
 import { type AbstractControl, FormBuilder, FormControl, Validators } from '@angular/forms'
-import { Router } from '@angular/router'
 
+import { AuthFacade } from '../../auth-store/services/auth.facade'
+import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
+import { convertToUserData } from 'src/app/shared/utils/convert-to-user-data'
 import { differentCasesValidator } from 'src/app/shared/validators/different-cases.validator'
 import { lettersAndNumberPresenceValidator } from 'src/app/shared/validators/letters-and-number-presence.validator'
 import { noSpecialCharactersOrNumbersValidator } from 'src/app/shared/validators/no-special-characters-or-numbers.validator'
@@ -13,7 +15,7 @@ import { specialCharactersValidator } from 'src/app/shared/validators/special-ch
   styleUrls: ['./sign-up-form.component.scss'],
 })
 export class SignUpFormComponent {
-  public authForm = this.fb.group({
+  public signUpForm = this.fb.group({
     name: new FormControl<string>('', [
       (control: AbstractControl) => Validators.required(control),
       (control: AbstractControl) => Validators.maxLength(40)(control),
@@ -32,16 +34,18 @@ export class SignUpFormComponent {
     ]),
   })
 
-  public name = this.authForm.controls.name
-  public email = this.authForm.controls.email
-  public password = this.authForm.controls.password
+  public name = this.signUpForm.controls.name
+  public email = this.signUpForm.controls.email
+  public password = this.signUpForm.controls.password
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
+    private authFacade: AuthFacade,
+    private snack: MatSnackBarService,
   ) {}
 
   public onSubmit(): void {
-    this.router.navigate(['/', 'auth', 'signin'], { replaceUrl: true }).catch(() => null)
+    const userData = convertToUserData(this.signUpForm.getRawValue())
+    this.authFacade.signUp(userData)
   }
 }
