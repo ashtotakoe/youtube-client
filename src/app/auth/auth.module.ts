@@ -3,12 +3,15 @@ import { NgModule } from '@angular/core'
 import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { RouterModule } from '@angular/router'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 
+import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spinner/button-with-spinner.component'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
 import { AuthEffects } from './auth-store/auth.effects'
 import { authReducer } from './auth-store/auth.reducer'
@@ -30,6 +33,9 @@ import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component
     MatButtonModule,
     StoreModule.forFeature(StoreFeatureNames.Auth, authReducer),
     EffectsModule.forFeature(AuthEffects),
+    MatProgressSpinnerModule,
+    MatIconModule,
+    ButtonWithSpinnerComponent,
   ],
 })
 export class AuthModule {}

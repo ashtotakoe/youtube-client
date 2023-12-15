@@ -1,7 +1,7 @@
-import type { UserData } from 'src/app/shared/models/user-data.model'
+import type { UserRegistrationData } from 'src/app/shared/models/user-data.model'
 
 export interface AuthState {
-  user: UserData | null
+  userRegistrationData: UserRegistrationData | null
   isLoading: boolean
   errorMessage: string | null
 }

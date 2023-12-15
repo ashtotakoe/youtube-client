@@ -23,13 +23,13 @@ export class AuthEffects {
   public signUpEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(signUpPageActions.signUp),
-      switchMap(({ userData }) =>
-        this.connectionsHttpService.signUp(userData).pipe(
+      switchMap(({ userRegistrationData }) =>
+        this.connectionsHttpService.signUp(userRegistrationData).pipe(
           map((response: HttpResponse<string>) => {
             if (response.ok) {
               this.router.navigate(['/', 'auth', AuthRoutePaths.SignIn], { replaceUrl: true }).catch(() => null)
 
-              return connectionsApiActions.signUpSuccess({ userData })
+              return connectionsApiActions.signUpSuccess({ userRegistrationData })
             }
 
             return connectionsApiActions.signUpFailure({

@@ -1,1 +1,28 @@
-<p>sign-in-form works!</p>
+<div class="sign-in">
+  <h2 class="sign-in__title mat-h-2">Sign in</h2>
+  <form (ngSubmit)="onSubmit()" [formGroup]="signUpForm">
+    <mat-form-field>
+      <mat-label>Email</mat-label>
+      <input formControlName="email" placeholder="email@mail.com" matInput type="text" />
+      <mat-error *ngIf="email.hasError('required')"> Email is required </mat-error>
+      <mat-error *ngIf="email.hasError('email')"> Your email is not valid </mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Password</mat-label>
+      <input formControlName="password" placeholder="password" matInput type="text" />
+      <mat-error *ngIf="password.hasError('required')"> Password is required </mat-error>
+      <mat-error
+        *ngIf="
+          (password.hasError('passwordStrength') || password.hasError('minlength')) && !password.hasError('required')
+        "
+      >
+        {{ password.getError('passwordStrength') ?? 'password must be at least 8 characters' }}
+      </mat-error>
+    </mat-form-field>
+
+    <cn-button-with-spinner class="sign-in__submit" [isDisabled]="signUpForm.invalid" [isLoading$]="isLoading$"
+      >Sign in</cn-button-with-spinner
+    >
+  </form>
+</div>

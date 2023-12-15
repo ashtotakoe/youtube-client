@@ -5,7 +5,7 @@ import { catchError, type Observable, throwError } from 'rxjs'
 import { ConnectionsApiSlugs } from '../enums/connections-api-slugs.enum'
 import { ErrorMessages } from '../enums/error-messages.enum'
 import { API_URL } from '../tokens/api-url.token'
-import type { UserData } from 'src/app/shared/models/user-data.model'
+import type { UserRegistrationData } from 'src/app/shared/models/user-data.model'
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class ConnectionsHttpService {
     @Inject(API_URL) private apiUrl: string,
   ) {}
 
-  public signUp({ name, email, password }: UserData): Observable<HttpResponse<string>> {
+  public signUp({ name, email, password }: UserRegistrationData): Observable<HttpResponse<string>> {
     return this.httpClient
       .post(
         `${this.apiUrl}${ConnectionsApiSlugs.Registration}`,

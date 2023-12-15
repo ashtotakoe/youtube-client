@@ -5,7 +5,7 @@ import { signUpPageActions } from './actions/sing-up-page.actions'
 import type { AuthState } from './models/auth-state.model'
 
 const authInitialState: AuthState = {
-  user: null,
+  userRegistrationData: null,
   isLoading: false,
   errorMessage: null,
 }
@@ -17,16 +17,16 @@ export const authReducer = createReducer(
     isLoading: true,
   })),
 
-  on(connectionsApiActions.signUpSuccess, (state, { userData }) => ({
+  on(connectionsApiActions.signUpSuccess, (state, { userRegistrationData }) => ({
     ...state,
-    user: userData,
+    userRegistrationData,
     isLoading: false,
   })),
 
   on(connectionsApiActions.signUpFailure, (state, { errorMessage }) => ({
     ...state,
     errorMessage,
-    user: null,
+    userRegistrationData: null,
     isLoading: false,
   })),
 )
