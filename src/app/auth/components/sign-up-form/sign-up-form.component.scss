@@ -1,3 +1,5 @@
+@import '../../../../mixins';
+
 /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
 :host ::ng-deep {
   .mat-mdc-form-field {
@@ -7,17 +9,5 @@
 }
 
 .sign-up {
-  max-width: 30rem;
-  margin: auto;
-  margin-top: 3rem;
-  padding: 1rem;
-
-  &__title {
-    text-align: center;
-  }
-
-  &__submit {
-    display: block;
-    margin: auto;
-  }
+  @include registration-form;
 }

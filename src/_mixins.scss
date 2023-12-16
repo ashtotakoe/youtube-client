@@ -1,0 +1,21 @@
+@mixin registration-form {
+  max-width: 30rem;
+  margin: auto;
+  margin-top: 3rem;
+  padding: 1rem;
+
+  &__title {
+    text-align: center;
+  }
+
+  &__submit {
+    display: block;
+    margin: auto;
+  }
+
+  &__button {
+    display: block;
+    margin: auto;
+    margin-top: 3rem;
+  }
+}

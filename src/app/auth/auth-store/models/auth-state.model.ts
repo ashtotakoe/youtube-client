@@ -1,7 +1,5 @@
-import type { UserData } from 'src/app/shared/models/user-data.model'
-
 export interface AuthState {
-  user: UserData | null
+  isUserAuthorized: boolean
   isLoading: boolean
   errorMessage: string | null
 }

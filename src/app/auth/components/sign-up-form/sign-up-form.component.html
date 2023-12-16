@@ -31,6 +31,12 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-flat-button class="sign-up__submit" color="primary" [disabled]="signUpForm.invalid">Submit</button>
+    <cn-button-with-spinner class="sign-up__submit" [isDisabled]="signUpForm.invalid" [isLoading$]="isLoading$"
+      >Sign up</cn-button-with-spinner
+    >
   </form>
+
+  <button mat-flat-button [routerLink]="['/', 'auth', 'signin']" class="sign-up__button">
+    Already have an account?
+  </button>
 </div>

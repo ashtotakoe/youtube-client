@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  width: fit-content;
+  margin: auto;
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  ::ng-deep {
+    .mat-mdc-form-field {
+      width: 100%;
+      margin-top: 0.5rem;
+    }
+
+    .mat-mdc-unelevated-button > .mat-icon,
+    .mat-mdc-raised-button > .mat-icon,
+    .mat-mdc-outlined-button > .mat-icon {
+      margin: 0;
+    }
+  }
+}
