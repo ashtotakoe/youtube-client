@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap } from 'rxjs'
 
-import { connectionsApiActions } from './actions/connections-api.actions'
+import { connectionsRegistrationApiActions } from './actions/connections-registration-api.actions'
 import { signInPageActions } from './actions/sign-in-page.actions'
 import { signUpPageActions } from './actions/sing-up-page.actions'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
@@ -34,17 +34,17 @@ export class AuthEffects {
             if (response.ok) {
               this.router.navigate(['/', 'auth', AuthRoutePaths.SignIn], { replaceUrl: true }).catch(() => null)
 
-              return connectionsApiActions.signUpSuccess()
+              return connectionsRegistrationApiActions.signUpSuccess()
             }
 
-            return connectionsApiActions.signUpFailure({
+            return connectionsRegistrationApiActions.signUpFailure({
               errorMessage: ErrorMessages.SomethingWentWrong,
             })
           }),
           catchError(({ message }: Error) => {
             this.matSnackBarService.open(message)
 
-            return of(connectionsApiActions.signUpFailure({ errorMessage: message }))
+            return of(connectionsRegistrationApiActions.signUpFailure({ errorMessage: message }))
           }),
         ),
       ),
@@ -65,19 +65,19 @@ export class AuthEffects {
 
               this.router.navigate(['/', 'home'], { replaceUrl: true }).catch(() => null)
 
-              return connectionsApiActions.signInSuccess()
+              return connectionsRegistrationApiActions.signInSuccess()
             }
 
             this.localStorageService.clear()
 
-            return connectionsApiActions.signInFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+            return connectionsRegistrationApiActions.signInFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
           }),
           catchError(({ message }: Error) => {
             this.localStorageService.clear()
 
             this.matSnackBarService.open(message)
 
-            return of(connectionsApiActions.signInFailure({ errorMessage: message }))
+            return of(connectionsRegistrationApiActions.signInFailure({ errorMessage: message }))
           }),
         ),
       ),

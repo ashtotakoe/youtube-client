@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http'
+import { provideHttpClient, withInterceptors } from '@angular/common/http'
 import { isDevMode, NgModule } from '@angular/core'
 import { MAT_SNACK_BAR_DEFAULT_OPTIONS, MatSnackBarModule } from '@angular/material/snack-bar'
 import { BrowserModule } from '@angular/platform-browser'
@@ -10,6 +10,8 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 
 import { AppComponent } from './app.component'
 import { appRoutes } from './app.routes'
+import { profileHttpInterceptor } from './core/api/interceptors/profile.interceptor'
+import { CoreModule } from './core/core.module'
 
 @NgModule({
   declarations: [AppComponent],
@@ -21,8 +23,12 @@ import { appRoutes } from './app.routes'
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     MatSnackBarModule,
+    CoreModule,
   ],
-  providers: [provideHttpClient(), { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } }],
+  providers: [
+    provideHttpClient(withInterceptors([profileHttpInterceptor])),
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500 } },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

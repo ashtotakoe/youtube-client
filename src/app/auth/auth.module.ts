@@ -15,6 +15,7 @@ import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spi
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
 import { AuthEffects } from './auth-store/auth.effects'
 import { authReducer } from './auth-store/auth.reducer'
+import { AuthFacade } from './auth-store/services/auth.facade'
 import { authRoutes } from './auth.routes'
 import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component'
 import { SignUpFormComponent } from './components/sign-up-form/sign-up-form.component'
@@ -23,6 +24,7 @@ import { SignUpPageComponent } from './pages/sign-up-page/sign-up-page.component
 
 @NgModule({
   declarations: [SignUpPageComponent, SignInPageComponent, SignUpFormComponent, SignInFormComponent],
+  providers: [AuthFacade],
   imports: [
     CommonModule,
     RouterModule.forChild(authRoutes),
