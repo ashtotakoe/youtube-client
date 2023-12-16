@@ -15,5 +15,5 @@ import { Observable } from 'rxjs'
 })
 export class ButtonWithSpinnerComponent {
   @Input() public isLoading$!: Observable<boolean>
-  @Input() public isDisabled!: boolean
+  @Input() public isDisabled = false
 }

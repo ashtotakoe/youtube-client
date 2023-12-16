@@ -14,4 +14,8 @@ export class ProfileFacade {
   public loadProfileData(): void {
     this.store.dispatch(profilePageActions.loadProfileData())
   }
+
+  public changeUserName(name: string): void {
+    this.store.dispatch(profilePageActions.changeUserName({ name }))
+  }
 }
