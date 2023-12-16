@@ -1,4 +1,4 @@
-export interface UserProfileData {
+export interface ProfileData {
   name: string
   email: string
   uid: string

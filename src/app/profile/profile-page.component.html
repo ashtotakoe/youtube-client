@@ -1,1 +1,19 @@
-<p>profile-page works!</p>
+<h1 class="mat-heading-1">Profile</h1>
+
+<mat-card *ngIf="profileData$ | async as profileData; else loading" class="mat-elevation-z8 profile">
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item> Email: {{ profileData.email }} </mat-list-item>
+
+      <mat-list-item> Name: {{ profileData.name }} </mat-list-item>
+
+      <mat-list-item> Uid: {{ profileData.uid }} </mat-list-item>
+
+      <mat-list-item> CreatedAt: {{ profileData.createdAt | date }} </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+</mat-card>
+
+<button routerLink="/auth">to home</button>
+
+<ng-template #loading></ng-template>

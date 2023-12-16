@@ -9,6 +9,8 @@ import { ProfileFacade } from './profile-store/services/profile.facade'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProfilePageComponent implements OnInit {
+  public profileData$ = this.profileFacade.profileData$
+
   constructor(private profileFacade: ProfileFacade) {}
 
   public ngOnInit(): void {

@@ -1,7 +1,7 @@
-import type { UserProfileData } from '../../models/user-profile-data.model'
+import type { ProfileData } from '../../models/user-profile-data.model'
 
 export interface ProfileState {
   isLoading: boolean
-  profile: UserProfileData | null
+  profileData: ProfileData | null
   errorMessage: string | null
 }

@@ -1,12 +1,13 @@
 import { HttpClient, type HttpErrorResponse, type HttpResponse } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
-import { catchError, type Observable, throwError } from 'rxjs'
+import { catchError, map, type Observable, throwError } from 'rxjs'
 
 import { ConnectionsApiSlugs } from '../../enums/connections-api-slugs.enum'
 import { ErrorMessages } from '../../enums/error-messages.enum'
 import type { ConnectionsApiError } from '../models/connections-api-error.model'
 import { API_URL } from '../tokens/api-url.token'
-import type { UserProfileData } from 'src/app/profile/models/user-profile-data.model'
+import type { ProfileResponse } from 'src/app/profile/models/profile-response.model'
+import type { ProfileData } from 'src/app/profile/models/user-profile-data.model'
 import type { UserSignUpData } from 'src/app/shared/models/user-sign-up-data.model'
 import type { UserSignInData } from 'src/app/shared/types/user-sign-in-data.type'
 
@@ -72,8 +73,14 @@ export class ConnectionsHttpService {
       )
   }
 
-  public getUserProfile(): Observable<UserProfileData> {
-    return this.httpClient.get<UserProfileData>(`${this.apiUrl}${ConnectionsApiSlugs.Profile}`).pipe(
+  public getUserProfile(): Observable<ProfileData> {
+    return this.httpClient.get<ProfileResponse>(`${this.apiUrl}${ConnectionsApiSlugs.Profile}`).pipe(
+      map(({ email, name, uid, createdAt }: ProfileResponse) => ({
+        email: email.S,
+        name: name.S,
+        uid: uid.S,
+        createdAt: createdAt.S,
+      })),
       catchError(({ error }: HttpErrorResponse) => {
         const { message } = error as ConnectionsApiError
 

@@ -5,7 +5,7 @@ import { profilePageActions } from './actions/profile-page.actions'
 import type { ProfileState } from './models/profile-state.model'
 
 const profileInitialState: ProfileState = {
-  profile: null,
+  profileData: null,
   isLoading: false,
   errorMessage: null,
 }
@@ -16,9 +16,9 @@ export const profileReducer = createReducer(
     ...state,
     isLoading: true,
   })),
-  on(connectionsProfileApiActions.loadProfileDataSuccess, (state, { userProfileData }) => ({
+  on(connectionsProfileApiActions.loadProfileDataSuccess, (state, { profileData }) => ({
     ...state,
-    profile: userProfileData,
+    profileData,
     isLoading: false,
     errorMessage: null,
   })),

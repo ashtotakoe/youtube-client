@@ -11,6 +11,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools'
 import { AppComponent } from './app.component'
 import { appRoutes } from './app.routes'
 import { profileHttpInterceptor } from './core/api/interceptors/profile.interceptor'
+import { CoreModule } from './core/core.module'
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,6 +23,7 @@ import { profileHttpInterceptor } from './core/api/interceptors/profile.intercep
     EffectsModule.forRoot([]),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: !isDevMode() }),
     MatSnackBarModule,
+    CoreModule,
   ],
   providers: [
     provideHttpClient(withInterceptors([profileHttpInterceptor])),
