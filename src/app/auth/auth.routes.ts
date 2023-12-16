@@ -17,6 +17,6 @@ export const authRoutes: Routes = [
 
   {
     path: '**',
-    redirectTo: 'signup',
+    redirectTo: 'signin',
   },
 ]

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
 
 import { AuthFacade } from '../../auth-store/services/auth.facade'
@@ -9,6 +9,7 @@ import { convertToUserRegistrationData } from 'src/app/shared/utils/convert-to-u
   selector: 'cn-sign-up-form',
   templateUrl: './sign-up-form.component.html',
   styleUrls: ['./sign-up-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SignUpFormComponent {
   public isLoading$ = this.authFacade.isLoading$

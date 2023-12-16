@@ -1,11 +1,12 @@
-import { createActionGroup, props } from '@ngrx/store'
-
-import type { UserRegistrationData } from 'src/app/shared/models/user-data.model'
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
 
 export const connectionsApiActions = createActionGroup({
   source: 'Connections Api',
   events: {
-    'Sign Up Success': props<{ userRegistrationData: UserRegistrationData }>(),
+    'Sign Up Success': emptyProps(),
     'Sign Up Failure': props<{ errorMessage: string }>(),
+
+    'Sign In Success': emptyProps(),
+    'Sign In Failure': props<{ errorMessage: string }>(),
   },
 })

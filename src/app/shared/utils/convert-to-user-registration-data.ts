@@ -1,7 +1,7 @@
-import type { UserRegistrationData } from '../models/user-data.model'
+import type { UserSignUpData } from '../models/user-sign-up-data.model'
 import type { BaseWithNull } from '../types/base-with-null.type'
 
-export const convertToUserRegistrationData = (data: BaseWithNull<UserRegistrationData>): UserRegistrationData => ({
+export const convertToUserRegistrationData = (data: BaseWithNull<UserSignUpData>): UserSignUpData => ({
   name: data.name ?? '',
   email: data.email ?? '',
   password: data.password ?? '',
