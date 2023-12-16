@@ -6,7 +6,7 @@ export const appRoutes: Routes = [
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.module').then(m => m.AuthModule),
-    canActivate: [mustUserBeAuthorizedGuard(false)],
+    canMatch: [mustUserBeAuthorizedGuard(false)],
   },
 
   {
@@ -16,7 +16,13 @@ export const appRoutes: Routes = [
   },
 
   {
+    path: 'profile',
+    loadChildren: () => import('./profile/profile.module').then(m => m.ProfileModule),
+    canMatch: [mustUserBeAuthorizedGuard(true)],
+  },
+
+  {
     path: '**',
-    redirectTo: 'auth',
+    redirectTo: 'home',
   },
 ]

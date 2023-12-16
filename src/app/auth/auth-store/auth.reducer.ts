@@ -1,12 +1,11 @@
 import { createReducer, on } from '@ngrx/store'
 
-import { connectionsApiActions } from './actions/connections-api.actions'
+import { connectionsRegistrationApiActions } from './actions/connections-registration-api.actions'
 import { signInPageActions } from './actions/sign-in-page.actions'
 import { signUpPageActions } from './actions/sing-up-page.actions'
 import type { AuthState } from './models/auth-state.model'
 
 const authInitialState: AuthState = {
-  isUserAuthorized: false,
   isLoading: false,
   errorMessage: null,
 }
@@ -18,13 +17,13 @@ export const authReducer = createReducer(
     isLoading: true,
   })),
 
-  on(connectionsApiActions.signUpSuccess, state => ({
+  on(connectionsRegistrationApiActions.signUpSuccess, state => ({
     ...state,
     isLoading: false,
     errorMessage: null,
   })),
 
-  on(connectionsApiActions.signUpFailure, (state, { errorMessage }) => ({
+  on(connectionsRegistrationApiActions.signUpFailure, (state, { errorMessage }) => ({
     ...state,
     errorMessage,
     isLoading: false,
@@ -35,16 +34,15 @@ export const authReducer = createReducer(
     isLoading: true,
   })),
 
-  on(connectionsApiActions.signInSuccess, state => ({
+  on(connectionsRegistrationApiActions.signInSuccess, state => ({
     ...state,
-    isUserAuthorized: true,
     isLoading: false,
+    errorMessage: null,
   })),
 
-  on(connectionsApiActions.signInFailure, (state, { errorMessage }) => ({
+  on(connectionsRegistrationApiActions.signInFailure, (state, { errorMessage }) => ({
     ...state,
     errorMessage,
-    isUserAuthorized: false,
     isLoading: false,
   })),
 )
