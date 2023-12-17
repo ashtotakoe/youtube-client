@@ -88,4 +88,27 @@ export class ConnectionsHttpService {
       }),
     )
   }
+
+  public changeUserName(name: string): Observable<HttpResponse<string>> {
+    return this.httpClient
+      .put(
+        `${this.apiUrl}${ConnectionsApiSlugs.Profile}`,
+        { name },
+        {
+          observe: 'response',
+          responseType: 'text',
+        },
+      )
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          let errorMessage: string | undefined
+
+          if (typeof error === 'string') {
+            errorMessage = (JSON.parse(error) as ConnectionsApiError).message
+          }
+
+          return throwError(() => new Error(errorMessage ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
 }

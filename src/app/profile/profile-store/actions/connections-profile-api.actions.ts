@@ -7,5 +7,8 @@ export const connectionsProfileApiActions = createActionGroup({
   events: {
     'Load Profile Data Success': props<{ profileData: ProfileData }>(),
     'Load Profile Data Failure': props<{ errorMessage: string }>(),
+
+    'Change User Name Success': props<{ name: string }>(),
+    'Change User Name Failure': props<{ errorMessage: string }>(),
   },
 })

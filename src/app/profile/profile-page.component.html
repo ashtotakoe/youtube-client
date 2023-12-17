@@ -1,19 +1,35 @@
-<h1 class="mat-heading-1">Profile</h1>
+<ng-container *ngIf="facadeData$ | async as facadeData">
+  <h1 class="mat-heading-1">Profile</h1>
 
-<mat-card *ngIf="profileData$ | async as profileData; else loading" class="mat-elevation-z8 profile">
-  <mat-card-content>
-    <mat-list>
-      <mat-list-item> Email: {{ profileData.email }} </mat-list-item>
+  <mat-card *ngIf="facadeData.profileData as profileData; else loading" class="mat-elevation-z8 profile">
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item> Email: {{ profileData.email }} </mat-list-item>
 
-      <mat-list-item> Name: {{ profileData.name }} </mat-list-item>
+        <mat-list-item>
+          Name:
+          <ng-container *ngIf="!isEditing; else editing">
+            {{ profileData.name }}
+          </ng-container>
+          <button *ngIf="!isEditing" mat-button color="primary" (click)="toggleEdit(profileData.name)">change</button>
+        </mat-list-item>
 
-      <mat-list-item> Uid: {{ profileData.uid }} </mat-list-item>
+        <mat-list-item> Uid: {{ profileData.uid }} </mat-list-item>
 
-      <mat-list-item> CreatedAt: {{ profileData.createdAt | date }} </mat-list-item>
-    </mat-list>
-  </mat-card-content>
-</mat-card>
+        <mat-list-item> CreatedAt: {{ profileData.createdAt | date }} </mat-list-item>
+      </mat-list>
+    </mat-card-content>
+  </mat-card>
 
-<button routerLink="/auth">to home</button>
+  <div class="editor-controls" *ngIf="isEditing">
+    <button mat-button [disabled]="facadeData.isLoading" (click)="toggleEdit()">Cancel</button>
+    <cn-button-with-spinner (click)="changeName()" [isLoading$]="isLoading$">Save</cn-button-with-spinner>
+  </div>
 
-<ng-template #loading></ng-template>
+  <button mat-raised-button class="button" routerLink="/auth">home</button>
+
+  <ng-template #loading>Loading</ng-template>
+  <ng-template #editing>
+    <input matInput [disabled]="facadeData.isLoading" [(ngModel)]="userName" type="text" />
+  </ng-template>
+</ng-container>
