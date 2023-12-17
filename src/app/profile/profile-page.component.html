@@ -1,7 +1,7 @@
 <ng-container *ngIf="facadeData$ | async as facadeData">
   <h1 class="mat-heading-1 heading">Profile</h1>
 
-  <cn-button-with-spinner class="logout-button" (click)="logOut()" color="warn" [isLoading$]="isLoading$"
+  <cn-button-with-spinner class="logout-button" (buttonClicked)="logOut()" color="warn" [isLoading$]="isLoading$"
     >Log out</cn-button-with-spinner
   >
 
@@ -27,7 +27,7 @@
 
   <div class="editor-controls" *ngIf="isEditing">
     <button mat-button [disabled]="facadeData.isLoading" (click)="toggleEdit()">Cancel</button>
-    <cn-button-with-spinner (click)="changeName()" [isLoading$]="isLoading$">Save</cn-button-with-spinner>
+    <cn-button-with-spinner (buttonClicked)="changeName()" [isLoading$]="isLoading$">Save</cn-button-with-spinner>
   </div>
 
   <button mat-raised-button class="button" routerLink="/auth">home</button>

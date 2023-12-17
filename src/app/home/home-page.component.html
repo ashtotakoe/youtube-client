@@ -1,2 +1,10 @@
-<p>home-page works!</p>
-<button routerLink="/profile">to profile</button>
+<mat-grid-list cols="3" class="grid" rowHeight="100vh">
+  <mat-grid-tile>
+    <button routerLink="/profile">to profile</button>
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    <cn-button-with-countdown (click)="test()">Reload</cn-button-with-countdown>
+
+    <button (click)="startCountdown()">start countdown</button>
+  </mat-grid-tile>
+</mat-grid-list>
