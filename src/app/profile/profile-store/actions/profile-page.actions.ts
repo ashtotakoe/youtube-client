@@ -5,5 +5,6 @@ export const profilePageActions = createActionGroup({
   events: {
     'Load Profile Data': emptyProps(),
     'Change User Name': props<{ name: string }>(),
+    'Log Out': emptyProps(),
   },
 })

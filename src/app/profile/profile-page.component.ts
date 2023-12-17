@@ -42,4 +42,8 @@ export class ProfilePageComponent implements OnInit {
   public changeName(): void {
     this.profileFacade.changeUserName(this.userName)
   }
+
+  public logOut(): void {
+    this.profileFacade.logOut()
+  }
 }

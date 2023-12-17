@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs'
 
@@ -7,7 +8,9 @@ import { profilePageActions } from './actions/profile-page.actions'
 import { ProfileFacade } from './services/profile.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
 import { ErrorMessages } from 'src/app/core/enums/error-messages.enum'
+import { LocalStorageService } from 'src/app/core/services/local-storage.service'
 import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
+import { AuthRoutePaths } from 'src/app/shared/enums/auth-route-paths.enum'
 
 @Injectable()
 export class ProfileEffects {
@@ -16,6 +19,8 @@ export class ProfileEffects {
     private connectionsHttpService: ConnectionsHttpService,
     private snackBarService: MatSnackBarService,
     private profileFacade: ProfileFacade,
+    private localStorageService: LocalStorageService,
+    private router: Router,
   ) {}
 
   public loadProfileDataEffect$ = createEffect(() =>
@@ -64,6 +69,36 @@ export class ProfileEffects {
             this.snackBarService.open(message)
 
             return of(connectionsProfileApiActions.changeUserNameFailure({ errorMessage: message }))
+          }),
+        ),
+      ),
+    ),
+  )
+
+  public logOutEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(profilePageActions.logOut),
+      switchMap(() =>
+        this.connectionsHttpService.logOut().pipe(
+          map(response => {
+            if (response.ok) {
+              this.snackBarService.open('logout success')
+
+              this.localStorageService.clear()
+              this.router.navigate(['/', 'auth', AuthRoutePaths.SignIn], { replaceUrl: true }).catch(() => null)
+
+              return connectionsProfileApiActions.logOutSuccess()
+            }
+
+            this.snackBarService.open(ErrorMessages.SomethingWentWrong)
+
+            return connectionsProfileApiActions.logOutFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+          }),
+
+          catchError(({ message }: Error) => {
+            this.snackBarService.open(message)
+
+            return of(connectionsProfileApiActions.logOutFailure({ errorMessage: message }))
           }),
         ),
       ),

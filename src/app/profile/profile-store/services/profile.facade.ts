@@ -15,6 +15,10 @@ export class ProfileFacade {
     this.store.dispatch(profilePageActions.loadProfileData())
   }
 
+  public logOut(): void {
+    this.store.dispatch(profilePageActions.logOut())
+  }
+
   public changeUserName(name: string): void {
     this.store.dispatch(profilePageActions.changeUserName({ name }))
   }

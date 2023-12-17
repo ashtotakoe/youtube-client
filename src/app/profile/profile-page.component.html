@@ -1,5 +1,9 @@
 <ng-container *ngIf="facadeData$ | async as facadeData">
-  <h1 class="mat-heading-1">Profile</h1>
+  <h1 class="mat-heading-1 heading">Profile</h1>
+
+  <cn-button-with-spinner class="logout-button" (click)="logOut()" color="warn" [isLoading$]="isLoading$"
+    >Log out</cn-button-with-spinner
+  >
 
   <mat-card *ngIf="facadeData.profileData as profileData; else loading" class="mat-elevation-z8 profile">
     <mat-card-content>
