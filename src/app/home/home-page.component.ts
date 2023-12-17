@@ -10,11 +10,8 @@ import { CountdownService } from '../shared/services/countdown.service'
 })
 export class HomePageComponent {
   constructor(private countdownService: CountdownService) {}
-  public test(): void {
-    console.log('test')
-  }
 
-  public startCountdown(): void {
+  public onClick(): void {
     this.countdownService.startCountdown()
   }
 }
