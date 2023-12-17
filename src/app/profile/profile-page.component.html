@@ -5,7 +5,7 @@
     >Log out</cn-button-with-spinner
   >
 
-  <mat-card *ngIf="facadeData.profileData as profileData; else loading" class="mat-elevation-z8 profile">
+  <mat-card *ngIf="facadeData.profileData as profileData; else loading" class="mat-elevation-z8 profile-card">
     <mat-card-content>
       <mat-list>
         <mat-list-item> Email: {{ profileData.email }} </mat-list-item>
@@ -30,7 +30,7 @@
     <cn-button-with-spinner (buttonClicked)="changeName()" [isLoading$]="isLoading$">Save</cn-button-with-spinner>
   </div>
 
-  <button mat-raised-button class="button" routerLink="/auth">home</button>
+  <button mat-button color="primary" class="button" [routerLink]="['/', 'home']">home</button>
 
   <ng-template #loading>Loading</ng-template>
   <ng-template #editing>

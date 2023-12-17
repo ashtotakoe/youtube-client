@@ -1,0 +1,7 @@
+<cn-button-with-countdown (buttonClicked)="refreshGroups()">Reload</cn-button-with-countdown>
+
+<mat-list role="list" class="groups-wrapper" *ngIf="groups$ | async as groups">
+  <mat-list-item role="listitem" class="groups" *ngFor="let group of groups">
+    <h4 matListItemTitle>{{ group.name }}</h4>
+  </mat-list-item>
+</mat-list>

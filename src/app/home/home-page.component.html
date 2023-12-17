@@ -1,8 +1,9 @@
-<mat-grid-list cols="3" class="grid" rowHeight="100vh">
+<mat-grid-list cols="3" class="grid" rowHeight="90vh">
   <mat-grid-tile>
-    <button routerLink="/profile">to profile</button>
+    <cn-group-list />
   </mat-grid-tile>
   <mat-grid-tile colspan="2">
-    <cn-button-with-countdown (buttonClicked)="onClick()">Reload</cn-button-with-countdown>
+    <h1 class="mat-headline">Connections</h1>
   </mat-grid-tile>
 </mat-grid-list>
+<button mat-button color="primary" [routerLink]="['/', 'profile']" class="nav-button">to profile</button>

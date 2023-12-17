@@ -6,8 +6,9 @@ import { ConnectionsApiSlugs } from '../../enums/connections-api-slugs.enum'
 import { ErrorMessages } from '../../enums/error-messages.enum'
 import type { ConnectionsApiError } from '../models/connections-api-error.model'
 import { API_URL } from '../tokens/api-url.token'
-import type { ProfileResponse } from 'src/app/profile/models/profile-response.model'
+import type { GroupListResponse } from 'src/app/home/models/group-list-repsponse.model'
 import type { ProfileData } from 'src/app/profile/models/user-profile-data.model'
+import type { ProfileResponse } from 'src/app/profile/types/profile-response.type'
 import type { UserSignUpData } from 'src/app/shared/models/user-sign-up-data.model'
 import type { UserSignInData } from 'src/app/shared/types/user-sign-in-data.type'
 
@@ -133,5 +134,15 @@ export class ConnectionsHttpService {
           return throwError(() => new Error(errorMessage ?? ErrorMessages.SomethingWentWrong))
         }),
       )
+  }
+
+  public loadGroups(): Observable<GroupListResponse> {
+    return this.httpClient.get<GroupListResponse>(`${this.apiUrl}${ConnectionsApiSlugs.Groups}/list`).pipe(
+      catchError(({ error }: HttpErrorResponse) => {
+        const { message } = error as ConnectionsApiError
+
+        return throwError(() => new Error(message ?? ErrorMessages.SomethingWentWrong))
+      }),
+    )
   }
 }
