@@ -1,3 +1,13 @@
+:host {
+  display: block;
+  max-width: 32rem;
+  margin: auto;
+}
+
+.heading {
+  text-align: center;
+}
+
 .profile {
   max-width: 30rem;
   margin: auto;
@@ -7,6 +17,13 @@
   display: block;
   margin: auto;
   margin-top: 2rem;
+}
+
+.logout-button {
+  display: block;
+  width: fit-content;
+  margin: 1rem;
+  margin-left: auto;
 }
 
 .editor-controls {

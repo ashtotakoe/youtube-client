@@ -111,4 +111,27 @@ export class ConnectionsHttpService {
         }),
       )
   }
+
+  public logOut(): Observable<HttpResponse<string>> {
+    return this.httpClient
+      .delete(
+        `${this.apiUrl}${ConnectionsApiSlugs.Logout}`,
+
+        {
+          observe: 'response',
+          responseType: 'text',
+        },
+      )
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          let errorMessage: string | undefined
+
+          if (typeof error === 'string') {
+            errorMessage = (JSON.parse(error) as ConnectionsApiError).message
+          }
+
+          return throwError(() => new Error(errorMessage ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
 }

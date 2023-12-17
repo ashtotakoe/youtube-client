@@ -50,4 +50,22 @@ export const profileReducer = createReducer(
     isLoading: false,
     errorMessage,
   })),
+
+  on(profilePageActions.logOut, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsProfileApiActions.logOutSuccess, state => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    profileData: null,
+  })),
+
+  on(connectionsProfileApiActions.logOutFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
 )

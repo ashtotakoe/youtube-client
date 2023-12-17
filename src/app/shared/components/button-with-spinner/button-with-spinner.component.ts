@@ -16,4 +16,5 @@ import { Observable } from 'rxjs'
 export class ButtonWithSpinnerComponent {
   @Input() public isLoading$!: Observable<boolean>
   @Input() public isDisabled = false
+  @Input() public color = 'primary'
 }
