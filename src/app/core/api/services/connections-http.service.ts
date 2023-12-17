@@ -91,7 +91,7 @@ export class ConnectionsHttpService {
 
   public changeUserName(name: string): Observable<HttpResponse<string>> {
     return this.httpClient
-      .post(
+      .put(
         `${this.apiUrl}${ConnectionsApiSlugs.Profile}`,
         { name },
         {
