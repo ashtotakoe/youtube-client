@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core'
-import { interval, map, Subject, take } from 'rxjs'
+import { interval, map, ReplaySubject, type Subscription, take } from 'rxjs'
 
 @Injectable({
   providedIn: 'root',
 })
 export class CountdownService {
-  private countdown = new Subject<number | null>()
+  private countdown = new ReplaySubject<number | null>(1)
 
   public countdown$ = this.countdown.asObservable()
 
   private isCountdownGoing = false
+  private subscription: Subscription | undefined
 
   public startCountdown(): void {
     if (!this.isCountdownGoing) {
       this.isCountdownGoing = true
 
-      interval(1000)
+      this.subscription = interval(1000)
         .pipe(
           map(value => 60 - (value + 1)),
           take(60),
@@ -26,6 +27,7 @@ export class CountdownService {
           },
           complete: () => {
             this.isCountdownGoing = false
+            this.subscription?.unsubscribe()
             this.countdown.next(null)
           },
         })
