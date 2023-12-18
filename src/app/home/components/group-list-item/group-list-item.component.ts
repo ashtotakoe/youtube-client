@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core'
 
+import { HomeFacade } from '../../home-store/services/home.facade'
 import { Group } from '../../models/group.model'
 
 @Component({
@@ -9,4 +10,16 @@ import { Group } from '../../models/group.model'
 })
 export class GroupListItemComponent {
   @Input() public group!: Group
+
+  public isConfirmationOpened = false
+
+  constructor(private homeFacade: HomeFacade) {}
+
+  public toggleConfirmation(): void {
+    this.isConfirmationOpened = !this.isConfirmationOpened
+  }
+
+  public deleteGroup(): void {
+    this.homeFacade.deleteGroup(this.group.id)
+  }
 }

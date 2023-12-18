@@ -11,5 +11,8 @@ export const connectionsGroupsApiActions = createActionGroup({
 
     'Create Group Success': props<{ group: Group }>(),
     'Create Group Failure': props<{ errorMessage: string }>(),
+
+    'Delete Group Success': props<{ groupId: string }>(),
+    'Delete Group Failure': props<{ errorMessage: string }>(),
   },
 })

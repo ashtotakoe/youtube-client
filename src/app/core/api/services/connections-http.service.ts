@@ -158,4 +158,26 @@ export class ConnectionsHttpService {
         }),
       )
   }
+
+  public deleteGroup(groupID: string): Observable<HttpResponse<string>> {
+    return this.httpClient
+      .delete(`${this.apiUrl}${ConnectionsApiSlugs.Groups}/delete`, {
+        params: {
+          groupID,
+        },
+        responseType: 'text',
+        observe: 'response',
+      })
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          let errorMessage: string | undefined
+
+          if (typeof error === 'string') {
+            errorMessage = (JSON.parse(error) as ConnectionsApiError).message
+          }
+
+          return throwError(() => new Error(errorMessage ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
 }

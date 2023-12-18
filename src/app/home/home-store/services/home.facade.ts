@@ -19,4 +19,8 @@ export class HomeFacade {
   public createNewGroup(newGroupName: string): void {
     this.store.dispatch(createGroupFormActions.createNewGroup({ newGroupName }))
   }
+
+  public deleteGroup(groupId: string): void {
+    this.store.dispatch(groupsListActions.deleteGroup({ groupId }))
+  }
 }

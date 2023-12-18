@@ -67,10 +67,14 @@ export class HomeEffects {
           // eslint-disable-next-line @typescript-eslint/naming-convention
           map(([{ groupID }, profileData]) => {
             if (!profileData) {
+              this.snackbarService.open(ErrorMessages.ProfileWasNotFound)
+
               return connectionsGroupsApiActions.createGroupFailure({
                 errorMessage: ErrorMessages.ProfileWasNotFound,
               })
             }
+
+            this.snackbarService.open('Group was created')
 
             return connectionsGroupsApiActions.createGroupSuccess({
               group: {
@@ -87,6 +91,30 @@ export class HomeEffects {
             this.snackbarService.open(message)
 
             return of(connectionsGroupsApiActions.createGroupFailure({ errorMessage: message }))
+          }),
+        ),
+      ),
+    ),
+  )
+
+  public deleteGroupEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(groupsListActions.deleteGroup),
+      switchMap(({ groupId }) =>
+        this.connectionsHttpService.deleteGroup(groupId).pipe(
+          map(response => {
+            if (response.ok) {
+              this.snackbarService.open('Group was deleted')
+
+              return connectionsGroupsApiActions.deleteGroupSuccess({ groupId })
+            }
+
+            return connectionsGroupsApiActions.createGroupFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+          }),
+          catchError(({ message }: Error) => {
+            this.snackbarService.open(message)
+
+            return of(connectionsGroupsApiActions.deleteGroupFailure({ errorMessage: message }))
           }),
         ),
       ),

@@ -1,5 +1,16 @@
-<mat-list-item role="listitem">
-  <h4 matListItemTitle>
+<div role="listitem">
+  <a class="mat-h4 group-name" [routerLink]="['/', 'home', 'group', group.id]">
     {{ group.name }}
-  </h4>
-</mat-list-item>
+  </a>
+
+  <button mat-button *ngIf="group.isCreatedByMe && !isConfirmationOpened" (click)="toggleConfirmation()">Delete</button>
+  <span *ngIf="isConfirmationOpened">
+    <span class="warning-prompt mat-body">Are you sure?</span>
+    <button mat-icon-button (click)="toggleConfirmation()">
+      <mat-icon>close</mat-icon>
+    </button>
+    <button mat-icon-button (click)="deleteGroup()">
+      <mat-icon>done</mat-icon>
+    </button>
+  </span>
+</div>

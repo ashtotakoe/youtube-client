@@ -50,4 +50,22 @@ export const homeReducer = createReducer(
     isLoading: false,
     errorMessage,
   })),
+
+  on(groupsListActions.deleteGroup, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsGroupsApiActions.deleteGroupSuccess, (state, { groupId }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    groups: state.groups.filter(group => group.id !== groupId),
+  })),
+
+  on(connectionsGroupsApiActions.deleteGroupFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
 )
