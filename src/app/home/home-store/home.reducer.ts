@@ -1,13 +1,14 @@
 import { createReducer, on } from '@ngrx/store'
 
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
+import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
 import type { HomeState } from './models/home-state.model'
 
 const homeInitialState: HomeState = {
   errorMessage: null,
   isLoading: false,
-  groups: null,
+  groups: [],
 }
 
 export const homeReducer = createReducer(
@@ -29,6 +30,24 @@ export const homeReducer = createReducer(
     ...state,
     errorMessage,
     isLoading: false,
-    groups: null,
+    groups: [],
+  })),
+
+  on(createGroupFormActions.createNewGroup, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsGroupsApiActions.createGroupSuccess, (state, { group }) => ({
+    ...state,
+    isLoading: false,
+    groups: [group, ...state.groups],
+    errorMessage: null,
+  })),
+
+  on(connectionsGroupsApiActions.createGroupFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
   })),
 )

@@ -4,10 +4,13 @@ import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs'
 
 import type { Group } from '../models/group.model'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
+import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
 import { HomeFacade } from './services/home.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
+import { ErrorMessages } from 'src/app/core/enums/error-messages.enum'
 import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
+import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
 
 @Injectable()
 export class HomeEffects {
@@ -16,6 +19,7 @@ export class HomeEffects {
     private connectionsHttpService: ConnectionsHttpService,
     private snackbarService: MatSnackBarService,
     private homeFacade: HomeFacade,
+    private profileFacade: ProfileFacade,
   ) {}
 
   public loadGroupsEffect$ = createEffect(() =>
@@ -23,7 +27,7 @@ export class HomeEffects {
       ofType(groupsListActions.loadGroups),
       withLatestFrom(this.homeFacade.groups$),
       switchMap(([{ isCashed }, groups]) => {
-        if (isCashed && groups) {
+        if (isCashed && groups.length) {
           return of(connectionsGroupsApiActions.loadGroupsSuccess({ groups }))
         }
 
@@ -39,6 +43,8 @@ export class HomeEffects {
           ]),
 
           map((groupsFromApi: Group[]) => {
+            this.snackbarService.open('Groups loaded')
+
             return connectionsGroupsApiActions.loadGroupsSuccess({ groups: groupsFromApi })
           }),
 
@@ -49,6 +55,41 @@ export class HomeEffects {
           }),
         )
       }),
+    ),
+  )
+
+  public createNewGroupEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(createGroupFormActions.createNewGroup),
+      switchMap(({ newGroupName }) =>
+        this.connectionsHttpService.createNewGroup(newGroupName).pipe(
+          withLatestFrom(this.profileFacade.profileData$),
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          map(([{ groupID }, profileData]) => {
+            if (!profileData) {
+              return connectionsGroupsApiActions.createGroupFailure({
+                errorMessage: ErrorMessages.ProfileWasNotFound,
+              })
+            }
+
+            return connectionsGroupsApiActions.createGroupSuccess({
+              group: {
+                id: groupID,
+                name: newGroupName,
+                createdAt: new Date().toISOString(),
+                createdBy: profileData.name,
+                isCreatedByMe: true,
+              },
+            })
+          }),
+
+          catchError(({ message }: Error) => {
+            this.snackbarService.open(message)
+
+            return of(connectionsGroupsApiActions.createGroupFailure({ errorMessage: message }))
+          }),
+        ),
+      ),
     ),
   )
 }

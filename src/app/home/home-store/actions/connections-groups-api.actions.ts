@@ -8,5 +8,8 @@ export const connectionsGroupsApiActions = createActionGroup({
   events: {
     'Load Groups Success': props<{ groups: Group[] }>(),
     'Load Groups Failure': props<{ errorMessage: string }>(),
+
+    'Create Group Success': props<{ group: Group }>(),
+    'Create Group Failure': props<{ errorMessage: string }>(),
   },
 })

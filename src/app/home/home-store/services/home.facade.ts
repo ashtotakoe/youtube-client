@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 
+import { createGroupFormActions } from '../actions/create-group-form.actions'
 import { groupsListActions } from '../actions/group-list.actions'
 import { selectGroups, selectIsLoading } from '../home.selectors'
 
@@ -13,5 +14,9 @@ export class HomeFacade {
 
   public loadGroups({ isCashed }: { isCashed: boolean }): void {
     this.store.dispatch(groupsListActions.loadGroups({ isCashed }))
+  }
+
+  public createNewGroup(newGroupName: string): void {
+    this.store.dispatch(createGroupFormActions.createNewGroup({ newGroupName }))
   }
 }

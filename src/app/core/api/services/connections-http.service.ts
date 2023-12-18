@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { HttpClient, type HttpErrorResponse, type HttpResponse } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { catchError, map, type Observable, throwError } from 'rxjs'
@@ -144,5 +145,17 @@ export class ConnectionsHttpService {
         return throwError(() => new Error(message ?? ErrorMessages.SomethingWentWrong))
       }),
     )
+  }
+
+  public createNewGroup(name: string): Observable<{ groupID: string }> {
+    return this.httpClient
+      .post<{ groupID: string }>(`${this.apiUrl}${ConnectionsApiSlugs.Groups}/create`, { name })
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          const { message } = error as ConnectionsApiError
+
+          return throwError(() => new Error(message ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
   }
 }

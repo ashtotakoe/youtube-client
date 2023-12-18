@@ -1,7 +1,6 @@
-<cn-button-with-countdown (buttonClicked)="refreshGroups()">Reload</cn-button-with-countdown>
+<cn-button-with-countdown class="button" (buttonClicked)="refreshGroups()">Reload</cn-button-with-countdown>
+<button class="button" (click)="openCreateGroupDialog()" mat-button>Create group</button>
 
-<mat-list role="list" class="groups-wrapper" *ngIf="groups$ | async as groups">
-  <mat-list-item role="listitem" class="groups" *ngFor="let group of groups">
-    <h4 matListItemTitle>{{ group.name }}</h4>
-  </mat-list-item>
+<mat-list class="groups-wrapper" *ngIf="groups$ | async as groups">
+  <cn-group-list-item *ngFor="let group of groups; trackBy: trackById" [group]="group" />
 </mat-list>
