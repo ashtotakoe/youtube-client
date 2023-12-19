@@ -5,6 +5,7 @@ import { filter, map, take } from 'rxjs'
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'
 import { CreateGroupDialogFormComponent } from '../create-group-dialog-form/create-group-dialog-form.component'
+import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
 import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
 
 @Component({
@@ -17,6 +18,7 @@ export class GroupListComponent implements OnInit {
   public groups$ = this.homeFacade.groups$.pipe()
   public profileData$ = this.profileFacade.profileData$
 
+  public countDownName = CountdownNames.RefreshGroupList
   constructor(
     private homeFacade: HomeFacade,
     private profileFacade: ProfileFacade,

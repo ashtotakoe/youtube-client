@@ -29,4 +29,8 @@ export class HomeFacade {
   public loadUsers({ isCashed }: { isCashed: boolean }): void {
     this.store.dispatch(usersListActions.loadUsers({ isCashed }))
   }
+
+  public createConversation(userId: string): void {
+    this.store.dispatch(usersListActions.createConversation({ userId }))
+  }
 }

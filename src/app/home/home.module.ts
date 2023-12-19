@@ -17,6 +17,7 @@ import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
 import { GroupListComponent } from './components/groups-list/groups-list.component'
+import { UsersListItemComponent } from './components/users-list-item/users-list-item.component'
 import { UsersListComponent } from './components/users-list/users-list.component'
 import { HomePageComponent } from './home-page.component'
 import { HomeEffects } from './home-store/home.effects'
@@ -32,6 +33,7 @@ import { DialogStateService } from './services/dialog-state.service'
     CreateGroupDialogFormComponent,
     GroupListItemComponent,
     UsersListComponent,
+    UsersListItemComponent,
   ],
   imports: [
     CommonModule,

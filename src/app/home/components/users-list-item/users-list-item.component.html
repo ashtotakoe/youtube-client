@@ -1,0 +1,15 @@
+<div role="listitem" [class.linted]="user.hasConversationWithMe">
+  <h3 class="mat-h3 heading">{{ user.name }}</h3>
+
+  <button
+    mat-button
+    *ngIf="user.hasConversationWithMe; else create"
+    [routerLink]="['/', 'home', 'conversation', user.conversationId ?? 'conversation-id']"
+  >
+    goto conversation
+  </button>
+</div>
+
+<ng-template #create>
+  <button class="button" mat-button (click)="createConversation()">create conversation</button>
+</ng-template>

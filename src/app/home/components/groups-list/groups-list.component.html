@@ -1,4 +1,6 @@
-<cn-button-with-countdown class="button" (buttonClicked)="refreshGroups()">Refresh</cn-button-with-countdown>
+<cn-button-with-countdown class="button" [countdownName]="countDownName" (buttonClicked)="refreshGroups()"
+  >Refresh groups</cn-button-with-countdown
+>
 <button class="button" (click)="openCreateGroupDialog()" mat-button>Create group</button>
 
 <mat-list class="groups-wrapper" *ngIf="groups$ | async as groups">

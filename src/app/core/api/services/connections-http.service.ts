@@ -195,4 +195,18 @@ export class ConnectionsHttpService {
       }),
     )
   }
+
+  public createConversation(userId: string): Observable<{ conversationID: string }> {
+    return this.httpClient
+      .post<{ conversationID: string }>(`${this.apiUrl}${ConnectionsApiSlugs.Conversations}/create`, {
+        companion: userId,
+      })
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          const { message } = error as ConnectionsApiError
+
+          return throwError(() => new Error(message ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
 }

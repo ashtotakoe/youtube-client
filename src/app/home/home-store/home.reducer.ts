@@ -89,4 +89,32 @@ export const homeReducer = createReducer(
     isLoading: false,
     errorMessage,
   })),
+
+  on(usersListActions.createConversation, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.createConversationSuccess, (state, { conversationId, partnerId }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    users: state.users.map(user => {
+      if (user.uid === partnerId) {
+        return {
+          ...user,
+          conversationId,
+          hasConversationWithMe: true,
+        }
+      }
+
+      return user
+    }),
+  })),
+
+  on(connectionsUsersApiActions.createConversationFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
 )

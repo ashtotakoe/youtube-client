@@ -138,31 +138,69 @@ export class HomeEffects {
   public loadUsersEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersListActions.loadUsers),
-      switchMap(() =>
-        combineLatest([this.connectionsHttpService.loadUsers(), this.connectionsHttpService.loadConversations()]).pipe(
+      withLatestFrom(this.homeFacade.users$, this.profileFacade.profileData$),
+      switchMap(([{ isCashed }, users, profileData]) => {
+        if (isCashed && users.length) {
+          return of(connectionsUsersApiActions.loadUsersSuccess({ users }))
+        }
+
+        return combineLatest([
+          this.connectionsHttpService.loadUsers(),
+          this.connectionsHttpService.loadConversations(),
+        ]).pipe(
           map(([usersResponse, conversationsResponse]) => {
-            const users = usersResponse.Items.map(user => {
-              const conversationId =
-                conversationsResponse.Items.find(conversation => conversation.companionID.S === user.uid.S)?.id.S ??
-                undefined
+            const usersFromApi = usersResponse.Items.map(user => {
+              const hasConversationWithMe = conversationsResponse.Items.some(
+                conversation => conversation.companionID.S === user.uid.S,
+              )
 
               return {
                 name: user.name.S,
                 uid: user.uid.S,
-                conversationId,
-                hasConversationWithMe: Boolean(conversationId),
+                hasConversationWithMe,
               }
-            })
+            }).filter(user => user.uid !== profileData?.uid)
 
-            return connectionsUsersApiActions.loadUsersSuccess({ users })
+            if (!isCashed) {
+              this.countdownService.getCountdown(CountdownNames.RefreshUserList)?.startCountdown()
+            }
+
+            this.snackbarService.open('Users loaded')
+
+            return connectionsUsersApiActions.loadUsersSuccess({ users: usersFromApi })
           }),
           catchError(({ message }: Error) => {
             this.snackbarService.open(message)
 
             return of(connectionsUsersApiActions.loadUsersFailure({ errorMessage: message }))
           }),
-        ),
-      ),
+        )
+      }),
+    ),
+  )
+
+  public createConversationEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(usersListActions.createConversation),
+      switchMap(({ userId }) => {
+        return this.connectionsHttpService.createConversation(userId).pipe(
+          // eslint-disable-next-line @typescript-eslint/naming-convention
+          map(({ conversationID }) => {
+            this.snackbarService.open('Conversation created')
+
+            return connectionsUsersApiActions.createConversationSuccess({
+              conversationId: conversationID,
+              partnerId: userId,
+            })
+          }),
+
+          catchError(({ message }: Error) => {
+            this.snackbarService.open(message)
+
+            return of(connectionsUsersApiActions.createConversationFailure({ errorMessage: message }))
+          }),
+        )
+      }),
     ),
   )
 }
