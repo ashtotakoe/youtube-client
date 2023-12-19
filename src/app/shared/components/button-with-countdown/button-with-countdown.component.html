@@ -1,0 +1,11 @@
+<ng-container *ngIf="countdown$ | async as countdown; else embedded">
+  <button mat-button disabled>
+    {{ countdown }}
+  </button>
+</ng-container>
+
+<ng-template #embedded>
+  <button mat-button (click)="onClick()">
+    <ng-content />
+  </button>
+</ng-template>

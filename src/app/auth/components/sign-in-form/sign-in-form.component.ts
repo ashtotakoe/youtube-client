@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
 
 import { AuthFacade } from '../../auth-store/services/auth.facade'
-import { emailValidators, passwordValidators } from '../../constants/auth-forms-validators'
+import { emailValidators, passwordValidators } from 'src/app/shared/constants/forms-validators-sets'
 
 @Component({
   selector: 'cn-sign-in-form',

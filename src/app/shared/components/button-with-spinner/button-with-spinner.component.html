@@ -1,4 +1,10 @@
-<button *ngIf="!(isLoading$ | async); else embeddedSpinner" mat-flat-button [color]="color" [disabled]="isDisabled">
+<button
+  *ngIf="!(isLoading$ | async); else embeddedSpinner"
+  (click)="onClick()"
+  mat-flat-button
+  [color]="color"
+  [disabled]="isDisabled"
+>
   <ng-content />
 </button>
 

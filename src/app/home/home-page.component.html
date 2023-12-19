@@ -1,2 +1,9 @@
-<p>home-page works!</p>
-<button routerLink="/profile">to profile</button>
+<mat-grid-list cols="3" class="grid" rowHeight="90vh">
+  <mat-grid-tile>
+    <cn-group-list />
+  </mat-grid-tile>
+  <mat-grid-tile colspan="2">
+    <cn-users-list />
+  </mat-grid-tile>
+</mat-grid-list>
+<button mat-button color="primary" [routerLink]="['/', 'profile']" class="nav-button">to profile</button>

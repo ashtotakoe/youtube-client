@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
@@ -17,4 +17,10 @@ export class ButtonWithSpinnerComponent {
   @Input() public isLoading$!: Observable<boolean>
   @Input() public isDisabled = false
   @Input() public color = 'primary'
+
+  @Output() public buttonClicked = new EventEmitter<void>()
+
+  public onClick(): void {
+    this.buttonClicked.emit()
+  }
 }

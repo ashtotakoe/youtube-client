@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store'
 
 import { signInPageActions } from '../actions/sign-in-page.actions'
 import { signUpPageActions } from '../actions/sing-up-page.actions'
-import { isLoadingSelector } from '../selectors'
+import { isLoadingSelector } from '../auth.selectors'
 import type { UserSignUpData } from 'src/app/shared/models/user-sign-up-data.model'
 import type { UserSignInData } from 'src/app/shared/types/user-sign-in-data.type'
 

@@ -1,0 +1,22 @@
+<h3 mat-dialog-title>Create new group</h3>
+
+<form mat-dialog-content [formGroup]="createGroupForm">
+  <mat-form-field>
+    <mat-label>New Group Name</mat-label>
+
+    <input matInput type="text" formControlName="newGroupName" />
+    <mat-error *ngIf="newGroupName.hasError('required')"> Name is required </mat-error>
+    <mat-error *ngIf="newGroupName.hasError('noSpecialCharsOrNumbers')">
+      Name cannot contain special characters or numbers
+    </mat-error>
+    <mat-error *ngIf="newGroupName.hasError('maxLength')"> Your name is too long</mat-error>
+  </mat-form-field>
+
+  <cn-button-with-spinner
+    class="submit-button"
+    [isLoading$]="isLoading$"
+    [isDisabled]="createGroupForm.invalid"
+    (buttonClicked)="createGroup()"
+    >Create</cn-button-with-spinner
+  >
+</form>

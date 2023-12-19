@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { FormBuilder, FormControl } from '@angular/forms'
 
 import { AuthFacade } from '../../auth-store/services/auth.facade'
-import { emailValidators, nameValidators, passwordValidators } from '../../constants/auth-forms-validators'
+import { emailValidators, nameValidators, passwordValidators } from 'src/app/shared/constants/forms-validators-sets'
 import { convertToUserRegistrationData } from 'src/app/shared/utils/convert-to-user-registration-data'
 
 @Component({

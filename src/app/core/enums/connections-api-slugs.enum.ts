@@ -3,4 +3,7 @@ export const enum ConnectionsApiSlugs {
   Login = 'login',
   Profile = 'profile',
   Logout = 'logout',
+  Groups = 'groups',
+  Users = 'users',
+  Conversations = 'conversations',
 }

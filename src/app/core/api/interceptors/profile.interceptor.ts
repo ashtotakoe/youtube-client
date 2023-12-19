@@ -8,8 +8,15 @@ import { RequestHeadersNames } from '../enums/request-headers-names.enum'
 
 export const profileHttpInterceptor: HttpInterceptorFn = (req, next) => {
   const localStorageService = inject(LocalStorageService)
+  const slugsThatRequireCredentials = [
+    ConnectionsApiSlugs.Logout,
+    ConnectionsApiSlugs.Profile,
+    ConnectionsApiSlugs.Groups,
+    ConnectionsApiSlugs.Users,
+    ConnectionsApiSlugs.Conversations,
+  ]
 
-  if (req.url.includes(ConnectionsApiSlugs.Profile) || req.url.includes(ConnectionsApiSlugs.Logout)) {
+  if (slugsThatRequireCredentials.some(slug => req.url.includes(slug))) {
     const credentials = localStorageService.getPrivateCredentials()
     const email = localStorageService.getItem(LocalStorageKeys.Email)
 
