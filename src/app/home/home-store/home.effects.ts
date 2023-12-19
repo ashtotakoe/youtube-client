@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs'
 
 import type { Group } from '../models/group.model'
+import { DialogStateService } from '../services/dialog-state.service'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
@@ -22,6 +23,7 @@ export class HomeEffects {
     private homeFacade: HomeFacade,
     private profileFacade: ProfileFacade,
     private countdownService: CountdownService,
+    private dialogStateService: DialogStateService,
   ) {}
 
   public loadGroupsEffect$ = createEffect(() =>
@@ -81,7 +83,7 @@ export class HomeEffects {
               })
             }
 
-            // dialogRef.close()
+            this.dialogStateService.closeDialog()
             this.snackbarService.open('Group was created')
 
             return connectionsGroupsApiActions.createGroupSuccess({

@@ -1,6 +1,6 @@
 <h3 mat-dialog-title>Create new group</h3>
 
-<form mat-dialog-content [formGroup]="createGroupForm" (ngSubmit)="createGroup()">
+<form mat-dialog-content [formGroup]="createGroupForm">
   <mat-form-field>
     <mat-label>New Group Name</mat-label>
 
@@ -12,5 +12,11 @@
     <mat-error *ngIf="newGroupName.hasError('maxLength')"> Your name is too long</mat-error>
   </mat-form-field>
 
-  <button mat-flat-button class="submit-button" [disabled]="createGroupForm.invalid" color="primary">Create</button>
+  <cn-button-with-spinner
+    class="submit-button"
+    [isLoading$]="isLoading$"
+    [isDisabled]="createGroupForm.invalid"
+    (buttonClicked)="createGroup()"
+    >Create</cn-button-with-spinner
+  >
 </form>

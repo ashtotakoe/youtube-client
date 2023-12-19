@@ -5,9 +5,9 @@ import { interval, map, ReplaySubject, type Subscription, take } from 'rxjs'
   providedIn: 'root',
 })
 export class CountdownService {
-  private countdown = new ReplaySubject<number | null>(1)
+  private countdown$$ = new ReplaySubject<number | null>(1)
 
-  public countdown$ = this.countdown.asObservable()
+  public countdown$ = this.countdown$$.asObservable()
 
   private isCountdownGoing = false
   private subscription: Subscription | undefined
@@ -23,12 +23,12 @@ export class CountdownService {
         )
         .subscribe({
           next: value => {
-            this.countdown.next(value)
+            this.countdown$$.next(value)
           },
           complete: () => {
             this.isCountdownGoing = false
             this.subscription?.unsubscribe()
-            this.countdown.next(null)
+            this.countdown$$.next(null)
           },
         })
     }

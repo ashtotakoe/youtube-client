@@ -12,6 +12,7 @@ import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 
 import { ButtonWithCountdownComponent } from '../shared/components/button-with-countdown/button-with-countdown.component'
+import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spinner/button-with-spinner.component'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
@@ -21,6 +22,7 @@ import { HomeEffects } from './home-store/home.effects'
 import { homeReducer } from './home-store/home.reducer'
 import { HomeFacade } from './home-store/services/home.facade'
 import { homeRoutes } from './home.routes'
+import { DialogStateService } from './services/dialog-state.service'
 
 @NgModule({
   declarations: [HomePageComponent, GroupListComponent, CreateGroupDialogFormComponent, GroupListItemComponent],
@@ -37,7 +39,8 @@ import { homeRoutes } from './home.routes'
     ReactiveFormsModule,
     MatInputModule,
     MatIconModule,
+    ButtonWithSpinnerComponent,
   ],
-  providers: [HomeFacade],
+  providers: [HomeFacade, DialogStateService],
 })
 export class HomeModule {}

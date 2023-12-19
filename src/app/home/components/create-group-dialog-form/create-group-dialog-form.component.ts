@@ -1,8 +1,10 @@
 import { Component } from '@angular/core'
 import { FormBuilder } from '@angular/forms'
 import { MatDialogRef } from '@angular/material/dialog'
+import { take } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
+import { DialogStateService } from '../../services/dialog-state.service'
 import { nameValidators } from 'src/app/shared/constants/forms-validators-sets'
 
 @Component({
@@ -11,6 +13,8 @@ import { nameValidators } from 'src/app/shared/constants/forms-validators-sets'
   styleUrls: ['./create-group-dialog-form.component.scss'],
 })
 export class CreateGroupDialogFormComponent {
+  public isLoading$ = this.homeFacade.isLoading$
+
   public createGroupForm = this.fb.group({
     newGroupName: ['', nameValidators],
   })
@@ -21,14 +25,18 @@ export class CreateGroupDialogFormComponent {
     private dialogRef: MatDialogRef<CreateGroupDialogFormComponent>,
     private fb: FormBuilder,
     private homeFacade: HomeFacade,
+    private dialogStateService: DialogStateService,
   ) {}
 
   public createGroup(): void {
     const newGroupName = this.newGroupName.getRawValue()
 
     if (newGroupName) {
-      this.dialogRef.close()
       this.homeFacade.createNewGroup(newGroupName)
+
+      this.dialogStateService.dialogClose$.pipe(take(1)).subscribe(() => {
+        this.dialogRef.close()
+      })
     }
   }
 }
