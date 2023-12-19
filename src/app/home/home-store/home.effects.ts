@@ -1,12 +1,15 @@
+/* eslint-disable max-nested-callbacks */
 import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs'
+import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
 
 import type { Group } from '../models/group.model'
 import { DialogStateService } from '../services/dialog-state.service'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
+import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
+import { usersListActions } from './actions/users-list.actions'
 import { HomeFacade } from './services/home.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
 import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
@@ -126,6 +129,37 @@ export class HomeEffects {
             this.snackbarService.open(message)
 
             return of(connectionsGroupsApiActions.deleteGroupFailure({ errorMessage: message }))
+          }),
+        ),
+      ),
+    ),
+  )
+
+  public loadUsersEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(usersListActions.loadUsers),
+      switchMap(() =>
+        combineLatest([this.connectionsHttpService.loadUsers(), this.connectionsHttpService.loadConversations()]).pipe(
+          map(([usersResponse, conversationsResponse]) => {
+            const users = usersResponse.Items.map(user => {
+              const conversationId =
+                conversationsResponse.Items.find(conversation => conversation.companionID.S === user.uid.S)?.id.S ??
+                undefined
+
+              return {
+                name: user.name.S,
+                uid: user.uid.S,
+                conversationId,
+                hasConversationWithMe: Boolean(conversationId),
+              }
+            })
+
+            return connectionsUsersApiActions.loadUsersSuccess({ users })
+          }),
+          catchError(({ message }: Error) => {
+            this.snackbarService.open(message)
+
+            return of(connectionsUsersApiActions.loadUsersFailure({ errorMessage: message }))
           }),
         ),
       ),

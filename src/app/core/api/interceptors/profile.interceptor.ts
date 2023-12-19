@@ -12,6 +12,8 @@ export const profileHttpInterceptor: HttpInterceptorFn = (req, next) => {
     ConnectionsApiSlugs.Logout,
     ConnectionsApiSlugs.Profile,
     ConnectionsApiSlugs.Groups,
+    ConnectionsApiSlugs.Users,
+    ConnectionsApiSlugs.Conversations,
   ]
 
   if (slugsThatRequireCredentials.some(slug => req.url.includes(slug))) {

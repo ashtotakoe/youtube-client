@@ -8,3 +8,5 @@ const homeFeatureSelector = createFeatureSelector<HomeState>(StoreFeatureNames.H
 export const selectIsLoading = createSelector(homeFeatureSelector, state => state.isLoading)
 
 export const selectGroups = createSelector(homeFeatureSelector, state => state.groups)
+
+export const selectUsers = createSelector(homeFeatureSelector, state => state.users)

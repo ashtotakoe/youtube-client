@@ -17,6 +17,7 @@ import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
 import { GroupListComponent } from './components/groups-list/groups-list.component'
+import { UsersListComponent } from './components/users-list/users-list.component'
 import { HomePageComponent } from './home-page.component'
 import { HomeEffects } from './home-store/home.effects'
 import { homeReducer } from './home-store/home.reducer'
@@ -25,7 +26,13 @@ import { homeRoutes } from './home.routes'
 import { DialogStateService } from './services/dialog-state.service'
 
 @NgModule({
-  declarations: [HomePageComponent, GroupListComponent, CreateGroupDialogFormComponent, GroupListItemComponent],
+  declarations: [
+    HomePageComponent,
+    GroupListComponent,
+    CreateGroupDialogFormComponent,
+    GroupListItemComponent,
+    UsersListComponent,
+  ],
   imports: [
     CommonModule,
     StoreModule.forFeature(StoreFeatureNames.Home, homeReducer),
