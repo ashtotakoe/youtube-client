@@ -2,7 +2,8 @@ import { CommonModule } from '@angular/common'
 import { ChangeDetectionStrategy, Component, EventEmitter, Output } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 
-import { CountdownService } from '../../services/countdown.service'
+import { CountdownService } from '../../../core/services/countdown.service'
+import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
 
 @Component({
   selector: 'cn-button-with-countdown',
@@ -15,7 +16,7 @@ import { CountdownService } from '../../services/countdown.service'
 export class ButtonWithCountdownComponent {
   @Output() public buttonClicked = new EventEmitter<void>()
 
-  public countdown$ = this.countdownService.countdown$
+  public countdown$ = this.countdownService.addCountdownOrGetExisting(CountdownNames.RefreshGroupList).countdown$
 
   constructor(private countdownService: CountdownService) {}
 

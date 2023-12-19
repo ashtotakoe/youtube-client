@@ -9,10 +9,11 @@ import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
 import { HomeFacade } from './services/home.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
+import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
 import { ErrorMessages } from 'src/app/core/enums/error-messages.enum'
+import { CountdownService } from 'src/app/core/services/countdown.service'
 import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
 import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
-import { CountdownService } from 'src/app/shared/services/countdown.service'
 
 @Injectable()
 export class HomeEffects {
@@ -49,7 +50,7 @@ export class HomeEffects {
 
           map((groupsFromApi: Group[]) => {
             if (!isCashed) {
-              this.countdownService.startCountdown()
+              this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
             }
 
             this.snackbarService.open('Groups loaded')
