@@ -11,6 +11,7 @@ import { ConnectionsHttpService } from 'src/app/core/api/services/connections-ht
 import { ErrorMessages } from 'src/app/core/enums/error-messages.enum'
 import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
 import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
+import { CountdownService } from 'src/app/shared/services/countdown.service'
 
 @Injectable()
 export class HomeEffects {
@@ -20,13 +21,14 @@ export class HomeEffects {
     private snackbarService: MatSnackBarService,
     private homeFacade: HomeFacade,
     private profileFacade: ProfileFacade,
+    private countdownService: CountdownService,
   ) {}
 
   public loadGroupsEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(groupsListActions.loadGroups),
-      withLatestFrom(this.homeFacade.groups$),
-      switchMap(([{ isCashed }, groups]) => {
+      withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$),
+      switchMap(([{ isCashed }, groups, profileData]) => {
         if (isCashed && groups.length) {
           return of(connectionsGroupsApiActions.loadGroupsSuccess({ groups }))
         }
@@ -39,10 +41,15 @@ export class HomeEffects {
               name: group.name.S,
               createdAt: group.createdAt.S,
               createdBy: group.createdBy.S,
+              isCreatedByMe: group.createdBy.S === profileData?.uid,
             })),
           ]),
 
           map((groupsFromApi: Group[]) => {
+            if (!isCashed) {
+              this.countdownService.startCountdown()
+            }
+
             this.snackbarService.open('Groups loaded')
 
             return connectionsGroupsApiActions.loadGroupsSuccess({ groups: groupsFromApi })
@@ -74,6 +81,7 @@ export class HomeEffects {
               })
             }
 
+            // dialogRef.close()
             this.snackbarService.open('Group was created')
 
             return connectionsGroupsApiActions.createGroupSuccess({

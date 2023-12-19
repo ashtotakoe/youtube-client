@@ -3,14 +3,11 @@
     {{ group.name }}
   </a>
 
-  <button mat-button *ngIf="group.isCreatedByMe && !isConfirmationOpened" (click)="toggleConfirmation()">Delete</button>
+  <button mat-icon-button *ngIf="group.isCreatedByMe && !isConfirmationOpened" (click)="toggleConfirmation()">
+    <mat-icon>close</mat-icon>
+  </button>
   <span *ngIf="isConfirmationOpened">
-    <span class="warning-prompt mat-body">Are you sure?</span>
-    <button mat-icon-button (click)="toggleConfirmation()">
-      <mat-icon>close</mat-icon>
-    </button>
-    <button mat-icon-button (click)="deleteGroup()">
-      <mat-icon>done</mat-icon>
-    </button>
+    <button mat-button (click)="toggleConfirmation()">Cancel</button>
+    <button mat-button color="warn" (click)="deleteGroup()">Delete</button>
   </span>
 </div>

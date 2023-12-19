@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, map, of, switchMap, withLatestFrom } from 'rxjs'
 
+import type { ProfileResponse } from '../types/profile-response.type'
 import { connectionsProfileApiActions } from './actions/connections-profile-api.actions'
 import { profilePageActions } from './actions/profile-page.actions'
 import { ProfileFacade } from './services/profile.facade'
@@ -33,6 +34,12 @@ export class ProfileEffects {
         }
 
         return this.connectionsHttpService.getUserProfile().pipe(
+          map(({ email, name, uid, createdAt }: ProfileResponse) => ({
+            email: email.S,
+            name: name.S,
+            uid: uid.S,
+            createdAt: createdAt.S,
+          })),
           map(profileDataFromApi =>
             connectionsProfileApiActions.loadProfileDataSuccess({ profileData: profileDataFromApi }),
           ),

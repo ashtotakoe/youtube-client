@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
+import { filter, map, take } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'
 import { CreateGroupDialogFormComponent } from '../create-group-dialog-form/create-group-dialog-form.component'
-import { CountdownService } from 'src/app/shared/services/countdown.service'
+import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
 
 @Component({
   selector: 'cn-group-list',
@@ -14,14 +15,15 @@ import { CountdownService } from 'src/app/shared/services/countdown.service'
 })
 export class GroupListComponent implements OnInit {
   public groups$ = this.homeFacade.groups$.pipe()
+  public profileData$ = this.profileFacade.profileData$
+
   constructor(
-    private countdownService: CountdownService,
     private homeFacade: HomeFacade,
+    private profileFacade: ProfileFacade,
     private dialog: MatDialog,
   ) {}
 
   public refreshGroups(): void {
-    this.countdownService.startCountdown()
     this.homeFacade.loadGroups({ isCashed: false })
   }
 
@@ -34,6 +36,15 @@ export class GroupListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.homeFacade.loadGroups({ isCashed: true })
+    this.profileFacade.loadProfileData()
+    this.profileData$
+      .pipe(
+        filter(profileData => profileData !== null),
+        map(() => {
+          this.homeFacade.loadGroups({ isCashed: true })
+        }),
+        take(1),
+      )
+      .subscribe()
   }
 }
