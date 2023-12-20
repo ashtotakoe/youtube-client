@@ -5,8 +5,11 @@
     <button mat-button *ngIf="currentChat.isCreatedByMe" color="warn" (click)="deleteGroup(currentChat.id)">
       delete group
     </button>
+    <cn-button-with-countdown [countdownName]="countdownName + currentChat.id" (buttonClicked)="refreshChat()"
+      >Refresh chat</cn-button-with-countdown
+    >
 
-    {{ currentChat.messages | json }}
+    <cn-chat-window [messages]="currentChat.messages" />
   </ng-container>
 </ng-container>
 

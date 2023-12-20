@@ -217,8 +217,8 @@ export class HomeEffects {
   public loadGroupChatEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(groupPageActions.loadGroupChat),
-      withLatestFrom(this.homeFacade.groups$),
-      switchMap(([{ groupId }, groups]) => {
+      withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$, this.homeFacade.users$),
+      switchMap(([{ groupId, isRefresh }, groups, profileData, users]) => {
         const relatedGroup = groups.find(group => group.id === groupId)
 
         if (relatedGroup) {
@@ -226,6 +226,10 @@ export class HomeEffects {
 
           return this.connectionsHttpService.loadGroupChat(groupId, since).pipe(
             map(chatResponse => {
+              if (isRefresh) {
+                this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
+              }
+
               this.snackbarService.open('Group chat loaded')
 
               if (chatResponse.Count === 0) {
@@ -242,6 +246,8 @@ export class HomeEffects {
                   authorID: message.authorID.S,
                   message: message.message.S,
                   createdAt: message.createdAt.S,
+                  authorName: users.find(user => user.uid === message.authorID.S)?.name ?? 'Unknown user',
+                  isAuthorMe: message.authorID.S === profileData?.uid,
                 })),
               ]
 

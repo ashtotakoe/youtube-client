@@ -3,4 +3,6 @@ export interface Message {
   authorID: string
   message: string
   createdAt: string
+  authorName?: string
+  isAuthorMe?: boolean
 }

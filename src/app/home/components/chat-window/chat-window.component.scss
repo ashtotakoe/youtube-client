@@ -1,0 +1,22 @@
+:host {
+  overflow: auto;
+  display: block;
+
+  max-width: 25rem;
+  height: 80vh;
+  margin: 3rem auto;
+
+  border: 1px solid black;
+}
+
+.message {
+  margin: 1rem;
+
+  .text {
+    margin: 0;
+  }
+
+  .my-nickname {
+    color: red;
+  }
+}

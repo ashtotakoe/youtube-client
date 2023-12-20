@@ -1,1 +1,9 @@
-<p>chat-window works!</p>
+<mat-list>
+  <div class="message" *ngFor="let message of messages; trackBy: trackByMessage">
+    <span class="mat-body" [class.my-nickname]="message.isAuthorMe"
+      >By: {{ message.isAuthorMe ? 'me' : message.authorName }}</span
+    >
+    <p class="mat-h4 text">{{ message.message }}</p>
+    <span class="mat-body">{{ message.createdAt | date: 'short' }}</span>
+  </div>
+</mat-list>

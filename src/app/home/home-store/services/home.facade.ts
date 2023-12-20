@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { filter, take } from 'rxjs'
+import { combineLatest, filter, take } from 'rxjs'
 
 import { createGroupFormActions } from '../actions/create-group-form.actions'
 import { groupsListActions } from '../actions/group-list.actions'
@@ -49,16 +49,17 @@ export class HomeFacade {
     this.store.dispatch(usersListActions.createConversation({ userId }))
   }
 
-  public loadGroupChat(groupId: string): void {
+  public loadGroupChat({ groupId, isRefresh }: { groupId: string; isRefresh?: boolean }): void {
     this.loadGroups({ isCashed: true })
+    this.loadUsers({ isCashed: true })
 
-    this.groups$
+    combineLatest([this.groups$, this.users$])
       .pipe(
-        filter(groups => groups.length > 0),
+        filter(([groups, users]) => groups.length > 0 && users.length > 0),
         take(1),
       )
       .subscribe(() => {
-        this.store.dispatch(groupPageActions.loadGroupChat({ groupId }))
+        this.store.dispatch(groupPageActions.loadGroupChat({ groupId, isRefresh }))
       })
   }
 }
