@@ -7,6 +7,5 @@ export interface HomeState {
   isLoading: boolean
   groups: Group[]
   users: User[]
-  chats: Record<string, GroupChat>
-  currentChat: GroupChat | null
+  currentChat: Group | null
 }

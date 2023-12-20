@@ -9,6 +9,7 @@ import { connectionsGroupsApiActions } from './actions/connections-groups-api.ac
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
+import { groupPageActions } from './actions/group-page.actions'
 import { usersListActions } from './actions/users-list.actions'
 import { HomeFacade } from './services/home.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
@@ -55,8 +56,6 @@ export class HomeEffects {
             if (!isCashed) {
               this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
             }
-
-            this.snackbarService.open('Groups loaded')
 
             return connectionsGroupsApiActions.loadGroupsSuccess({ groups: groupsFromApi })
           }),
@@ -200,6 +199,58 @@ export class HomeEffects {
             return of(connectionsUsersApiActions.createConversationFailure({ errorMessage: message }))
           }),
         )
+      }),
+    ),
+  )
+
+  public loadGroupChatEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(groupPageActions.loadGroupChat),
+      withLatestFrom(this.homeFacade.groups$),
+      switchMap(([{ groupId }, groups]) => {
+        const relatedGroup = groups.find(group => group.id === groupId)
+
+        if (relatedGroup) {
+          const since = relatedGroup?.lastMessageTime ?? undefined
+
+          return this.connectionsHttpService.loadGroupChat(groupId, since).pipe(
+            map(chatResponse => {
+              this.snackbarService.open('Group chat loaded')
+
+              if (chatResponse.Count === 0) {
+                return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
+              }
+
+              const lastMessageTime = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))[
+                chatResponse.Items.length - 1
+              ].createdAt.S
+
+              const chatMessages = [
+                ...(relatedGroup.messages ?? []),
+                ...chatResponse.Items.map(message => ({
+                  authorID: message.authorID.S,
+                  message: message.message.S,
+                  createdAt: message.createdAt.S,
+                })),
+              ]
+
+              return connectionsGroupsApiActions.loadGroupChatSuccess({
+                group: {
+                  ...relatedGroup,
+                  messages: chatMessages,
+                  lastMessageTime,
+                },
+              })
+            }),
+            catchError(({ message }: Error) => {
+              this.snackbarService.open(message)
+
+              return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: message }))
+            }),
+          )
+        }
+
+        return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: 'Group was not found' }))
       }),
     ),
   )

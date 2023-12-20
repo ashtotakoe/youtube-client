@@ -10,3 +10,5 @@ export const selectIsLoading = createSelector(homeFeatureSelector, state => stat
 export const selectGroups = createSelector(homeFeatureSelector, state => state.groups)
 
 export const selectUsers = createSelector(homeFeatureSelector, state => state.users)
+
+export const selectCurrentChat = createSelector(homeFeatureSelector, state => state.currentChat)

@@ -4,6 +4,7 @@ import { connectionsGroupsApiActions } from './actions/connections-groups-api.ac
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
+import { groupPageActions } from './actions/group-page.actions'
 import { usersListActions } from './actions/users-list.actions'
 import type { HomeState } from './models/home-state.model'
 
@@ -12,7 +13,6 @@ const homeInitialState: HomeState = {
   isLoading: false,
   groups: [],
   users: [],
-  chats: {},
   currentChat: null,
 }
 
@@ -118,5 +118,25 @@ export const homeReducer = createReducer(
     ...state,
     isLoading: false,
     errorMessage,
+  })),
+
+  on(groupPageActions.loadGroupChat, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsGroupsApiActions.loadGroupChatFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+    currentChat: null,
+  })),
+
+  on(connectionsGroupsApiActions.loadGroupChatSuccess, (state, { group }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    groups: state.groups.map(g => (g.id === group.id ? group : g)),
+    currentChat: group,
   })),
 )

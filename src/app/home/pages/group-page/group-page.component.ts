@@ -12,6 +12,8 @@ import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.fa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupPageComponent implements OnInit {
+  public currentChat$ = this.homeFacade.currentChat$
+
   constructor(
     private homeFacade: HomeFacade,
     private route: ActivatedRoute,
@@ -27,11 +29,11 @@ export class GroupPageComponent implements OnInit {
 
       combineLatest([this.homeFacade.groups$, this.profileFacade.profileData$])
         .pipe(
-          filter(([groups]) => groups !== null),
+          filter(([groups]) => groups.length > 0),
           take(1),
         )
         .subscribe(() => {
-          // this.homeFacade.loadGroupChat(groupId)
+          this.homeFacade.loadGroupChat(groupId)
         })
     }
   }
