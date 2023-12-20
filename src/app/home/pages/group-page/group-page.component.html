@@ -2,7 +2,9 @@
   <a [routerLink]="['/', 'home']">back home</a>
 
   <ng-container *ngIf="currentChat$ | async as currentChat; else chatNotFound">
-    <button mat-button *ngIf="currentChat.isCreatedByMe" color="warn" (click)="deleteGroup()">delete group</button>
+    <button mat-button *ngIf="currentChat.isCreatedByMe" color="warn" (click)="deleteGroup(currentChat.id)">
+      delete group
+    </button>
 
     {{ currentChat.messages | json }}
   </ng-container>

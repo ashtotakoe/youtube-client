@@ -18,8 +18,8 @@ export class GroupPageComponent implements OnInit {
     private route: ActivatedRoute,
   ) {}
 
-  public deleteGroup(): void {
-    console.log('group deleted')
+  public deleteGroup(groupId: string): void {
+    this.homeFacade.deleteGroup(groupId)
   }
 
   public ngOnInit(): void {

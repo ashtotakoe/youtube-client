@@ -1,5 +1,6 @@
 /* eslint-disable max-nested-callbacks */
 import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
 
@@ -29,6 +30,7 @@ export class HomeEffects {
     private profileFacade: ProfileFacade,
     private countdownService: CountdownService,
     private dialogStateService: DialogStateService,
+    private router: Router,
   ) {}
 
   public loadGroupsEffect$ = createEffect(() =>
@@ -125,6 +127,8 @@ export class HomeEffects {
           map(response => {
             if (response.ok) {
               this.snackbarService.open('Group was deleted')
+
+              this.router.navigate(['/']).catch(() => null)
 
               return connectionsGroupsApiActions.deleteGroupSuccess({ groupId })
             }
