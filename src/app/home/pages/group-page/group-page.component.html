@@ -1,10 +1,15 @@
-<a [routerLink]="['/', 'home']">back home</a>
-<button mat-button>delete group</button>
+<ng-container *ngIf="!(isLoading$ | async); else loading">
+  <a [routerLink]="['/', 'home']">back home</a>
 
-<ng-container *ngIf="currentChat$ | async as currentChat; else chatNotFound">
-  {{ currentChat.messages | json }}
+  <ng-container *ngIf="currentChat$ | async as currentChat; else chatNotFound">
+    <button mat-button *ngIf="currentChat.isCreatedByMe" color="warn" (click)="deleteGroup()">delete group</button>
+
+    {{ currentChat.messages | json }}
+  </ng-container>
 </ng-container>
 
 <ng-template #chatNotFound>
   <h4 class="mat-h4">Sorry, group does not exist</h4>
 </ng-template>
+
+<ng-template #loading>Loading...</ng-template>

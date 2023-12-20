@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { filter, map, take } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'
@@ -38,15 +37,6 @@ export class GroupListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.profileFacade.loadProfileData()
-    this.profileData$
-      .pipe(
-        filter(profileData => profileData !== null),
-        map(() => {
-          this.homeFacade.loadGroups({ isCashed: true })
-        }),
-        take(1),
-      )
-      .subscribe()
+    this.homeFacade.loadGroups({ isCashed: true })
   }
 }

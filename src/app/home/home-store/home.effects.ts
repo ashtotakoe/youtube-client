@@ -37,7 +37,14 @@ export class HomeEffects {
       withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$),
       switchMap(([{ isCashed }, groups, profileData]) => {
         if (isCashed && groups.length) {
-          return of(connectionsGroupsApiActions.loadGroupsSuccess({ groups }))
+          return of(
+            connectionsGroupsApiActions.loadGroupsSuccess({
+              groups: groups.map(group => ({
+                ...group,
+                isCreatedByMe: group.createdBy === profileData?.uid,
+              })),
+            }),
+          )
         }
 
         return this.connectionsHttpService.loadGroups().pipe(

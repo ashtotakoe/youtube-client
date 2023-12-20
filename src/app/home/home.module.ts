@@ -14,6 +14,7 @@ import { StoreModule } from '@ngrx/store'
 import { ButtonWithCountdownComponent } from '../shared/components/button-with-countdown/button-with-countdown.component'
 import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spinner/button-with-spinner.component'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
+import { ChatWindowComponent } from './components/chat-window/chat-window.component'
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
 import { GroupListComponent } from './components/groups-list/groups-list.component'
@@ -36,6 +37,7 @@ import { DialogStateService } from './services/dialog-state.service'
     UsersListComponent,
     UsersListItemComponent,
     GroupPageComponent,
+    ChatWindowComponent,
   ],
   imports: [
     CommonModule,
