@@ -9,6 +9,7 @@ import type { ConnectionsApiError } from '../models/connections-api-error.model'
 import { API_URL } from '../tokens/api-url.token'
 import type { ConversationsResponse } from 'src/app/home/models/conversation-response.model'
 import type { GroupListResponse } from 'src/app/home/models/group-list-repsponse.model'
+import type { MessageResponse } from 'src/app/home/models/message-response.model'
 import type { UsersResponse } from 'src/app/home/models/users-response.model'
 import type { ProfileResponse } from 'src/app/profile/types/profile-response.type'
 import type { UserSignUpData } from 'src/app/shared/models/user-sign-up-data.model'
@@ -200,6 +201,28 @@ export class ConnectionsHttpService {
     return this.httpClient
       .post<{ conversationID: string }>(`${this.apiUrl}${ConnectionsApiSlugs.Conversations}/create`, {
         companion: userId,
+      })
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          const { message } = error as ConnectionsApiError
+
+          return throwError(() => new Error(message ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
+
+  public loadGroupChat(groupID: string, since?: string): Observable<MessageResponse> {
+    const params = {
+      groupID,
+    }
+
+    if (since) {
+      Object.assign(params, { since })
+    }
+
+    return this.httpClient
+      .get<MessageResponse>(`${this.apiUrl}${ConnectionsApiSlugs.Groups}/read`, {
+        params,
       })
       .pipe(
         catchError(({ error }: HttpErrorResponse) => {

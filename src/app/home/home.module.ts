@@ -24,6 +24,7 @@ import { HomeEffects } from './home-store/home.effects'
 import { homeReducer } from './home-store/home.reducer'
 import { HomeFacade } from './home-store/services/home.facade'
 import { homeRoutes } from './home.routes'
+import { GroupPageComponent } from './pages/group-page/group-page.component'
 import { DialogStateService } from './services/dialog-state.service'
 
 @NgModule({
@@ -34,6 +35,7 @@ import { DialogStateService } from './services/dialog-state.service'
     GroupListItemComponent,
     UsersListComponent,
     UsersListItemComponent,
+    GroupPageComponent,
   ],
   imports: [
     CommonModule,

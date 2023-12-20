@@ -12,6 +12,8 @@ const homeInitialState: HomeState = {
   isLoading: false,
   groups: [],
   users: [],
+  chats: {},
+  currentChat: null,
 }
 
 export const homeReducer = createReducer(

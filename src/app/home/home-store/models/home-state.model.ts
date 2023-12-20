@@ -1,3 +1,4 @@
+import type { GroupChat } from '../../models/chat.model'
 import type { Group } from '../../models/group.model'
 import type { User } from '../../models/user.model'
 
@@ -6,4 +7,6 @@ export interface HomeState {
   isLoading: boolean
   groups: Group[]
   users: User[]
+  chats: Record<string, GroupChat>
+  currentChat: GroupChat | null
 }
