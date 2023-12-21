@@ -7,11 +7,12 @@ import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
-import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { RouterModule } from '@angular/router'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 
+import { ButtonWithConfirmationComponent } from '../shared/components/button-with-confirmation/button-with-confirmation.component'
 import { ButtonWithCountdownComponent } from '../shared/components/button-with-countdown/button-with-countdown.component'
 import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spinner/button-with-spinner.component'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
@@ -56,6 +57,7 @@ import { DialogStateService } from './services/dialog-state.service'
     ButtonWithSpinnerComponent,
     FormsModule,
     MatProgressSpinnerModule,
+    ButtonWithConfirmationComponent,
   ],
   providers: [HomeFacade, DialogStateService],
 })

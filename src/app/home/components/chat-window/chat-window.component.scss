@@ -9,6 +9,7 @@
 
   .messages-wrapper {
     overflow: auto;
+    display: block;
     height: 90%;
 
     .message {
@@ -21,6 +22,12 @@
       .my-nickname {
         color: red;
       }
+    }
+
+    .my-message {
+      max-width: fit-content;
+      margin-right: 2rem;
+      margin-left: auto;
     }
   }
 

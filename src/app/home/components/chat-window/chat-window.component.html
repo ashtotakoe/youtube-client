@@ -1,6 +1,10 @@
 <div class="messages-wrapper">
   <mat-list>
-    <div class="message" *ngFor="let message of group.messages; trackBy: trackByMessage">
+    <div
+      class="message"
+      [class.my-message]="message.isAuthorMe"
+      *ngFor="let message of group.messages; trackBy: trackByMessage"
+    >
       <span class="mat-body" [class.my-nickname]="message.isAuthorMe"
         >By: {{ message.isAuthorMe ? 'me' : message.authorName }}</span
       >

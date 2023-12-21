@@ -12,7 +12,6 @@ import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
 })
 export class GroupPageComponent implements OnInit {
   public currentChat$ = this.homeFacade.currentChat$
-  public isLoading$ = this.homeFacade.isLoading$
   public countdownName = CountdownNames.RefreshChat
 
   private groupId = this.route.snapshot.paramMap.get('id')
