@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { filter, map, take } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'
@@ -15,7 +14,8 @@ import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.fa
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupListComponent implements OnInit {
-  public groups$ = this.homeFacade.groups$.pipe()
+  public groups$ = this.homeFacade.groups$
+  public isLoading$ = this.homeFacade.isLoading$
   public profileData$ = this.profileFacade.profileData$
 
   public countDownName = CountdownNames.RefreshGroupList
@@ -38,15 +38,6 @@ export class GroupListComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.profileFacade.loadProfileData()
-    this.profileData$
-      .pipe(
-        filter(profileData => profileData !== null),
-        map(() => {
-          this.homeFacade.loadGroups({ isCashed: true })
-        }),
-        take(1),
-      )
-      .subscribe()
+    this.homeFacade.loadGroups({ isCashed: true })
   }
 }

@@ -8,6 +8,7 @@ import { ProfileEffects } from '../profile/profile-store/profile.effects'
 import { profileReducer } from '../profile/profile-store/profile.reducer'
 import { ProfileFacade } from '../profile/profile-store/services/profile.facade'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
+import { NotFoundComponent } from './components/not-found/not-found.component'
 
 @NgModule({
   declarations: [],
@@ -16,6 +17,7 @@ import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
     MatSnackBarModule,
     StoreModule.forFeature(StoreFeatureNames.Profile, profileReducer),
     EffectsModule.forFeature(ProfileEffects),
+    NotFoundComponent,
   ],
   providers: [ProfileFacade],
 })

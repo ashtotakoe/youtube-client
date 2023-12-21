@@ -15,6 +15,7 @@ import { CountdownService } from '../../../core/services/countdown.service'
 })
 export class ButtonWithCountdownComponent implements OnInit {
   @Input({ required: true }) public countdownName!: string
+  @Input({ required: true }) public isLoading!: boolean | null
   @Output() public buttonClicked = new EventEmitter<void>()
 
   public countdown$!: Observable<number | null>
@@ -22,7 +23,9 @@ export class ButtonWithCountdownComponent implements OnInit {
   constructor(private countdownService: CountdownService) {}
 
   public onClick(): void {
-    this.buttonClicked.emit()
+    if (!this.isLoading) {
+      this.buttonClicked.emit()
+    }
   }
 
   public ngOnInit(): void {

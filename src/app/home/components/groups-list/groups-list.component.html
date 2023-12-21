@@ -1,4 +1,8 @@
-<cn-button-with-countdown class="button" [countdownName]="countDownName" (buttonClicked)="refreshGroups()"
+<cn-button-with-countdown
+  class="button"
+  [isLoading]="isLoading$ | async"
+  [countdownName]="countDownName"
+  (buttonClicked)="refreshGroups()"
   >Refresh groups</cn-button-with-countdown
 >
 <button class="button" (click)="openCreateGroupDialog()" mat-button>Create group</button>

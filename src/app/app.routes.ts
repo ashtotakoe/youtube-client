@@ -1,5 +1,6 @@
 import type { Routes } from '@angular/router'
 
+import { NotFoundComponent } from './core/components/not-found/not-found.component'
 import { mustUserBeAuthorizedGuard } from './core/guards/must-user-be-authorized.guard'
 
 export const appRoutes: Routes = [
@@ -22,7 +23,13 @@ export const appRoutes: Routes = [
   },
 
   {
-    path: '**',
+    path: '',
+    pathMatch: 'full',
     redirectTo: 'home',
+  },
+
+  {
+    path: '**',
+    component: NotFoundComponent,
   },
 ]

@@ -1,19 +1,22 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { RouterModule } from '@angular/router'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
 
+import { ButtonWithConfirmationComponent } from '../shared/components/button-with-confirmation/button-with-confirmation.component'
 import { ButtonWithCountdownComponent } from '../shared/components/button-with-countdown/button-with-countdown.component'
 import { ButtonWithSpinnerComponent } from '../shared/components/button-with-spinner/button-with-spinner.component'
 import { StoreFeatureNames } from '../shared/enums/store-feature-names.enum'
+import { ChatWindowComponent } from './components/chat-window/chat-window.component'
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
 import { GroupListComponent } from './components/groups-list/groups-list.component'
@@ -24,6 +27,7 @@ import { HomeEffects } from './home-store/home.effects'
 import { homeReducer } from './home-store/home.reducer'
 import { HomeFacade } from './home-store/services/home.facade'
 import { homeRoutes } from './home.routes'
+import { GroupPageComponent } from './pages/group-page/group-page.component'
 import { DialogStateService } from './services/dialog-state.service'
 
 @NgModule({
@@ -34,6 +38,8 @@ import { DialogStateService } from './services/dialog-state.service'
     GroupListItemComponent,
     UsersListComponent,
     UsersListItemComponent,
+    GroupPageComponent,
+    ChatWindowComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +55,9 @@ import { DialogStateService } from './services/dialog-state.service'
     MatInputModule,
     MatIconModule,
     ButtonWithSpinnerComponent,
+    FormsModule,
+    MatProgressSpinnerModule,
+    ButtonWithConfirmationComponent,
   ],
   providers: [HomeFacade, DialogStateService],
 })

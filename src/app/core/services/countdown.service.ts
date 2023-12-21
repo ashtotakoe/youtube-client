@@ -12,8 +12,8 @@ export class Countdown {
 
       const subscription = interval(1000)
         .pipe(
-          map(value => 60 - (value + 1)),
-          take(60),
+          map(value => 60 - value),
+          take(61),
         )
         .subscribe({
           next: value => {

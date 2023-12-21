@@ -6,4 +6,5 @@ export interface HomeState {
   isLoading: boolean
   groups: Group[]
   users: User[]
+  currentChat: Group | null
 }

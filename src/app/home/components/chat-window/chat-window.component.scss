@@ -1,0 +1,39 @@
+:host {
+  display: block;
+
+  max-width: 25rem;
+  height: 80vh;
+  margin: 3rem auto;
+
+  border: 1px solid black;
+
+  .messages-wrapper {
+    overflow: auto;
+    display: block;
+    height: 90%;
+
+    .message {
+      margin: 1rem;
+
+      .text {
+        margin: 0;
+      }
+
+      .my-nickname {
+        color: red;
+      }
+    }
+
+    .my-message {
+      max-width: fit-content;
+      margin-right: 2rem;
+      margin-left: auto;
+    }
+  }
+
+  .message-input {
+    .message-field {
+      width: 85%;
+    }
+  }
+}

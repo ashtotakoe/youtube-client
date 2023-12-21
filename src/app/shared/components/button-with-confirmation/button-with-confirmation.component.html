@@ -1,0 +1,10 @@
+<span (click)="toggleConfirmation()" *ngIf="!isConfirmationOpened; else confirmation">
+  <ng-content />
+</span>
+
+<ng-template #confirmation>
+  <span>
+    <button mat-button (click)="toggleConfirmation()">Cancel</button>
+    <button mat-button color="warn" (click)="onClick()">Delete</button>
+  </span>
+</ng-template>

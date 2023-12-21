@@ -3,11 +3,9 @@
     {{ group.name }}
   </a>
 
-  <button mat-icon-button *ngIf="group.isCreatedByMe && !isConfirmationOpened" (click)="toggleConfirmation()">
-    <mat-icon>close</mat-icon>
-  </button>
-  <span *ngIf="isConfirmationOpened">
-    <button mat-button (click)="toggleConfirmation()">Cancel</button>
-    <button mat-button color="warn" (click)="deleteGroup()">Delete</button>
-  </span>
+  <cn-button-with-confirmation (buttonClicked)="deleteGroup()" *ngIf="group.isCreatedByMe">
+    <button mat-icon-button>
+      <mat-icon>close</mat-icon>
+    </button>
+  </cn-button-with-confirmation>
 </div>

@@ -13,6 +13,7 @@ import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.fa
 })
 export class UsersListComponent implements OnInit {
   public users$ = this.homeFacade.users$
+  public isLoading$ = this.homeFacade.isLoading$
   private profileData$ = this.profileFacade.profileData$
 
   public countdownName = CountdownNames.RefreshUserList

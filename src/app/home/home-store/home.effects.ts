@@ -1,14 +1,17 @@
 /* eslint-disable max-nested-callbacks */
 import { Injectable } from '@angular/core'
+import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
 
 import type { Group } from '../models/group.model'
 import { DialogStateService } from '../services/dialog-state.service'
+import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
+import { groupPageActions } from './actions/group-page.actions'
 import { usersListActions } from './actions/users-list.actions'
 import { HomeFacade } from './services/home.facade'
 import { ConnectionsHttpService } from 'src/app/core/api/services/connections-http.service'
@@ -28,6 +31,7 @@ export class HomeEffects {
     private profileFacade: ProfileFacade,
     private countdownService: CountdownService,
     private dialogStateService: DialogStateService,
+    private router: Router,
   ) {}
 
   public loadGroupsEffect$ = createEffect(() =>
@@ -36,7 +40,18 @@ export class HomeEffects {
       withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$),
       switchMap(([{ isCashed }, groups, profileData]) => {
         if (isCashed && groups.length) {
-          return of(connectionsGroupsApiActions.loadGroupsSuccess({ groups }))
+          return of(
+            connectionsGroupsApiActions.loadGroupsSuccess({
+              groups: groups.map(group => ({
+                ...group,
+                isCreatedByMe: group.createdBy === profileData?.uid,
+              })),
+            }),
+          )
+        }
+
+        if (!isCashed) {
+          this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
         }
 
         return this.connectionsHttpService.loadGroups().pipe(
@@ -52,12 +67,6 @@ export class HomeEffects {
           ]),
 
           map((groupsFromApi: Group[]) => {
-            if (!isCashed) {
-              this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
-            }
-
-            this.snackbarService.open('Groups loaded')
-
             return connectionsGroupsApiActions.loadGroupsSuccess({ groups: groupsFromApi })
           }),
 
@@ -95,7 +104,7 @@ export class HomeEffects {
                 id: groupID,
                 name: newGroupName,
                 createdAt: new Date().toISOString(),
-                createdBy: profileData.name,
+                createdBy: profileData.uid,
                 isCreatedByMe: true,
               },
             })
@@ -119,6 +128,8 @@ export class HomeEffects {
           map(response => {
             if (response.ok) {
               this.snackbarService.open('Group was deleted')
+
+              this.router.navigate(['/']).catch(() => null)
 
               return connectionsGroupsApiActions.deleteGroupSuccess({ groupId })
             }
@@ -144,6 +155,10 @@ export class HomeEffects {
           return of(connectionsUsersApiActions.loadUsersSuccess({ users }))
         }
 
+        if (!isCashed) {
+          this.countdownService.getCountdown(CountdownNames.RefreshUserList)?.startCountdown()
+        }
+
         return combineLatest([
           this.connectionsHttpService.loadUsers(),
           this.connectionsHttpService.loadConversations(),
@@ -160,10 +175,6 @@ export class HomeEffects {
                 hasConversationWithMe,
               }
             }).filter(user => user.uid !== profileData?.uid)
-
-            if (!isCashed) {
-              this.countdownService.getCountdown(CountdownNames.RefreshUserList)?.startCountdown()
-            }
 
             this.snackbarService.open('Users loaded')
 
@@ -198,6 +209,88 @@ export class HomeEffects {
             this.snackbarService.open(message)
 
             return of(connectionsUsersApiActions.createConversationFailure({ errorMessage: message }))
+          }),
+        )
+      }),
+    ),
+  )
+
+  public loadGroupChatEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(groupPageActions.loadGroupChat),
+      withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$, this.homeFacade.users$),
+      switchMap(([{ groupId, isRefresh }, groups, profileData, users]) => {
+        const relatedGroup = groups.find(group => group.id === groupId)
+
+        if (relatedGroup) {
+          const since = relatedGroup?.lastMessageTime ?? undefined
+
+          if (isRefresh) {
+            this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
+          }
+
+          return this.connectionsHttpService.loadGroupChat(groupId, since).pipe(
+            map(chatResponse => {
+              this.snackbarService.open(isRefresh ? 'refreshed' : 'Group chat loaded')
+
+              if (chatResponse.Count === 0) {
+                return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
+              }
+
+              const lastMessageTime = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))[
+                chatResponse.Items.length - 1
+              ].createdAt.S
+
+              const chatMessages = [
+                ...(relatedGroup.messages ?? []),
+                ...chatResponse.Items.map(message => ({
+                  authorID: message.authorID.S,
+                  message: message.message.S,
+                  createdAt: message.createdAt.S,
+                  authorName: users.find(user => user.uid === message.authorID.S)?.name ?? 'Unknown user',
+                  isAuthorMe: message.authorID.S === profileData?.uid,
+                })),
+              ]
+
+              return connectionsGroupsApiActions.loadGroupChatSuccess({
+                group: {
+                  ...relatedGroup,
+                  messages: chatMessages,
+                  lastMessageTime,
+                },
+              })
+            }),
+            catchError(({ message }: Error) => {
+              this.snackbarService.open(message)
+
+              return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: message }))
+            }),
+          )
+        }
+
+        return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: 'Group was not found' }))
+      }),
+    ),
+  )
+
+  public sendMessageEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(chatWindowActions.sendMessage),
+      switchMap(({ groupId, message }) => {
+        return this.connectionsHttpService.sendMessage(groupId, message).pipe(
+          map(response => {
+            if (response.ok) {
+              this.homeFacade.loadGroupChat({ groupId })
+
+              return connectionsGroupsApiActions.sendMessageSuccess()
+            }
+
+            return connectionsGroupsApiActions.sendMessageFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+          }),
+          catchError((error: Error) => {
+            this.snackbarService.open(error.message)
+
+            return of(connectionsGroupsApiActions.sendMessageFailure({ errorMessage: error.message }))
           }),
         )
       }),

@@ -1,0 +1,33 @@
+<div class="messages-wrapper">
+  <mat-list>
+    <div
+      class="message"
+      [class.my-message]="message.isAuthorMe"
+      *ngFor="let message of group.messages; trackBy: trackByMessage"
+    >
+      <span class="mat-body" [class.my-nickname]="message.isAuthorMe"
+        >By: {{ message.isAuthorMe ? 'me' : message.authorName }}</span
+      >
+      <p class="mat-h4 text">{{ message.message }}</p>
+      <span class="mat-body">{{ message.createdAt | date: 'short' }}</span>
+    </div>
+  </mat-list>
+</div>
+<form #messageForm="ngForm" class="message-input">
+  <mat-form-field appearance="outline" class="message-field">
+    <mat-label>Message</mat-label>
+    <input matInput [(ngModel)]="message" name="message" required (keydown.enter)="sendMessage()" />
+  </mat-form-field>
+
+  <ng-container *ngIf="!(isLoading$ | async); else loading">
+    <button mat-icon-button [disabled]="messageForm.invalid" (click)="sendMessage()">
+      <mat-icon>send</mat-icon>
+    </button>
+  </ng-container>
+</form>
+
+<ng-template #loading>
+  <button mat-icon-button disabled color="primary">
+    <mat-icon><mat-spinner color="primary" diameter="25"> </mat-spinner></mat-icon>
+  </button>
+</ng-template>

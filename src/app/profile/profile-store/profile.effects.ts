@@ -46,6 +46,9 @@ export class ProfileEffects {
           catchError(({ message }: Error) => {
             this.snackBarService.open(message)
 
+            this.localStorageService.clear()
+            this.router.navigate(['/', 'auth']).catch(() => null)
+
             return of(connectionsProfileApiActions.loadProfileDataFailure({ errorMessage: message }))
           }),
         )
