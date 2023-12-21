@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+import { FormBuilder } from '@angular/forms'
 import { Observable } from 'rxjs'
 
 import { Group } from '../../models/group.model'
@@ -16,6 +17,8 @@ export class ChatWindowComponent {
   @Output() public messageSent = new EventEmitter<string>()
 
   public message = ''
+
+  constructor(private fb: FormBuilder) {}
 
   public sendMessage(): void {
     if (this.message) {

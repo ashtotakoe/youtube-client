@@ -13,18 +13,18 @@
     </div>
   </mat-list>
 </div>
-<div class="message-input">
+<form #messageForm="ngForm" class="message-input">
   <mat-form-field appearance="outline" class="message-field">
     <mat-label>Message</mat-label>
-    <input matInput [(ngModel)]="message" required (keydown.enter)="sendMessage()" />
+    <input matInput [(ngModel)]="message" name="message" required (keydown.enter)="sendMessage()" />
   </mat-form-field>
 
   <ng-container *ngIf="!(isLoading$ | async); else loading">
-    <button mat-icon-button (click)="sendMessage()">
+    <button mat-icon-button [disabled]="messageForm.invalid" (click)="sendMessage()">
       <mat-icon>send</mat-icon>
     </button>
   </ng-container>
-</div>
+</form>
 
 <ng-template #loading>
   <button mat-icon-button disabled color="primary">
