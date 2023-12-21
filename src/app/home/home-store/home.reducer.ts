@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store'
 
-import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
+import { conversationPageActions } from './actions/conversation-page.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
 import { groupPageActions } from './actions/group-page.actions'
@@ -14,7 +14,8 @@ const homeInitialState: HomeState = {
   isLoading: false,
   groups: [],
   users: [],
-  currentChat: null,
+  currentGroupChat: null,
+  currentConversationChat: null,
 }
 
 export const homeReducer = createReducer(
@@ -75,6 +76,35 @@ export const homeReducer = createReducer(
     errorMessage,
   })),
 
+  on(conversationPageActions.deleteConversation, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.deleteConversationSuccess, (state, { conversationId }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    users: state.users.map(user => {
+      if (user.conversationId === conversationId) {
+        return {
+          ...user,
+          conversationId: undefined,
+          hasConversationWithMe: undefined,
+          messages: undefined,
+        }
+      }
+
+      return user
+    }),
+  })),
+
+  on(connectionsUsersApiActions.deleteConversationFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
+
   on(usersListActions.loadUsers, state => ({
     ...state,
     isLoading: true,
@@ -130,7 +160,7 @@ export const homeReducer = createReducer(
     ...state,
     isLoading: false,
     errorMessage,
-    currentChat: null,
+    currentGroupChat: null,
   })),
 
   on(connectionsGroupsApiActions.loadGroupChatSuccess, (state, { group }) => ({
@@ -138,10 +168,30 @@ export const homeReducer = createReducer(
     isLoading: false,
     errorMessage: null,
     groups: state.groups.map(g => (g.id === group.id ? group : g)),
-    currentChat: group,
+    currentGroupChat: group,
   })),
 
-  on(chatWindowActions.sendMessage, state => ({
+  on(conversationPageActions.loadConversationChat, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.loadConversationChatFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+    currentConversationChat: null,
+  })),
+
+  on(connectionsUsersApiActions.loadConversationChatSuccess, (state, { user }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    users: state.users.map(u => (u.uid === user.uid ? user : u)),
+    currentConversationChat: user,
+  })),
+
+  on(groupPageActions.sendMessageToGroup, state => ({
     ...state,
     isLoading: true,
   })),
@@ -153,6 +203,22 @@ export const homeReducer = createReducer(
   })),
 
   on(connectionsGroupsApiActions.sendMessageFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
+
+  on(conversationPageActions.sendMessageToConversation, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.sendMessageToConversationSuccess, state => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+  })),
+  on(connectionsUsersApiActions.sendMessageToConversationFailure, (state, { errorMessage }) => ({
     ...state,
     isLoading: false,
     errorMessage,

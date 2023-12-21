@@ -3,7 +3,7 @@
     <div
       class="message"
       [class.my-message]="message.isAuthorMe"
-      *ngFor="let message of group.messages; trackBy: trackByMessage"
+      *ngFor="let message of messages; trackBy: trackByMessage"
     >
       <span class="mat-body" [class.my-nickname]="message.isAuthorMe"
         >By: {{ message.isAuthorMe ? 'me' : message.authorName }}</span

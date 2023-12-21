@@ -1,7 +1,10 @@
 <a [routerLink]="['/', 'home']">back home</a>
 
-<ng-container *ngIf="currentChat$ | async as currentChat; else chatNotFound">
-  <cn-button-with-confirmation *ngIf="currentChat.isCreatedByMe" (buttonClicked)="deleteGroup(currentChat.id)">
+<ng-container *ngIf="currentGroupChat$ | async as currentGroupChat; else chatNotFound">
+  <cn-button-with-confirmation
+    *ngIf="currentGroupChat.isCreatedByMe"
+    (buttonClicked)="deleteGroup(currentGroupChat.id)"
+  >
     <button mat-button color="warn">delete group</button>
   </cn-button-with-confirmation>
 
@@ -12,9 +15,13 @@
     >Refresh chat</cn-button-with-countdown
   >
 
-  <h1 class="mat-h1" style="text-align: center">{{ currentChat.name }}</h1>
+  <h1 class="mat-h1" style="text-align: center">{{ currentGroupChat.name }}</h1>
 
-  <cn-chat-window [isLoading$]="isLoading$" (messageSent)="sendMessage($event)" [group]="currentChat" />
+  <cn-chat-window
+    [isLoading$]="isLoading$"
+    (messageSent)="sendMessage($event)"
+    [messages]="currentGroupChat.messages ?? []"
+  />
 </ng-container>
 
 <ng-template #chatNotFound>

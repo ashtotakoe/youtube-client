@@ -27,6 +27,7 @@ import { HomeEffects } from './home-store/home.effects'
 import { homeReducer } from './home-store/home.reducer'
 import { HomeFacade } from './home-store/services/home.facade'
 import { homeRoutes } from './home.routes'
+import { ConversationPageComponent } from './pages/conversation-page/conversation-page.component'
 import { GroupPageComponent } from './pages/group-page/group-page.component'
 import { DialogStateService } from './services/dialog-state.service'
 
@@ -40,6 +41,7 @@ import { DialogStateService } from './services/dialog-state.service'
     UsersListItemComponent,
     GroupPageComponent,
     ChatWindowComponent,
+    ConversationPageComponent,
   ],
   imports: [
     CommonModule,
