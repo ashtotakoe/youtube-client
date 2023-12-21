@@ -11,10 +11,10 @@ import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GroupPageComponent {
-  public currentChat$ = this.homeFacade.currentChat$
+  public currentGroupChat$ = this.homeFacade.currentGroupChat$
   public isLoading$ = this.homeFacade.isLoading$
 
-  public countdownName = CountdownNames.RefreshChat
+  public countdownName = CountdownNames.RefreshGroupChat
 
   public groupId = this.route.snapshot.paramMap.get('id')
   constructor(

@@ -11,6 +11,7 @@ import type { ConversationsResponse } from 'src/app/home/models/conversation-res
 import type { GroupListResponse } from 'src/app/home/models/group-list-response.model'
 import type { MessageResponse } from 'src/app/home/models/message-response.model'
 import type { UsersResponse } from 'src/app/home/models/users-response.model'
+import { ChatTypes } from 'src/app/home/unums/chat-types.enum'
 import type { ProfileResponse } from 'src/app/profile/types/profile-response.type'
 import type { UserSignUpData } from 'src/app/shared/models/user-sign-up-data.model'
 import type { UserSignInData } from 'src/app/shared/types/user-sign-in-data.type'
@@ -211,9 +212,17 @@ export class ConnectionsHttpService {
       )
   }
 
-  public loadGroupChat(groupID: string, since?: string): Observable<MessageResponse> {
+  public loadChat({
+    chatId,
+    chatType,
+    since,
+  }: {
+    chatId: string
+    chatType: 'group' | 'conversation'
+    since?: string
+  }): Observable<MessageResponse> {
     const params = {
-      groupID,
+      [chatType === ChatTypes.Group ? 'groupID' : 'conversationID']: chatId,
     }
 
     if (since) {
@@ -221,9 +230,14 @@ export class ConnectionsHttpService {
     }
 
     return this.httpClient
-      .get<MessageResponse>(`${this.apiUrl}${ConnectionsApiSlugs.Groups}/read`, {
-        params,
-      })
+      .get<MessageResponse>(
+        `${this.apiUrl}${
+          chatType === ChatTypes.Group ? ConnectionsApiSlugs.Groups : ConnectionsApiSlugs.Conversations
+        }/read`,
+        {
+          params,
+        },
+      )
       .pipe(
         catchError(({ error }: HttpErrorResponse) => {
           const { message } = error as ConnectionsApiError

@@ -1,10 +1,10 @@
 import { inject } from '@angular/core'
-import type { ActivatedRouteSnapshot, ResolveFn } from '@angular/router'
+import type { ResolveFn } from '@angular/router'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'
 
-export const currentChatResolver: ResolveFn<Group | null> = (route: ActivatedRouteSnapshot) => {
+export const currentGroupChatResolver: ResolveFn<Group | null> = route => {
   const homeFacade = inject(HomeFacade)
   const groupId = route.paramMap.get('id')
 
@@ -12,5 +12,5 @@ export const currentChatResolver: ResolveFn<Group | null> = (route: ActivatedRou
     homeFacade.loadGroupChat({ groupId, isRefresh: false })
   }
 
-  return homeFacade.currentChat$
+  return homeFacade.currentGroupChat$
 }

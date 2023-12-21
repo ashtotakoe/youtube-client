@@ -11,4 +11,6 @@ export const selectGroups = createSelector(homeFeatureSelector, state => state.g
 
 export const selectUsers = createSelector(homeFeatureSelector, state => state.users)
 
-export const selectCurrentChat = createSelector(homeFeatureSelector, state => state.currentChat)
+export const selectCurrentGroupChat = createSelector(homeFeatureSelector, state => state.currentGroupChat)
+
+export const selectCurrentConversationChat = createSelector(homeFeatureSelector, state => state.currentConversationChat)

@@ -6,9 +6,11 @@ import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'r
 
 import type { Group } from '../models/group.model'
 import { DialogStateService } from '../services/dialog-state.service'
+import { ChatTypes } from '../unums/chat-types.enum'
 import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
+import { conversationPageActions } from './actions/conversation-page.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
 import { groupsListActions } from './actions/group-list.actions'
 import { groupPageActions } from './actions/group-page.actions'
@@ -165,14 +167,15 @@ export class HomeEffects {
         ]).pipe(
           map(([usersResponse, conversationsResponse]) => {
             const usersFromApi = usersResponse.Items.map(user => {
-              const hasConversationWithMe = conversationsResponse.Items.some(
-                conversation => conversation.companionID.S === user.uid.S,
-              )
+              const conversationId =
+                conversationsResponse.Items.find(conversation => conversation.companionID.S === user.uid.S)?.id.S ??
+                undefined
 
               return {
                 name: user.name.S,
                 uid: user.uid.S,
-                hasConversationWithMe,
+                conversationId,
+                hasConversationWithMe: conversationId !== undefined,
               }
             }).filter(user => user.uid !== profileData?.uid)
 
@@ -226,12 +229,12 @@ export class HomeEffects {
           const since = relatedGroup?.lastMessageTime ?? undefined
 
           if (isRefresh) {
-            this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
+            this.countdownService.getCountdown(CountdownNames.RefreshGroupChat + groupId)?.startCountdown()
           }
 
-          return this.connectionsHttpService.loadGroupChat(groupId, since).pipe(
+          return this.connectionsHttpService.loadChat({ chatId: groupId, chatType: ChatTypes.Group, since }).pipe(
             map(chatResponse => {
-              this.snackbarService.open(isRefresh ? 'refreshed' : 'Group chat loaded')
+              this.snackbarService.open(isRefresh ? 'refreshed' : 'chat loaded')
 
               if (chatResponse.Count === 0) {
                 return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
@@ -269,6 +272,70 @@ export class HomeEffects {
         }
 
         return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: 'Group was not found' }))
+      }),
+    ),
+  )
+
+  public loadConversationEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(conversationPageActions.loadConversationChat),
+      withLatestFrom(this.homeFacade.users$, this.profileFacade.profileData$),
+      switchMap(([{ conversationId, isRefresh }, users, profileData]) => {
+        const relatedUser = users.find(user => user.conversationId === conversationId)
+
+        if (relatedUser) {
+          const since = relatedUser?.lastMessageTime ?? undefined
+
+          return this.connectionsHttpService
+            .loadChat({
+              chatId: conversationId,
+              chatType: ChatTypes.Conversation,
+              since,
+            })
+            .pipe(
+              map(chatResponse => {
+                this.snackbarService.open(isRefresh ? 'refreshed' : 'chat loaded')
+
+                if (isRefresh) {
+                  this.countdownService
+                    .getCountdown(CountdownNames.RefreshConversationChat + conversationId)
+                    ?.startCountdown()
+                }
+
+                if (chatResponse.Count === 0) {
+                  return connectionsUsersApiActions.loadConversationChatSuccess({ user: relatedUser })
+                }
+
+                const lastMessageTime = chatResponse.Items.sort(
+                  (a, b) => Number(a.createdAt.S) - Number(b.createdAt.S),
+                )[chatResponse.Items.length - 1].createdAt.S
+
+                const chatMessages = [
+                  ...(relatedUser.messages ?? []),
+                  ...chatResponse.Items.map(message => ({
+                    authorID: message.authorID.S,
+                    message: message.message.S,
+                    createdAt: message.createdAt.S,
+                    isAuthorMe: message.authorID.S !== relatedUser.uid,
+                    // eslint-disable-next-line no-negated-condition
+                    authorName: message.authorID.S !== relatedUser.uid ? profileData?.name : relatedUser.name,
+                  })),
+                ]
+
+                return connectionsUsersApiActions.loadConversationChatSuccess({
+                  user: {
+                    ...relatedUser,
+                    messages: chatMessages,
+                    lastMessageTime,
+                  },
+                })
+              }),
+            )
+        }
+
+        return of(
+          connectionsUsersApiActions.loadConversationChatFailure({ errorMessage: 'Conversation was not found' }),
+        )
       }),
     ),
   )

@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 import { Observable } from 'rxjs'
 
-import { Group } from '../../models/group.model'
+import type { Group } from '../../models/group.model'
 import type { Message } from '../../models/message.model'
+import type { User } from '../../models/user.model'
 
 @Component({
   selector: 'cn-chat-window',
@@ -11,7 +12,7 @@ import type { Message } from '../../models/message.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatWindowComponent {
-  @Input({ required: true }) public group!: Group
+  @Input({ required: true }) public messages!: Message[]
   @Input() public isLoading$!: Observable<boolean>
   @Output() public messageSent = new EventEmitter<string>()
 
