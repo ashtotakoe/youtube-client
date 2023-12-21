@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
+import { Observable } from 'rxjs'
 
-import { HomeFacade } from '../../home-store/services/home.facade'
 import { Group } from '../../models/group.model'
 import type { Message } from '../../models/message.model'
 
@@ -12,15 +12,14 @@ import type { Message } from '../../models/message.model'
 })
 export class ChatWindowComponent {
   @Input({ required: true }) public group!: Group
-  public isLoading$ = this.homeFacade.isLoading$
+  @Input() public isLoading$!: Observable<boolean>
+  @Output() public messageSent = new EventEmitter<string>()
 
   public message = ''
 
-  constructor(private homeFacade: HomeFacade) {}
-
   public sendMessage(): void {
     if (this.message) {
-      this.homeFacade.sendMessage({ groupId: this.group.id, message: this.message })
+      this.messageSent.emit(this.message)
       this.message = ''
     }
   }

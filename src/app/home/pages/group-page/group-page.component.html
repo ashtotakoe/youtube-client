@@ -5,13 +5,16 @@
     <button mat-button color="warn">delete group</button>
   </cn-button-with-confirmation>
 
-  <cn-button-with-countdown [countdownName]="countdownName + currentChat.id" (buttonClicked)="refreshChat()"
+  <cn-button-with-countdown
+    [isLoading]="isLoading$ | async"
+    [countdownName]="countdownName + currentChat.id"
+    (buttonClicked)="refreshChat()"
     >Refresh chat</cn-button-with-countdown
   >
 
   <h1 class="mat-h1" style="text-align: center">{{ currentChat.name }}</h1>
 
-  <cn-chat-window [group]="currentChat" />
+  <cn-chat-window [isLoading$]="isLoading$" (messageSent)="sendMessage($event)" [group]="currentChat" />
 </ng-container>
 
 <ng-template #chatNotFound>

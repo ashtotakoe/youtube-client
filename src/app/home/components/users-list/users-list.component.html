@@ -1,4 +1,8 @@
-<cn-button-with-countdown class="button" [countdownName]="countdownName" (buttonClicked)="refreshUsers()"
+<cn-button-with-countdown
+  class="button"
+  [isLoading]="isLoading$ | async"
+  [countdownName]="countdownName"
+  (buttonClicked)="refreshUsers()"
   >Refresh users</cn-button-with-countdown
 >
 

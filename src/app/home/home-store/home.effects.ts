@@ -50,6 +50,10 @@ export class HomeEffects {
           )
         }
 
+        if (!isCashed) {
+          this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
+        }
+
         return this.connectionsHttpService.loadGroups().pipe(
           // eslint-disable-next-line @typescript-eslint/naming-convention
           map(({ Items }) => [
@@ -63,10 +67,6 @@ export class HomeEffects {
           ]),
 
           map((groupsFromApi: Group[]) => {
-            if (!isCashed) {
-              this.countdownService.getCountdown(CountdownNames.RefreshGroupList)?.startCountdown()
-            }
-
             return connectionsGroupsApiActions.loadGroupsSuccess({ groups: groupsFromApi })
           }),
 
@@ -155,6 +155,10 @@ export class HomeEffects {
           return of(connectionsUsersApiActions.loadUsersSuccess({ users }))
         }
 
+        if (!isCashed) {
+          this.countdownService.getCountdown(CountdownNames.RefreshUserList)?.startCountdown()
+        }
+
         return combineLatest([
           this.connectionsHttpService.loadUsers(),
           this.connectionsHttpService.loadConversations(),
@@ -171,10 +175,6 @@ export class HomeEffects {
                 hasConversationWithMe,
               }
             }).filter(user => user.uid !== profileData?.uid)
-
-            if (!isCashed) {
-              this.countdownService.getCountdown(CountdownNames.RefreshUserList)?.startCountdown()
-            }
 
             this.snackbarService.open('Users loaded')
 
@@ -225,12 +225,12 @@ export class HomeEffects {
         if (relatedGroup) {
           const since = relatedGroup?.lastMessageTime ?? undefined
 
+          if (isRefresh) {
+            this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
+          }
+
           return this.connectionsHttpService.loadGroupChat(groupId, since).pipe(
             map(chatResponse => {
-              if (isRefresh) {
-                this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
-              }
-
               this.snackbarService.open(isRefresh ? 'refreshed' : 'Group chat loaded')
 
               if (chatResponse.Count === 0) {
