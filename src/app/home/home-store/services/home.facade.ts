@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { combineLatest, filter, take } from 'rxjs'
 
+import { chatWindowActions } from '../actions/chat-window.actions'
 import { createGroupFormActions } from '../actions/create-group-form.actions'
 import { groupsListActions } from '../actions/group-list.actions'
 import { groupPageActions } from '../actions/group-page.actions'
@@ -61,5 +62,9 @@ export class HomeFacade {
       .subscribe(() => {
         this.store.dispatch(groupPageActions.loadGroupChat({ groupId, isRefresh }))
       })
+  }
+
+  public sendMessage({ groupId, message }: { groupId: string; message: string }): void {
+    this.store.dispatch(chatWindowActions.sendMessage({ groupId, message }))
   }
 }

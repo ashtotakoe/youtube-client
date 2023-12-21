@@ -6,6 +6,7 @@ import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'r
 
 import type { Group } from '../models/group.model'
 import { DialogStateService } from '../services/dialog-state.service'
+import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
@@ -103,7 +104,7 @@ export class HomeEffects {
                 id: groupID,
                 name: newGroupName,
                 createdAt: new Date().toISOString(),
-                createdBy: profileData.name,
+                createdBy: profileData.uid,
                 isCreatedByMe: true,
               },
             })
@@ -230,7 +231,7 @@ export class HomeEffects {
                 this.countdownService.getCountdown(CountdownNames.RefreshChat + groupId)?.startCountdown()
               }
 
-              this.snackbarService.open('Group chat loaded')
+              this.snackbarService.open(isRefresh ? 'refreshed' : 'Group chat loaded')
 
               if (chatResponse.Count === 0) {
                 return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
@@ -268,6 +269,30 @@ export class HomeEffects {
         }
 
         return of(connectionsGroupsApiActions.loadGroupChatFailure({ errorMessage: 'Group was not found' }))
+      }),
+    ),
+  )
+
+  public sendMessageEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(chatWindowActions.sendMessage),
+      switchMap(({ groupId, message }) => {
+        return this.connectionsHttpService.sendMessage(groupId, message).pipe(
+          map(response => {
+            if (response.ok) {
+              this.homeFacade.loadGroupChat({ groupId })
+
+              return connectionsGroupsApiActions.sendMessageSuccess()
+            }
+
+            return connectionsGroupsApiActions.sendMessageFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+          }),
+          catchError((error: Error) => {
+            this.snackbarService.open(error.message)
+
+            return of(connectionsGroupsApiActions.sendMessageFailure({ errorMessage: error.message }))
+          }),
+        )
       }),
     ),
   )

@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
 import { MatInputModule } from '@angular/material/input'
 import { MatListModule } from '@angular/material/list'
+import { MatProgressSpinner, MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { RouterModule } from '@angular/router'
 import { EffectsModule } from '@ngrx/effects'
 import { StoreModule } from '@ngrx/store'
@@ -53,6 +54,8 @@ import { DialogStateService } from './services/dialog-state.service'
     MatInputModule,
     MatIconModule,
     ButtonWithSpinnerComponent,
+    FormsModule,
+    MatProgressSpinnerModule,
   ],
   providers: [HomeFacade, DialogStateService],
 })

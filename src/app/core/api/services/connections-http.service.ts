@@ -232,4 +232,24 @@ export class ConnectionsHttpService {
         }),
       )
   }
+
+  public sendMessage(groupID: string, message: string): Observable<HttpResponse<string>> {
+    return this.httpClient
+      .post(
+        `${this.apiUrl}${ConnectionsApiSlugs.Groups}/append`,
+        { groupID, message },
+        { responseType: 'text', observe: 'response' },
+      )
+      .pipe(
+        catchError(({ error }: HttpErrorResponse) => {
+          let errorMessage: string | undefined
+
+          if (typeof error === 'string') {
+            errorMessage = (JSON.parse(error) as ConnectionsApiError).message
+          }
+
+          return throwError(() => new Error(errorMessage ?? ErrorMessages.SomethingWentWrong))
+        }),
+      )
+  }
 }

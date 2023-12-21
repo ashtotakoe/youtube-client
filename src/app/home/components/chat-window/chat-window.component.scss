@@ -1,5 +1,4 @@
 :host {
-  overflow: auto;
   display: block;
 
   max-width: 25rem;
@@ -7,16 +6,27 @@
   margin: 3rem auto;
 
   border: 1px solid black;
-}
 
-.message {
-  margin: 1rem;
+  .messages-wrapper {
+    overflow: auto;
+    height: 90%;
 
-  .text {
-    margin: 0;
+    .message {
+      margin: 1rem;
+
+      .text {
+        margin: 0;
+      }
+
+      .my-nickname {
+        color: red;
+      }
+    }
   }
 
-  .my-nickname {
-    color: red;
+  .message-input {
+    .message-field {
+      width: 85%;
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { createActionGroup, props } from '@ngrx/store'
+import { createActionGroup, emptyProps, props } from '@ngrx/store'
 
 import type { Group } from '../../models/group.model'
 
@@ -17,5 +17,8 @@ export const connectionsGroupsApiActions = createActionGroup({
 
     'Load Group Chat Success': props<{ group: Group }>(),
     'Load Group Chat Failure': props<{ errorMessage: string }>(),
+
+    'Send Message Success': emptyProps(),
+    'Send Message Failure': props<{ errorMessage: string }>(),
   },
 })

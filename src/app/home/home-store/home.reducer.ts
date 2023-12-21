@@ -1,5 +1,6 @@
 import { createReducer, on } from '@ngrx/store'
 
+import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { createGroupFormActions } from './actions/create-group-form.actions'
@@ -138,5 +139,22 @@ export const homeReducer = createReducer(
     errorMessage: null,
     groups: state.groups.map(g => (g.id === group.id ? group : g)),
     currentChat: group,
+  })),
+
+  on(chatWindowActions.sendMessage, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsGroupsApiActions.sendMessageSuccess, state => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+  })),
+
+  on(connectionsGroupsApiActions.sendMessageFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
   })),
 )
