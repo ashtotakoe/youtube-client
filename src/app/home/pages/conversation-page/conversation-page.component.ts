@@ -22,7 +22,9 @@ export class ConversationPageComponent {
   ) {}
 
   public deleteConversation(conversationId?: string): void {
-    console.log('delete conversation')
+    if (conversationId) {
+      this.homeFacade.deleteConversation(conversationId)
+    }
   }
 
   public refreshChat(): void {
@@ -33,7 +35,7 @@ export class ConversationPageComponent {
 
   public sendMessage(message: string): void {
     if (this.conversationId) {
-      console.log('send message')
+      this.homeFacade.sendMessageToConversation({ conversationId: this.conversationId, message })
     }
   }
 }

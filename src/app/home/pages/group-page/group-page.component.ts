@@ -34,7 +34,7 @@ export class GroupPageComponent {
 
   public sendMessage(message: string): void {
     if (this.groupId) {
-      this.homeFacade.sendMessage({ groupId: this.groupId, message })
+      this.homeFacade.sendMessageToGroup({ groupId: this.groupId, message })
     }
   }
 }

@@ -4,10 +4,9 @@ import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
 
+import { ChatTypes } from '../enums/chat-types.enum'
 import type { Group } from '../models/group.model'
 import { DialogStateService } from '../services/dialog-state.service'
-import { ChatTypes } from '../unums/chat-types.enum'
-import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { conversationPageActions } from './actions/conversation-page.actions'
@@ -126,7 +125,7 @@ export class HomeEffects {
     this.actions$.pipe(
       ofType(groupsListActions.deleteGroup),
       switchMap(({ groupId }) =>
-        this.connectionsHttpService.deleteGroup(groupId).pipe(
+        this.connectionsHttpService.deleteChat({ chatId: groupId, chatType: ChatTypes.Group }).pipe(
           map(response => {
             if (response.ok) {
               this.snackbarService.open('Group was deleted')
@@ -136,12 +135,40 @@ export class HomeEffects {
               return connectionsGroupsApiActions.deleteGroupSuccess({ groupId })
             }
 
-            return connectionsGroupsApiActions.createGroupFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
+            return connectionsGroupsApiActions.deleteGroupFailure({ errorMessage: ErrorMessages.SomethingWentWrong })
           }),
           catchError(({ message }: Error) => {
             this.snackbarService.open(message)
 
             return of(connectionsGroupsApiActions.deleteGroupFailure({ errorMessage: message }))
+          }),
+        ),
+      ),
+    ),
+  )
+
+  public deleteConversationEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(conversationPageActions.deleteConversation),
+      switchMap(({ conversationId }) =>
+        this.connectionsHttpService.deleteChat({ chatId: conversationId, chatType: ChatTypes.Conversation }).pipe(
+          map(response => {
+            if (response.ok) {
+              this.snackbarService.open('Conversation was deleted')
+
+              this.router.navigate(['/']).catch(() => null)
+
+              return connectionsUsersApiActions.deleteConversationSuccess({ conversationId })
+            }
+
+            return connectionsUsersApiActions.deleteConversationFailure({
+              errorMessage: ErrorMessages.SomethingWentWrong,
+            })
+          }),
+          catchError(({ message }: Error) => {
+            this.snackbarService.open(message)
+
+            return of(connectionsUsersApiActions.deleteConversationFailure({ errorMessage: message }))
           }),
         ),
       ),
@@ -340,11 +367,11 @@ export class HomeEffects {
     ),
   )
 
-  public sendMessageEffect$ = createEffect(() =>
+  public sendMessageToGroupEffect$ = createEffect(() =>
     this.actions$.pipe(
-      ofType(chatWindowActions.sendMessage),
+      ofType(groupPageActions.sendMessageToGroup),
       switchMap(({ groupId, message }) => {
-        return this.connectionsHttpService.sendMessage(groupId, message).pipe(
+        return this.connectionsHttpService.sendMessage({ chatId: groupId, message, chatType: ChatTypes.Group }).pipe(
           map(response => {
             if (response.ok) {
               this.homeFacade.loadGroupChat({ groupId })
@@ -360,6 +387,34 @@ export class HomeEffects {
             return of(connectionsGroupsApiActions.sendMessageFailure({ errorMessage: error.message }))
           }),
         )
+      }),
+    ),
+  )
+
+  public sendMessageToConversationEffect$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(conversationPageActions.sendMessageToConversation),
+      switchMap(({ conversationId, message }) => {
+        return this.connectionsHttpService
+          .sendMessage({ chatId: conversationId, message, chatType: ChatTypes.Conversation })
+          .pipe(
+            map(response => {
+              if (response.ok) {
+                this.homeFacade.loadConversationChat({ conversationId })
+
+                return connectionsUsersApiActions.sendMessageToConversationSuccess()
+              }
+
+              return connectionsUsersApiActions.sendMessageToConversationFailure({
+                errorMessage: ErrorMessages.SomethingWentWrong,
+              })
+            }),
+            catchError((error: Error) => {
+              this.snackbarService.open(error.message)
+
+              return of(connectionsUsersApiActions.sendMessageToConversationFailure({ errorMessage: error.message }))
+            }),
+          )
       }),
     ),
   )

@@ -1,6 +1,5 @@
 import { createReducer, on } from '@ngrx/store'
 
-import { chatWindowActions } from './actions/chat-window.actions'
 import { connectionsGroupsApiActions } from './actions/connections-groups-api.actions'
 import { connectionsUsersApiActions } from './actions/connections-users-api.actions'
 import { conversationPageActions } from './actions/conversation-page.actions'
@@ -72,6 +71,35 @@ export const homeReducer = createReducer(
   })),
 
   on(connectionsGroupsApiActions.deleteGroupFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
+
+  on(conversationPageActions.deleteConversation, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.deleteConversationSuccess, (state, { conversationId }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+    users: state.users.map(user => {
+      if (user.conversationId === conversationId) {
+        return {
+          ...user,
+          conversationId: undefined,
+          hasConversationWithMe: undefined,
+          messages: undefined,
+        }
+      }
+
+      return user
+    }),
+  })),
+
+  on(connectionsUsersApiActions.deleteConversationFailure, (state, { errorMessage }) => ({
     ...state,
     isLoading: false,
     errorMessage,
@@ -163,7 +191,7 @@ export const homeReducer = createReducer(
     currentConversationChat: user,
   })),
 
-  on(chatWindowActions.sendMessage, state => ({
+  on(groupPageActions.sendMessageToGroup, state => ({
     ...state,
     isLoading: true,
   })),
@@ -175,6 +203,22 @@ export const homeReducer = createReducer(
   })),
 
   on(connectionsGroupsApiActions.sendMessageFailure, (state, { errorMessage }) => ({
+    ...state,
+    isLoading: false,
+    errorMessage,
+  })),
+
+  on(conversationPageActions.sendMessageToConversation, state => ({
+    ...state,
+    isLoading: true,
+  })),
+
+  on(connectionsUsersApiActions.sendMessageToConversationSuccess, state => ({
+    ...state,
+    isLoading: false,
+    errorMessage: null,
+  })),
+  on(connectionsUsersApiActions.sendMessageToConversationFailure, (state, { errorMessage }) => ({
     ...state,
     isLoading: false,
     errorMessage,

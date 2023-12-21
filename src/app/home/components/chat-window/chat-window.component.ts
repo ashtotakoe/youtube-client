@@ -1,9 +1,7 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core'
 import { Observable } from 'rxjs'
 
-import type { Group } from '../../models/group.model'
 import type { Message } from '../../models/message.model'
-import type { User } from '../../models/user.model'
 
 @Component({
   selector: 'cn-chat-window',

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
 import { combineLatest, filter, take } from 'rxjs'
 
-import { chatWindowActions } from '../actions/chat-window.actions'
 import { conversationPageActions } from '../actions/conversation-page.actions'
 import { createGroupFormActions } from '../actions/create-group-form.actions'
 import { groupsListActions } from '../actions/group-list.actions'
@@ -50,6 +49,10 @@ export class HomeFacade {
     this.store.dispatch(groupsListActions.deleteGroup({ groupId }))
   }
 
+  public deleteConversation(conversationId: string): void {
+    this.store.dispatch(conversationPageActions.deleteConversation({ conversationId }))
+  }
+
   public loadUsers({ isCashed }: { isCashed: boolean }): void {
     this.store.dispatch(usersListActions.loadUsers({ isCashed }))
   }
@@ -72,11 +75,15 @@ export class HomeFacade {
       })
   }
 
-  public sendMessage({ groupId, message }: { groupId: string; message: string }): void {
-    this.store.dispatch(chatWindowActions.sendMessage({ groupId, message }))
+  public sendMessageToGroup({ groupId, message }: { groupId: string; message: string }): void {
+    this.store.dispatch(groupPageActions.sendMessageToGroup({ groupId, message }))
   }
 
-  public loadConversationChat({ conversationId, isRefresh }: { conversationId: string; isRefresh: boolean }): void {
+  public sendMessageToConversation({ conversationId, message }: { conversationId: string; message: string }): void {
+    this.store.dispatch(conversationPageActions.sendMessageToConversation({ conversationId, message }))
+  }
+
+  public loadConversationChat({ conversationId, isRefresh }: { conversationId: string; isRefresh?: boolean }): void {
     this.loadUsers({ isCashed: true })
     this.profileFacade.loadProfileData()
 
@@ -86,7 +93,6 @@ export class HomeFacade {
         take(1),
       )
       .subscribe(() => {
-        console.log('dispatched')
         this.store.dispatch(conversationPageActions.loadConversationChat({ conversationId, isRefresh }))
       })
   }
