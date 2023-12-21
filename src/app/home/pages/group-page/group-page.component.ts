@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
+import { ChangeDetectionStrategy, Component } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
@@ -10,13 +10,13 @@ import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
   styleUrls: ['./group-page.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GroupPageComponent implements OnInit {
+export class GroupPageComponent {
   public currentChat$ = this.homeFacade.currentChat$
   public isLoading$ = this.homeFacade.isLoading$
 
   public countdownName = CountdownNames.RefreshChat
 
-  private groupId = this.route.snapshot.paramMap.get('id')
+  public groupId = this.route.snapshot.paramMap.get('id')
   constructor(
     private homeFacade: HomeFacade,
     private route: ActivatedRoute,
@@ -35,12 +35,6 @@ export class GroupPageComponent implements OnInit {
   public sendMessage(message: string): void {
     if (this.groupId) {
       this.homeFacade.sendMessage({ groupId: this.groupId, message })
-    }
-  }
-
-  public ngOnInit(): void {
-    if (this.groupId) {
-      this.homeFacade.loadGroupChat({ groupId: this.groupId, isRefresh: false })
     }
   }
 }

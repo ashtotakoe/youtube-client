@@ -7,7 +7,7 @@
 
   <cn-button-with-countdown
     [isLoading]="isLoading$ | async"
-    [countdownName]="countdownName + currentChat.id"
+    [countdownName]="countdownName + groupId"
     (buttonClicked)="refreshChat()"
     >Refresh chat</cn-button-with-countdown
   >

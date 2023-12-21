@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
-import { combineLatest, map } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import type { Group } from '../../models/group.model'

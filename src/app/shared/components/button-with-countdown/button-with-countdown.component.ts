@@ -24,7 +24,6 @@ export class ButtonWithCountdownComponent implements OnInit {
 
   public onClick(): void {
     if (!this.isLoading) {
-      this.countdownService.addCountdownOrGetExisting(this.countdownName).startCountdown()
       this.buttonClicked.emit()
     }
   }
