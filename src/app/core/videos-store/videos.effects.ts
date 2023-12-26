@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
 import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
 
+import { SnackBarMessages } from '../../shared/enums/snack-bar-messages.enum'
 import { MatSnackBarService } from '../services/mat-snack-bar.service'
 import { YoutubeHttpService } from '../youtube/services/youtube-http.service'
 import { YoutubeResponseStateService } from '../youtube/services/youtube-response-state.service'
@@ -34,9 +35,9 @@ export class SearchEffects {
               this.videosFacade.createdVideos$,
             ]).pipe(
               map(([searchVideos, createdVideos]) => {
-                const { query, isFirstPage: isFistPage } = searchData
+                const { query, isFirstPage } = searchData
 
-                if (isFistPage) {
+                if (isFirstPage) {
                   // eslint-disable-next-line max-nested-callbacks
                   const relatableCustomVideos = createdVideos.filter(video => video.snippet.title.includes(query))
 
@@ -76,7 +77,7 @@ export class SearchEffects {
               return youtubeApiActions.loadVideoByIdSuccess({ video: items[0] })
             }
 
-            this.snackBar.showPageNotFoundMessage()
+            this.snackBar.showCustomMessage(SnackBarMessages.PageNotFound)
 
             return youtubeApiActions.loadVideosByQueryFailure({ errorMessage: 'Video not found' })
           }),

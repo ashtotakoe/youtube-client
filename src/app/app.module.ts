@@ -14,6 +14,8 @@ import { AppRoutingModule } from './app-routing.module'
 import { AppComponent } from './app.component'
 import { CoreModule } from './core/core.module'
 import { authInterceptor } from './core/youtube/interceptors/auth.interceptor'
+import { customSvgIcons } from './shared/constants/custom-svg-icons.constant'
+import { setCustomSvgIcons } from './shared/utils/set-custom-svg-icons.util'
 
 @NgModule({
   declarations: [AppComponent],
@@ -39,18 +41,6 @@ export class AppModule {
     private matIconRegistry: MatIconRegistry,
     private domSanitizer: DomSanitizer,
   ) {
-    this.matIconRegistry.addSvgIcon(
-      'custom-favorite',
-      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/favorite.svg'),
-    )
-    this.matIconRegistry.addSvgIcon(
-      'custom-favorite-filled',
-      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/favorite-filled.svg'),
-    )
-
-    this.matIconRegistry.addSvgIcon(
-      'custom-logo',
-      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/youtube-logo.svg'),
-    )
+    setCustomSvgIcons({ matIconRegistry, domSanitizer, customIcons: customSvgIcons })
   }
 }

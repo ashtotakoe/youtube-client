@@ -13,7 +13,7 @@ import { videosReducer } from './videos-store/videos.reducer'
   imports: [
     HeaderModule,
     HttpClientModule,
-    StoreModule.forFeature(StoreFeatureNames.Search, videosReducer),
+    StoreModule.forFeature(StoreFeatureNames.Videos, videosReducer),
     EffectsModule.forFeature(SearchEffects),
   ],
   exports: [HeaderModule],

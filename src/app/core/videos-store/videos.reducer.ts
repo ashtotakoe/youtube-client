@@ -59,17 +59,13 @@ export const videosReducer = createReducer(
     videoDetails: null,
   })),
 
-  on(favoriteVideosActions.addToFavoriteVideos, (state, { videoData }) => {
-    return {
-      ...state,
-      favoriteVideos: [...state.favoriteVideos, videoData],
-    }
-  }),
+  on(favoriteVideosActions.addToFavoriteVideos, (state, { videoData }) => ({
+    ...state,
+    favoriteVideos: [...state.favoriteVideos, videoData],
+  })),
 
-  on(favoriteVideosActions.removeFromFavoriteVideos, (state, { videoData }) => {
-    return {
-      ...state,
-      favoriteVideos: state.favoriteVideos.filter(video => video.id !== videoData.id),
-    }
-  }),
+  on(favoriteVideosActions.removeFromFavoriteVideos, (state, { videoData }) => ({
+    ...state,
+    favoriteVideos: state.favoriteVideos.filter(video => video.id !== videoData.id),
+  })),
 )

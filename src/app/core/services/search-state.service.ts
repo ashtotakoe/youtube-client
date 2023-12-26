@@ -6,15 +6,15 @@ import type { SearchData } from '../../shared/models/search-data.model'
   providedIn: 'root',
 })
 export class SearchStateService {
-  private searchState: SearchData = {
+  private searchData: SearchData = {
     query: '',
     pageToken: '',
     isFirstPage: false,
   }
 
-  public setSearchState({ query, pageToken, isFirstPage }: Partial<SearchData>): SearchData {
+  public updateSearchState({ query, pageToken, isFirstPage }: Partial<SearchData>): SearchData {
     const searchState = {
-      ...this.searchState,
+      ...this.searchData,
     }
 
     if (query) {
@@ -25,8 +25,8 @@ export class SearchStateService {
       Object.assign(searchState, { pageToken, isFirstPage: isFirstPage ?? false })
     }
 
-    this.searchState = searchState
+    this.searchData = searchState
 
-    return this.searchState
+    return this.searchData
   }
 }

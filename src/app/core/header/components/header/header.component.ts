@@ -17,7 +17,7 @@ export class HeaderComponent {
     this.isSortingOptionsOpen = !this.isSortingOptionsOpen
   }
 
-  public initSearch(query: string): void {
+  public search(query: string): void {
     this.videosFacade.loadVideosByQuery({ query })
   }
 }

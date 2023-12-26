@@ -18,14 +18,14 @@ import { VideoData } from '../../models/video-data.model'
 export class FavoriteButtonComponent implements OnInit {
   @Input() public videoData!: VideoData
 
-  public isVideoFavorite!: Observable<boolean>
+  public isVideoFavorite$!: Observable<boolean>
   constructor(
     private favoriteVideosService: FavoriteVideosService,
     private videosFacade: VideosFacade,
   ) {}
 
   public ngOnInit(): void {
-    this.isVideoFavorite = this.favoriteVideosService.isVideoFavorite$(this.videoData.id)
+    this.isVideoFavorite$ = this.favoriteVideosService.isVideoFavorite$(this.videoData.id)
   }
 
   public onClick(isVideoFavorite: boolean): void {

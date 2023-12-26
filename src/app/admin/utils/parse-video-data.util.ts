@@ -5,7 +5,7 @@ import { thumbnailTypes } from '../consts/thumbnail-types.const'
 import type { CreateVideoData } from '../models/create-video-form-data.model'
 import { generateRandomId } from './generate-random-id'
 
-export const convertCreateVideoData = ({
+export const parseVideoData = ({
   creationDate,
   description,
   title,
@@ -29,20 +29,11 @@ export const convertCreateVideoData = ({
     id: generateRandomId(),
     statistics: defaultStatistics,
     snippet: {
-      publishedAt: creationDate?.toISOString() ?? new Date().toISOString(),
-      channelId: '',
+      publishedAt: (creationDate ?? new Date()).toISOString(),
       title,
       description,
       thumbnails: thumbnails as Thumbnails,
-      channelTittle: '',
       tags,
-      categoryId: '',
-      liveBroadcastContent: '',
-      localized: {
-        title: '',
-        description: '',
-      },
-      defaultAudioLanguage: '',
     },
   }
 }

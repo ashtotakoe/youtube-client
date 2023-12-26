@@ -6,7 +6,7 @@ import { VideosFacade } from '../../../core/videos-store/services/videos.facade'
 import type { VideoData } from '../../../shared/models/video-data.model'
 import { dateValidator } from '../../../shared/validators/date.validator'
 import { TagsNumberLimitations } from '../../enums/tags-number-limitations.enum'
-import { convertCreateVideoData } from '../../utils/convert-create-video-data'
+import { parseVideoData } from '../../utils/parse-video-data.util'
 
 @Component({
   selector: 'yt-create-video-form',
@@ -75,7 +75,7 @@ export class CreateVideoFormComponent {
   }
 
   public onSubmit(): void {
-    const createdVideo: VideoData = convertCreateVideoData(this.createVideoForm.getRawValue())
+    const createdVideo: VideoData = parseVideoData(this.createVideoForm.getRawValue())
     this.videosFacade.createVideo(createdVideo)
     this.resetForm()
 

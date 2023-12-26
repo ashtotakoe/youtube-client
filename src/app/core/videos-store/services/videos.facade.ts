@@ -34,7 +34,7 @@ export class VideosFacade {
   ) {}
 
   public loadVideosByQuery(searchValues: Partial<SearchData>): void {
-    const searchData = this.searchStateService.setSearchState(searchValues)
+    const searchData = this.searchStateService.updateSearchState(searchValues)
     this.store$.dispatch(videosPageActions.loadVideosViaSearch({ searchData }))
   }
 
