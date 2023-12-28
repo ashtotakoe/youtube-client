@@ -1,4 +1,4 @@
-:host {
+.wrapper {
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
@@ -8,4 +8,8 @@
   max-width: 1200px;
   margin: auto;
   padding: 2rem 0;
+}
+
+.spinner {
+  margin: 1rem auto;
 }

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule } from '@angular/router'
 
 import { CustomButtonComponent } from './components/custom-button/custom-button.component'
+import { FavoriteButtonComponent } from './components/favorite-button/favorite-button.component'
 import { SearchComponent } from './components/search/search.component'
 
 @NgModule({
@@ -16,10 +17,10 @@ import { SearchComponent } from './components/search/search.component'
     MatInputModule,
     MatFormFieldModule,
     ReactiveFormsModule,
-    FormsModule,
     CustomButtonComponent,
     RouterModule,
+    FavoriteButtonComponent,
   ],
-  exports: [SearchComponent, CustomButtonComponent],
+  exports: [SearchComponent, CustomButtonComponent, FavoriteButtonComponent],
 })
 export class SharedModule {}

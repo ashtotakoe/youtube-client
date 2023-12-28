@@ -1,9 +1,34 @@
-<ng-container
-  *ngIf="(videosAndSortData$ | async) || defaultSearchItemsAndSortOptions | sort as videos; else noRelevantItems"
->
-  <yt-video *ngFor="let video of videos" [video]="video"></yt-video>
-</ng-container>
+<mat-tab-group *ngIf="combinedData$ | async as combinedData">
+  <mat-tab label="Search Results">
+    <ng-container *ngIf="!combinedData.isLoading; else spinner">
+      <div
+        class="wrapper"
+        *ngIf="combinedData.searchVideosAndSortData || defaultVideosAndSortOptions | sort as searchVideos"
+      >
+        <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
+      </div>
+    </ng-container>
 
-<ng-template #noRelevantItems>
-  <h2 class="mat-h2">Sorry, nothing was found</h2>
+    <ng-container *ngIf="combinedData.pageData as page">
+      <mat-paginator
+        (page)="onPageChange($event, page)"
+        [length]="page.pageInfo?.totalResults"
+        hidePageSize="true"
+        [pageSize]="maxResults"
+      ></mat-paginator>
+    </ng-container>
+  </mat-tab>
+
+  <mat-tab label="Favorites">
+    <div
+      class="wrapper"
+      *ngIf="combinedData.favoriteVideosAndSortData || defaultVideosAndSortOptions | sort as searchVideos"
+    >
+      <yt-video *ngFor="let searchVideo of searchVideos" [video]="searchVideo"></yt-video>
+    </div>
+  </mat-tab>
+</mat-tab-group>
+
+<ng-template #spinner>
+  <mat-spinner class="spinner"></mat-spinner>
 </ng-template>

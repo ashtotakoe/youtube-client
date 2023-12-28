@@ -1,7 +1,7 @@
-import type { SearchItem } from '../../shared/models/search-item.model'
 import type { SortData } from '../../shared/models/sort-data.model'
+import type { VideoData } from '../../shared/models/video-data.model'
 
 export interface VideosAndSortData {
-  videos: SearchItem[]
+  videos: VideoData[]
   sortData: SortData | null
 }

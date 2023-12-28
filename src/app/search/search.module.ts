@@ -2,9 +2,13 @@ import { CommonModule, NgOptimizedImage } from '@angular/common'
 import { NgModule } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
-import { MatGridListModule } from '@angular/material/grid-list'
 import { MatIconModule } from '@angular/material/icon'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatTabsModule } from '@angular/material/tabs'
 
+import { NotFoundComponent } from '../core/components/not-found/not-found.component'
 import { SharedModule } from '../shared/shared.module'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { VideoComponent } from './components/video/video.component'
@@ -24,14 +28,18 @@ import { SearchRoutingModule } from './search-routing.module'
     VideoDetailsPageComponent,
   ],
   imports: [
+    NotFoundComponent,
     CommonModule,
     NgOptimizedImage,
     SearchRoutingModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatIconModule,
     MatButtonModule,
+    MatTabsModule,
+    MatPaginatorModule,
     MatCardModule,
     SharedModule,
-    MatGridListModule,
   ],
 })
 export class SearchModule {}

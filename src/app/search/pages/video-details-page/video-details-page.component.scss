@@ -1,15 +1,25 @@
 :host {
   display: block;
-  padding: 2rem 0;
-}
+  padding: 0 0 2rem;
 
-.thumbnail-wrapper {
-  width: 100%;
+  .thumbnail-wrapper {
+    margin: auto;
 
-  .thumbnail {
-    width: 98%;
-    height: 30rem;
-    margin-top: 0.2rem;
-    object-fit: contain;
+    .thumbnail {
+      width: 100%;
+      height: 28rem;
+      object-fit: cover;
+    }
+  }
+
+  .date {
+    text-align: center;
+  }
+
+  /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+  ::ng-deep {
+    .mat-headline-4 {
+      margin-bottom: 1.5rem;
+    }
   }
 }

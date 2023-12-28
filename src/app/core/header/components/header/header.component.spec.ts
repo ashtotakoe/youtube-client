@@ -1,5 +1,5 @@
 import { type ComponentFixture, TestBed } from '@angular/core/testing'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { ReactiveFormsModule } from '@angular/forms'
 import { MatButtonModule } from '@angular/material/button'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatIconModule } from '@angular/material/icon'
@@ -26,7 +26,6 @@ describe('HeaderComponent', () => {
         MatButtonModule,
         MatFormFieldModule,
         MatSelectModule,
-        FormsModule,
         ReactiveFormsModule,
         NoopAnimationsModule,
       ],

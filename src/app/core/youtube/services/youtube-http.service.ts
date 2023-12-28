@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { catchError, type Observable, throwError } from 'rxjs'
 
+import type { SearchData } from '../../../shared/models/search-data.model'
+import type { SearchItem, VideoData } from '../../../shared/models/video-data.model'
 import type { YoutubeResponse } from '../../../shared/models/youtube-response.model'
 import { searchHttpParams } from '../consts/search-http-params.const'
 import { videoHttpParams } from '../consts/video-http-params.const'
@@ -15,20 +17,27 @@ export class YoutubeHttpService {
     @Inject(API_URL) private readonly api: string,
   ) {}
 
-  public getSearchResponseByQuery(query: string): Observable<YoutubeResponse> {
+  public getSearchResponseByQuery({ query, pageToken }: SearchData): Observable<YoutubeResponse<SearchItem>> {
+    const params = { ...searchHttpParams }
+
+    if (query) {
+      Object.assign(params, { q: query })
+    }
+
+    if (pageToken) {
+      Object.assign(params, { pageToken })
+    }
+
     return this.http
-      .get<YoutubeResponse>(`${this.api}${YoutubeApiTypes.Search}`, {
-        params: {
-          ...searchHttpParams,
-          q: query,
-        },
+      .get<YoutubeResponse<SearchItem>>(`${this.api}${YoutubeApiTypes.Search}`, {
+        params,
       })
       .pipe(catchError(({ message }: Error) => throwError(() => new Error(message))))
   }
 
-  public getVideosById(id: string): Observable<YoutubeResponse> {
+  public getVideosById(id: string): Observable<YoutubeResponse<VideoData>> {
     return this.http
-      .get<YoutubeResponse>(`${this.api}${YoutubeApiTypes.Videos}`, {
+      .get<YoutubeResponse<VideoData>>(`${this.api}${YoutubeApiTypes.Videos}`, {
         params: {
           ...videoHttpParams,
           id,

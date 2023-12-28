@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core'
 
 import type { VideoStatistics } from '../../../shared/models/statistics.model'
-import type { StatisticsView } from '../../interfaces/statistics-view.interface'
+import type { StatisticsView } from '../../models/statistics-view.model'
 import { convertStatisticsIntoViews } from '../../utils/convert-statistics-into-statistics-views'
 
 @Component({
