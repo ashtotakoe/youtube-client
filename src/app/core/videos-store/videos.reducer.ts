@@ -2,7 +2,7 @@ import { createReducer, on } from '@ngrx/store'
 
 import type { VideosState } from '../../search/models/videos-state.model'
 import { createVideoAction } from './actions/create-video-form.actions'
-import { favoriteVideosActions } from './actions/favorite-videos.actions'
+import { favoriteButtonActions } from './actions/favorite-button.actions'
 import { videoDetailsActions } from './actions/videos-details.actions'
 import { videosPageActions } from './actions/videos-page.actions'
 import { youtubeApiActions } from './actions/youtube-api.actions'
@@ -59,13 +59,10 @@ export const videosReducer = createReducer(
     videoDetails: null,
   })),
 
-  on(favoriteVideosActions.addToFavoriteVideos, (state, { videoData }) => ({
+  on(favoriteButtonActions.toggleFavoriteVideo, (state, { video }) => ({
     ...state,
-    favoriteVideos: [...state.favoriteVideos, videoData],
-  })),
-
-  on(favoriteVideosActions.removeFromFavoriteVideos, (state, { videoData }) => ({
-    ...state,
-    favoriteVideos: state.favoriteVideos.filter(video => video.id !== videoData.id),
+    favoriteVideos: state.favoriteVideos.some(favoriteVideo => favoriteVideo.id === video.id)
+      ? state.favoriteVideos.filter(favoriteVideo => favoriteVideo.id !== video.id)
+      : [...state.favoriteVideos, video],
   })),
 )

@@ -5,7 +5,7 @@ import type { SearchData } from '../../../shared/models/search-data.model'
 import type { VideoData } from '../../../shared/models/video-data.model'
 import { SearchStateService } from '../../services/search-state.service'
 import { createVideoAction } from '../actions/create-video-form.actions'
-import { favoriteVideosActions } from '../actions/favorite-videos.actions'
+import { favoriteButtonActions } from '../actions/favorite-button.actions'
 import { videoDetailsActions } from '../actions/videos-details.actions'
 import { videosPageActions } from '../actions/videos-page.actions'
 import {
@@ -46,11 +46,7 @@ export class VideosFacade {
     this.store$.dispatch(createVideoAction({ createdVideo }))
   }
 
-  public addFavoriteVideo(videoData: VideoData): void {
-    this.store$.dispatch(favoriteVideosActions.addToFavoriteVideos({ videoData }))
-  }
-
-  public removeFavoriteVideo(videoData: VideoData): void {
-    this.store$.dispatch(favoriteVideosActions.removeFromFavoriteVideos({ videoData }))
+  public toggleFavoriteVideo(videoData: VideoData): void {
+    this.store$.dispatch(favoriteButtonActions.toggleFavoriteVideo({ video: videoData }))
   }
 }

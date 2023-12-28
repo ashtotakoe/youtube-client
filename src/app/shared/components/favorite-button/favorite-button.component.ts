@@ -28,13 +28,7 @@ export class FavoriteButtonComponent implements OnInit {
     this.isVideoFavorite$ = this.favoriteVideosService.isVideoFavorite$(this.videoData.id)
   }
 
-  public onClick(isVideoFavorite: boolean): void {
-    if (isVideoFavorite) {
-      this.videosFacade.removeFavoriteVideo(this.videoData)
-
-      return
-    }
-
-    this.videosFacade.addFavoriteVideo(this.videoData)
+  public toggleFavoriteVideo(): void {
+    this.videosFacade.toggleFavoriteVideo(this.videoData)
   }
 }
