@@ -42,4 +42,4 @@ import { SearchRoutingModule } from './search-routing.module'
     SharedModule,
   ],
 })
-export class SearchModule {}
+export class VideosModule {}

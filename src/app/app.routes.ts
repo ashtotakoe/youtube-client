@@ -14,7 +14,7 @@ export const routes: Routes = [
     path: 'search',
     title: 'Search',
     canMatch: [authGuard(AuthTypes.User)],
-    loadChildren: () => import('./search/search.module').then(m => m.SearchModule),
+    loadChildren: () => import('./search/videos.module').then(m => m.VideosModule),
   },
 
   {

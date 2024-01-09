@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http'
 import { TestBed } from '@angular/core/testing'
 
 import { YoutubeHttpService } from './youtube-http.service'
@@ -6,7 +7,9 @@ describe('YoutubeHttpService', () => {
   let service: YoutubeHttpService
 
   beforeEach(() => {
-    TestBed.configureTestingModule({})
+    TestBed.configureTestingModule({
+      providers: [HttpClient],
+    })
     service = TestBed.inject(YoutubeHttpService)
   })
 
