@@ -14,8 +14,8 @@ import { CountdownService } from '../../../core/services/countdown.service'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ButtonWithCountdownComponent implements OnInit {
-  @Input({ required: true }) public countdownName!: string
-  @Input({ required: true }) public isLoading!: boolean | null
+  @Input() public countdownName!: string
+  @Input() public isLoading!: boolean | null
   @Output() public buttonClicked = new EventEmitter<void>()
 
   public countdown$!: Observable<number | null>

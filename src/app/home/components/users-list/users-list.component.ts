@@ -1,5 +1,4 @@
 import { ChangeDetectionStrategy, Component, type OnInit } from '@angular/core'
-import { filter, map, take } from 'rxjs'
 
 import { HomeFacade } from '../../home-store/services/home.facade'
 import { CountdownNames } from 'src/app/core/enums/countdown-names.enum'
@@ -24,16 +23,7 @@ export class UsersListComponent implements OnInit {
   ) {}
 
   public ngOnInit(): void {
-    this.profileFacade.loadProfileData()
-    this.profileData$
-      .pipe(
-        filter(profileData => profileData !== null),
-        map(() => {
-          this.homeFacade.loadUsers({ isCashed: true })
-        }),
-        take(1),
-      )
-      .subscribe()
+    this.homeFacade.loadUsers({ isCashed: true })
   }
 
   public refreshUsers(): void {

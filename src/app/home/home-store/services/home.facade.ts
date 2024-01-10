@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { Store } from '@ngrx/store'
-import { combineLatest, filter, take } from 'rxjs'
 
 import { conversationPageActions } from '../actions/conversation-page.actions'
 import { createGroupFormActions } from '../actions/create-group-form.actions'
@@ -14,7 +13,6 @@ import {
   selectIsLoading,
   selectUsers,
 } from '../home.selectors'
-import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
 
 @Injectable()
 export class HomeFacade {
@@ -24,21 +22,10 @@ export class HomeFacade {
   public currentGroupChat$ = this.store.select(selectCurrentGroupChat)
   public currentConversationChat$ = this.store.select(selectCurrentConversationChat)
 
-  constructor(
-    private store: Store,
-    private profileFacade: ProfileFacade,
-  ) {}
+  constructor(private store: Store) {}
 
   public loadGroups({ isCashed }: { isCashed: boolean }): void {
-    this.profileFacade.loadProfileData()
-    this.profileFacade.profileData$
-      .pipe(
-        filter(profileData => profileData !== null),
-        take(1),
-      )
-      .subscribe(() => {
-        this.store.dispatch(groupsListActions.loadGroups({ isCashed }))
-      })
+    this.store.dispatch(groupsListActions.loadGroups({ isCashed }))
   }
 
   public createNewGroup(newGroupName: string): void {
@@ -62,17 +49,7 @@ export class HomeFacade {
   }
 
   public loadGroupChat({ groupId, isRefresh }: { groupId: string; isRefresh?: boolean }): void {
-    this.loadGroups({ isCashed: true })
-    this.loadUsers({ isCashed: true })
-
-    combineLatest([this.groups$, this.users$])
-      .pipe(
-        filter(([groups, users]) => groups.length > 0 && users.length > 0),
-        take(1),
-      )
-      .subscribe(() => {
-        this.store.dispatch(groupPageActions.loadGroupChat({ groupId, isRefresh }))
-      })
+    this.store.dispatch(groupPageActions.loadGroupChat({ groupId, isRefresh }))
   }
 
   public sendMessageToGroup({ groupId, message }: { groupId: string; message: string }): void {
@@ -84,16 +61,6 @@ export class HomeFacade {
   }
 
   public loadConversationChat({ conversationId, isRefresh }: { conversationId: string; isRefresh?: boolean }): void {
-    this.loadUsers({ isCashed: true })
-    this.profileFacade.loadProfileData()
-
-    combineLatest([this.users$, this.profileFacade.profileData$])
-      .pipe(
-        filter(([users, profileData]) => users.length > 0 && profileData !== null),
-        take(1),
-      )
-      .subscribe(() => {
-        this.store.dispatch(conversationPageActions.loadConversationChat({ conversationId, isRefresh }))
-      })
+    this.store.dispatch(conversationPageActions.loadConversationChat({ conversationId, isRefresh }))
   }
 }

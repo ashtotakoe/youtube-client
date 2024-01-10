@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, combineLatest, map, of, switchMap, withLatestFrom } from 'rxjs'
+import { catchError, combineLatest, concatMap, filter, map, of, switchMap, take, withLatestFrom } from 'rxjs'
 
 import { ChatTypes } from '../enums/chat-types.enum'
 import type { Group } from '../models/group.model'
@@ -38,8 +38,16 @@ export class HomeEffects {
   public loadGroupsEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(groupsListActions.loadGroups),
-      withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$),
-      switchMap(([{ isCashed }, groups, profileData]) => {
+      switchMap(({ isCashed }) => {
+        this.profileFacade.loadProfileData()
+
+        return combineLatest([this.profileFacade.profileData$, this.homeFacade.groups$]).pipe(
+          filter(profileData => profileData !== null),
+          map(([profileData, groups]) => ({ isCashed, groups, profileData })),
+          take(1),
+        )
+      }),
+      switchMap(({ isCashed, groups, profileData }) => {
         if (isCashed && groups.length) {
           return of(
             connectionsGroupsApiActions.loadGroupsSuccess({
@@ -178,8 +186,17 @@ export class HomeEffects {
   public loadUsersEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersListActions.loadUsers),
-      withLatestFrom(this.homeFacade.users$, this.profileFacade.profileData$),
-      switchMap(([{ isCashed }, users, profileData]) => {
+      // withLatestFrom(this.homeFacade.users$, this.profileFacade.profileData$),
+      switchMap(({ isCashed }) => {
+        this.profileFacade.loadProfileData()
+
+        return combineLatest([this.homeFacade.users$, this.profileFacade.profileData$]).pipe(
+          filter(profileData => profileData !== null),
+          map(([users, profileData]) => ({ isCashed, profileData, users })),
+          take(1),
+        )
+      }),
+      switchMap(({ isCashed, profileData, users }) => {
         if (isCashed && users.length) {
           return of(connectionsUsersApiActions.loadUsersSuccess({ users }))
         }
@@ -223,7 +240,7 @@ export class HomeEffects {
   public createConversationEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersListActions.createConversation),
-      switchMap(({ userId }) => {
+      concatMap(({ userId }) => {
         return this.connectionsHttpService.createConversation(userId).pipe(
           // eslint-disable-next-line @typescript-eslint/naming-convention
           map(({ conversationID }) => {
@@ -248,8 +265,18 @@ export class HomeEffects {
   public loadGroupChatEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(groupPageActions.loadGroupChat),
-      withLatestFrom(this.homeFacade.groups$, this.profileFacade.profileData$, this.homeFacade.users$),
-      switchMap(([{ groupId, isRefresh }, groups, profileData, users]) => {
+      switchMap(({ groupId, isRefresh }) => {
+        this.homeFacade.loadGroups({ isCashed: true })
+        this.homeFacade.loadUsers({ isCashed: true })
+        this.profileFacade.loadProfileData()
+
+        return combineLatest([this.homeFacade.groups$, this.homeFacade.users$, this.profileFacade.profileData$]).pipe(
+          filter(([groups, users, profileData]) => groups.length > 0 && users.length > 0 && profileData !== null),
+          map(([groups, users, profileData]) => ({ groupId, isRefresh, groups, users, profileData })),
+          take(1),
+        )
+      }),
+      switchMap(({ groupId, isRefresh, groups, users, profileData }) => {
         const relatedGroup = groups.find(group => group.id === groupId)
 
         if (relatedGroup) {
@@ -306,8 +333,23 @@ export class HomeEffects {
   public loadConversationEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(conversationPageActions.loadConversationChat),
-      withLatestFrom(this.homeFacade.users$, this.profileFacade.profileData$),
-      switchMap(([{ conversationId, isRefresh }, users, profileData]) => {
+      switchMap(({ conversationId, isRefresh }) => {
+        this.homeFacade.loadUsers({ isCashed: true })
+        this.profileFacade.loadProfileData()
+
+        return combineLatest([this.homeFacade.users$, this.profileFacade.profileData$]).pipe(
+          filter(([users, profileData]) => users.length > 0 && profileData !== null),
+          map(([users, profileData]) => ({
+            conversationId,
+            isRefresh,
+            users,
+            profileData,
+          })),
+          take(1),
+        )
+      }),
+
+      switchMap(({ conversationId, isRefresh, users, profileData }) => {
         const relatedUser = users.find(user => user.conversationId === conversationId)
 
         if (relatedUser) {

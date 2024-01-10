@@ -10,7 +10,7 @@ import type { Message } from '../../models/message.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ChatWindowComponent {
-  @Input({ required: true }) public messages!: Message[]
+  @Input() public messages!: Message[]
   @Input() public isLoading$!: Observable<boolean>
   @Output() public messageSent = new EventEmitter<string>()
 
