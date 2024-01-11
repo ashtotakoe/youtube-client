@@ -21,6 +21,7 @@ import { ErrorMessages } from 'src/app/core/enums/error-messages.enum'
 import { CountdownService } from 'src/app/core/services/countdown.service'
 import { MatSnackBarService } from 'src/app/core/services/mat-snack-bar.service'
 import { ProfileFacade } from 'src/app/profile/profile-store/services/profile.facade'
+import { getSortedMessagesAndLastMessageTime } from 'src/app/shared/utils/get-sorted-messages-and-last-message-time.util'
 
 @Injectable()
 export class HomeEffects {
@@ -294,18 +295,14 @@ export class HomeEffects {
                 return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
               }
 
-              const newMessages = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))
-
-              const lastMessageTime = newMessages[newMessages.length - 1].createdAt.S
+              const { lastMessageTime, sortedMessages } = getSortedMessagesAndLastMessageTime(chatResponse.Items)
 
               const messages = [
                 ...(relatedGroup.messages ?? []),
-                ...newMessages.map(message => ({
-                  authorID: message.authorID.S,
-                  message: message.message.S,
-                  createdAt: message.createdAt.S,
-                  authorName: users.find(user => user.uid === message.authorID.S)?.name ?? 'Unknown user',
-                  isAuthorMe: message.authorID.S === profileData?.uid,
+                ...sortedMessages.map(message => ({
+                  ...message,
+                  authorName: users.find(user => user.uid === message.authorID)?.name ?? 'Unknown user',
+                  isAuthorMe: message.authorID === profileData?.uid,
                 })),
               ]
 
@@ -375,19 +372,15 @@ export class HomeEffects {
                   return connectionsUsersApiActions.loadConversationChatSuccess({ user: relatedUser })
                 }
 
-                const newMessages = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))
-
-                const lastMessageTime = newMessages[newMessages.length - 1].createdAt.S
+                const { lastMessageTime, sortedMessages } = getSortedMessagesAndLastMessageTime(chatResponse.Items)
 
                 const messages = [
                   ...(relatedUser.messages ?? []),
-                  ...newMessages.map(message => ({
-                    authorID: message.authorID.S,
-                    message: message.message.S,
-                    createdAt: message.createdAt.S,
+                  ...sortedMessages.map(message => ({
+                    ...message,
                     // eslint-disable-next-line no-negated-condition
-                    authorName: message.authorID.S !== relatedUser.uid ? profileData?.name : relatedUser.name,
-                    isAuthorMe: message.authorID.S !== relatedUser.uid,
+                    authorName: message.authorID !== relatedUser.uid ? profileData?.name : relatedUser.name,
+                    isAuthorMe: message.authorID !== relatedUser.uid,
                   })),
                 ]
 
