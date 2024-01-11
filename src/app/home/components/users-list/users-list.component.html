@@ -1,11 +1,7 @@
-<cn-button-with-countdown
-  class="button"
-  [isLoading]="isLoading$ | async"
+<cn-list
+  [users$]="users$"
   [countdownName]="countdownName"
-  (buttonClicked)="refreshUsers()"
-  >Refresh users</cn-button-with-countdown
->
-
-<mat-list role="list" *ngIf="users$ | async as users" class="users-wrapper">
-  <cn-users-list-item *ngFor="let user of users" [user]="user" />
-</mat-list>
+  [isLoading$]="isLoading$"
+  [isGroupList]="false"
+  (listRefreshed)="refreshUsers()"
+></cn-list>

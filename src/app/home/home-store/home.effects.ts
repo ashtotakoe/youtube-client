@@ -2,7 +2,7 @@
 import { Injectable } from '@angular/core'
 import { Router } from '@angular/router'
 import { Actions, createEffect, ofType } from '@ngrx/effects'
-import { catchError, combineLatest, concatMap, filter, map, of, switchMap, take, withLatestFrom } from 'rxjs'
+import { catchError, combineLatest, filter, map, mergeMap, of, switchMap, take, withLatestFrom } from 'rxjs'
 
 import { ChatTypes } from '../enums/chat-types.enum'
 import type { Group } from '../models/group.model'
@@ -240,7 +240,7 @@ export class HomeEffects {
   public createConversationEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(usersListActions.createConversation),
-      concatMap(({ userId }) => {
+      mergeMap(({ userId }) => {
         return this.connectionsHttpService.createConversation(userId).pipe(
           // eslint-disable-next-line @typescript-eslint/naming-convention
           map(({ conversationID }) => {
@@ -294,13 +294,13 @@ export class HomeEffects {
                 return connectionsGroupsApiActions.loadGroupChatSuccess({ group: relatedGroup })
               }
 
-              const lastMessageTime = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))[
-                chatResponse.Items.length - 1
-              ].createdAt.S
+              const newMessages = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))
 
-              const chatMessages = [
+              const lastMessageTime = newMessages[newMessages.length - 1].createdAt.S
+
+              const messages = [
                 ...(relatedGroup.messages ?? []),
-                ...chatResponse.Items.map(message => ({
+                ...newMessages.map(message => ({
                   authorID: message.authorID.S,
                   message: message.message.S,
                   createdAt: message.createdAt.S,
@@ -312,8 +312,8 @@ export class HomeEffects {
               return connectionsGroupsApiActions.loadGroupChatSuccess({
                 group: {
                   ...relatedGroup,
-                  messages: chatMessages,
                   lastMessageTime,
+                  messages,
                 },
               })
             }),
@@ -330,7 +330,7 @@ export class HomeEffects {
     ),
   )
 
-  public loadConversationEffect$ = createEffect(() =>
+  public loadConversationChatEffect$ = createEffect(() =>
     this.actions$.pipe(
       ofType(conversationPageActions.loadConversationChat),
       switchMap(({ conversationId, isRefresh }) => {
@@ -375,27 +375,27 @@ export class HomeEffects {
                   return connectionsUsersApiActions.loadConversationChatSuccess({ user: relatedUser })
                 }
 
-                const lastMessageTime = chatResponse.Items.sort(
-                  (a, b) => Number(a.createdAt.S) - Number(b.createdAt.S),
-                )[chatResponse.Items.length - 1].createdAt.S
+                const newMessages = chatResponse.Items.sort((a, b) => Number(a.createdAt.S) - Number(b.createdAt.S))
 
-                const chatMessages = [
+                const lastMessageTime = newMessages[newMessages.length - 1].createdAt.S
+
+                const messages = [
                   ...(relatedUser.messages ?? []),
-                  ...chatResponse.Items.map(message => ({
+                  ...newMessages.map(message => ({
                     authorID: message.authorID.S,
                     message: message.message.S,
                     createdAt: message.createdAt.S,
-                    isAuthorMe: message.authorID.S !== relatedUser.uid,
                     // eslint-disable-next-line no-negated-condition
                     authorName: message.authorID.S !== relatedUser.uid ? profileData?.name : relatedUser.name,
+                    isAuthorMe: message.authorID.S !== relatedUser.uid,
                   })),
                 ]
 
                 return connectionsUsersApiActions.loadConversationChatSuccess({
                   user: {
                     ...relatedUser,
-                    messages: chatMessages,
                     lastMessageTime,
+                    messages,
                   },
                 })
               }),

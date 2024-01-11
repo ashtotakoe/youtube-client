@@ -1,0 +1,16 @@
+<cn-button-with-countdown
+  class="button"
+  [isLoading]="isLoading$ | async"
+  [countdownName]="countdownName"
+  (buttonClicked)="refreshList()"
+  >Refresh</cn-button-with-countdown
+>
+<ng-container *ngIf="isGroupList">
+  <button class="button" (click)="openDialog()" mat-button>Create group</button>
+</ng-container>
+
+<mat-list class="wrapper" *ngIf="items$ | async as items">
+  <cn-group-list-item *ngFor="let group of items.groups; trackBy: trackByIndex" [group]="group" />
+
+  <cn-users-list-item *ngFor="let user of items.users; trackBy: trackByIndex" [user]="user" />
+</mat-list>

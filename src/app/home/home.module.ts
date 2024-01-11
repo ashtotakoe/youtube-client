@@ -20,6 +20,7 @@ import { ChatWindowComponent } from './components/chat-window/chat-window.compon
 import { CreateGroupDialogFormComponent } from './components/create-group-dialog-form/create-group-dialog-form.component'
 import { GroupListItemComponent } from './components/group-list-item/group-list-item.component'
 import { GroupListComponent } from './components/groups-list/groups-list.component'
+import { ListComponent } from './components/list/list.component'
 import { UsersListItemComponent } from './components/users-list-item/users-list-item.component'
 import { UsersListComponent } from './components/users-list/users-list.component'
 import { HomePageComponent } from './home-page.component'
@@ -42,6 +43,7 @@ import { DialogStateService } from './services/dialog-state.service'
     GroupPageComponent,
     ChatWindowComponent,
     ConversationPageComponent,
+    ListComponent,
   ],
   imports: [
     CommonModule,
