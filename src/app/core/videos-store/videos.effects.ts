@@ -12,7 +12,7 @@ import { youtubeApiActions } from './actions/youtube-api.actions'
 import { VideosFacade } from './services/videos.facade'
 
 @Injectable()
-export class SearchEffects {
+export class VideosEffects {
   constructor(
     private videosFacade: VideosFacade,
     private youtubeHttpService: YoutubeHttpService,

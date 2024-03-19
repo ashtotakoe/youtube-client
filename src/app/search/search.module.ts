@@ -10,6 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs'
 
 import { NotFoundComponent } from '../core/components/not-found/not-found.component'
 import { SharedModule } from '../shared/shared.module'
+import { VideoPlayerComponent } from './components/video-player/video-player.component'
 import { VideoStatisticsComponent } from './components/video-statistics/video-statistics.component'
 import { VideoComponent } from './components/video/video.component'
 import { CustomColorBarDirective } from './directives/custom-color-bar.directive'
@@ -26,6 +27,7 @@ import { SearchRoutingModule } from './search-routing.module'
     CustomColorBarDirective,
     CustomSortPipe,
     VideoDetailsPageComponent,
+    VideoPlayerComponent,
   ],
   imports: [
     NotFoundComponent,

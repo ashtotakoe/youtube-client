@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store'
 
 import { StoreFeatureNames } from './enums/store-feature-names.enum'
 import { HeaderModule } from './header/header.module'
-import { SearchEffects } from './videos-store/videos.effects'
+import { VideosEffects } from './videos-store/videos.effects'
 import { videosReducer } from './videos-store/videos.reducer'
 
 @NgModule({
@@ -14,7 +14,7 @@ import { videosReducer } from './videos-store/videos.reducer'
     HeaderModule,
     HttpClientModule,
     StoreModule.forFeature(StoreFeatureNames.Videos, videosReducer),
-    EffectsModule.forFeature(SearchEffects),
+    EffectsModule.forFeature(VideosEffects),
   ],
   exports: [HeaderModule],
   providers: [MatSnackBar],
