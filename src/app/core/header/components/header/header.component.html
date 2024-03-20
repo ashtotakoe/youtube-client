@@ -1,8 +1,8 @@
 <header class="header">
   <div class="container">
-    <div class="header__logo" [routerLink]="['/']">
+    <a class="header__logo" [routerLink]="['/']">
       <img ngSrc="assets/icons/youtube-logo.svg" height="45" width="70" priority alt="logo" />
-    </div>
+    </a>
 
     <div class="header__search">
       <yt-search (searchFormSubmitted)="search($event)" />
