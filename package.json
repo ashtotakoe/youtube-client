@@ -12,7 +12,7 @@
     "eslint": "eslint 'src/**/*.ts' --fix",
     "prettier": "prettier 'src/**/*.{ts,scss,html}' -w",
     "stylelint": "stylelint 'src/**/*.scss' --fix",
-    "deploy": "ng deploy --base-href=/ashtotakoe-ANGULAR2023Q4/"
+    "deploy": "ng deploy --base-href=/youtube-client/"
   },
   "private": true,
   "dependencies": {

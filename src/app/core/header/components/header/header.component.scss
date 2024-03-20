@@ -12,6 +12,18 @@
     margin: auto;
   }
 
+  &__button {
+    padding-bottom: 1rem;
+
+    /* stylelint-disable-next-line selector-pseudo-element-no-unknown */
+    ::ng-deep {
+      /* stylelint-disable-next-line selector-class-pattern */
+      .mat-mdc-button .mdc-button__label {
+        margin-bottom: 0.7rem;
+      }
+    }
+  }
+
   &__logo {
     cursor: pointer;
   }
